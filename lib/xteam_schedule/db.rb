@@ -9,4 +9,10 @@ class XTeamSchedule::DB
     )
   end
   
+  def self.build_schema
+    ActiveRecord::Schema.define do
+      
+    end
+  end
+  
 end

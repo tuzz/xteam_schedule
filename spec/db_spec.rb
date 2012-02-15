@@ -14,4 +14,14 @@ describe XTeamSchedule::DB do
     end
   end
   
+  describe '.build_schema' do
+    before do
+      XTeamSchedule::DB.connect
+    end
+    
+    it "builds a valid schema" do
+      lambda { XTeamSchedule::DB.build_schema }.should_not raise_error
+    end
+  end
+  
 end
