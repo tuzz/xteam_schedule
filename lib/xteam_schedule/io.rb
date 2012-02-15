@@ -1,0 +1,3 @@
+class XTeamSchedule::IO
+  
+end
