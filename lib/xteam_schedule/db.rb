@@ -1,0 +1,3 @@
+class XTeamSchedule::DB
+  
+end
