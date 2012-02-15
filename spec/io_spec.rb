@@ -7,12 +7,12 @@ describe XTeamSchedule::IO do
       @filename = 'path/to/file'
     end
     
-    it 'should use the plist gem to read from the file' do
+    it 'uses the plist gem to read from the file' do
       Plist.should_receive(:parse_xml).with(@filename)
       XTeamSchedule::IO.read(@filename)
     end
     
-    it 'should return a hash corresponding to the parsed file' do
+    it 'returns a hash corresponding to the parsed file' do
       stubbed_hash = { :foo => 'bar', :baz => 'quux' }
       Plist.stub(:parse_xml).and_return(stubbed_hash)
       return_value = XTeamSchedule::IO.read(@filename)
@@ -26,7 +26,7 @@ describe XTeamSchedule::IO do
       @filename = 'path/to/file'
     end
     
-    it 'should write the given hash to the given filename' do
+    it 'writes the given hash to the given filename' do
       @hash.should_receive(:save_plist).with(@filename)
       XTeamSchedule::IO.write(@hash, @filename)
     end

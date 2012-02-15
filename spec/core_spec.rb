@@ -2,6 +2,6 @@ require 'spec_helper'
 
 describe XTeamSchedule do
   
-  it 'should have some specs'
+  it 'has some specs'
   
 end
