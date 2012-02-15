@@ -20,4 +20,16 @@ describe XTeamSchedule::IO do
     end
   end
   
+  describe '.write' do
+    before do
+      @hash = { :foo => 'bar', :baz => 'quux' }
+      @filename = 'path/to/file'
+    end
+    
+    it 'should write the given hash to the given filename' do
+      @hash.should_receive(:save_plist).with(@filename)
+      XTeamSchedule::IO.write(@hash, @filename)
+    end
+  end
+  
 end

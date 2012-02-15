@@ -6,4 +6,8 @@ class XTeamSchedule::IO
     Plist.parse_xml(filename)
   end
   
+  def self.write(hash, filename)
+    hash.save_plist(filename)
+  end
+  
 end
