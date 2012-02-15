@@ -9,5 +9,6 @@ Gem::Specification.new do |s|
   s.files       = ['README.md', 'lib/xteam_schedule.rb', 'lib/xteam_schedule/core.rb', 'lib/xteam_schedule/io.rb']
   s.homepage    = 'https://github.com/cpatuzzo/xteam_schedule'
   
+  s.add_dependency 'plist'
   s.add_development_dependency 'rspec'
 end
