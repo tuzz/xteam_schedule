@@ -10,5 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/cpatuzzo/xteam_schedule'
   
   s.add_dependency 'plist'
+  s.add_dependency 'activerecord'
+  s.add_dependency 'sqlite3'
   s.add_development_dependency 'rspec'
 end
