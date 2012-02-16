@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe XTeamSchedule::ResourceGroup do
   
+  describe 'defaults' do
+    it 'uses true for expanded_in_library' do
+      XTeamSchedule::ResourceGroup.new.expanded_in_library.should be_true
+    end
+  end
+  
   describe 'validations' do
     before do
       @resource_group = Factory(:resource_group)
