@@ -18,6 +18,15 @@ class XTeamSchedule::DB
         table.column :name, :string
       end
       
+      create_table :resources do |table|
+        table.column :displayed_in_planning, :boolean, :default => true
+        table.column :email, :string
+        table.column :image, :string
+        table.column :mobile, :string
+        table.column :name, :string
+        table.column :phone, :string
+      end
+      
     end
   end
   
