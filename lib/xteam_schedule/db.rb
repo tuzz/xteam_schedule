@@ -10,6 +10,7 @@ class XTeamSchedule::DB
   end
   
   def self.build_schema
+    ActiveRecord::Schema.verbose = false
     ActiveRecord::Schema.define do
       
       create_table :resource_groups do |table|
