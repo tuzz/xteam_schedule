@@ -14,7 +14,7 @@ describe XTeamSchedule::ResourceGroup do
     end
     
     it 'requires a name' do
-      @resource_group.update_attribute(:name, nil)
+      @resource_group.name = nil
       @resource_group.should_not be_valid
     end
     
