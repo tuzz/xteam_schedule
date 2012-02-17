@@ -19,6 +19,7 @@ class XTeamSchedule::DB
       end
       
       create_table :resources do |table|
+        table.column :resource_group_id, :integer
         table.column :displayed_in_planning, :boolean, :default => true
         table.column :email, :string
         table.column :image, :string

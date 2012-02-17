@@ -8,6 +8,18 @@ describe XTeamSchedule::Resource do
     end
   end
   
+  describe 'associations' do
+    before do
+      @resource = Factory(:resource)
+    end
+    
+    it 'belongs to a resource group' do
+      @resource.resource_group.should be_nil
+      resource_group = Factory(:resource_group, :resources => [@resource])
+      @resource.resource_group.should == resource_group
+    end
+  end
+  
   describe 'validations' do
     before do
       @resource = Factory(:resource)

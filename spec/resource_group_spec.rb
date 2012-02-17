@@ -8,6 +8,25 @@ describe XTeamSchedule::ResourceGroup do
     end
   end
   
+  describe 'associations' do
+    before do
+      @resource_group = Factory(:resource_group)
+    end
+    
+    it 'has many resources' do
+      @resource_group.resources.should == []
+      resource = @resource_group.resources.create!(:name => 'foo')
+      @resource_group.resources.size.should == 1
+      @resource_group.resources.should == [resource]
+    end
+    
+    it 'destroys resources on cascade' do
+      @resource_group.resources.create!(:name => 'foo')
+      @resource_group.destroy
+      XTeamSchedule::Resource.count.should == 0
+    end
+  end
+  
   describe 'validations' do
     before do
       @resource_group = Factory(:resource_group)
