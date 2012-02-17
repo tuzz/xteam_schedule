@@ -12,6 +12,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'plist'
   s.add_dependency 'activerecord'
   s.add_dependency 'sqlite3'
+  
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'factory_girl'
+  s.add_development_dependency 'database_cleaner'
 end
