@@ -156,4 +156,33 @@ describe XTeamSchedule::Parser do
       XTeamSchedule::AssignmentGroup.find_all_by_expanded_in_library(false).count.should == 1
     end
   end
+  
+  describe '#parse_assignments!' do
+    before do
+      @hash = {
+        'task categories' => [{ 'name' => 'foo' }],
+        'tasks' => [{ 'category' => 'foo', 'name' => 'bar' },
+                    { 'category' => 'baz', 'name' => 'quux' }]
+      }
+      @parser = XTeamSchedule::Parser.new(@hash)
+      @parser.send(:parse_assignment_groups!)
+    end
+    
+    it 'creates assignments' do
+      @parser.send(:parse_assignments!)
+      XTeamSchedule::Assignment.count.should_not be_zero
+    end
+    
+    it 'does not create orphaned assignments' do
+      @parser.send(:parse_assignments!)
+      XTeamSchedule::Assignment.find_by_name('bar').should_not be_nil
+      XTeamSchedule::Assignment.find_by_name('quux').should be_nil
+    end
+    
+    it 'sets the name attribute correctly' do
+      @parser.send(:parse_assignments!)
+      XTeamSchedule::Assignment.find_by_name('bar').should_not be_nil
+    end
+  end
+  
 end

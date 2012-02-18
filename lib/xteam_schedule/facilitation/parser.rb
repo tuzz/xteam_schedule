@@ -55,4 +55,16 @@ private
     end
   end
   
+  def parse_assignments!
+    hash['tasks'].try(:each) do |a|
+      assignment_group = schedule.assignment_groups.find_by_name(a['category'])
+      puts assignment_group.inspect
+      if assignment_group
+        assignment_group.assignments.create!(
+          :name => a['name']
+        )
+      end
+    end
+  end
+  
 end
