@@ -19,6 +19,11 @@ describe XTeamSchedule::DB do
       XTeamSchedule::DB.connect
     end
     
+    it 'runs quietly' do
+      XTeamSchedule::DB.build_schema
+      ActiveRecord::Schema.verbose.should be_false
+    end
+    
     it "builds a valid schema" do
       lambda { XTeamSchedule::DB.build_schema }.should_not raise_error
     end
