@@ -12,8 +12,23 @@ class XTeamSchedule::Parser
   end
   
   def parse
-    # componentised parse methods
+    parse_resource_groups!
     schedule
+  end
+  
+private
+  
+  def parse_resource_groups!
+    hash['resource groups'].try(:each) do |rg|
+      schedule.resource_groups.create!(
+        :name => rg['name'],
+        :expanded_in_library => boolean(rg['expanded in library'])
+      )
+    end
+  end
+  
+  def boolean(string)
+    string =~ /yes/i ? true : false
   end
   
 end
