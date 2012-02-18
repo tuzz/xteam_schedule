@@ -13,6 +13,12 @@ describe XTeamSchedule::ResourceGroup do
       @resource_group = Factory(:resource_group)
     end
     
+    it 'belongs to a schedule' do
+      @resource_group.schedule.should be_nil
+      schedule = Factory(:schedule, :resource_groups => [@resource_group])
+      @resource_group.schedule.should == schedule
+    end
+    
     it 'has many resources' do
       @resource_group.resources.should == []
       resource = @resource_group.resources.create!(:name => 'foo')
