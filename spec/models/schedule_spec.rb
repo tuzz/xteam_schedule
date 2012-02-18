@@ -32,6 +32,19 @@ describe XTeamSchedule::Schedule do
       @schedule.destroy
       XTeamSchedule::ResourceGroup.count.should == 0
     end
+    
+    it 'has many working_times' do
+      @schedule.working_times.should == []
+      working_time = @schedule.working_times.create!(:begin_date => Date.new, :duration => 0)
+      @schedule.working_times.size.should == 1
+      @schedule.working_times.should == [working_time]
+    end
+    
+    it 'destroys working_times on cascade' do
+      @schedule.working_times.create!(:begin_date => Date.new, :duration => 0)
+      @schedule.destroy
+      XTeamSchedule::WorkingTime.count.should == 0
+    end
   end
   
 end

@@ -44,6 +44,7 @@ class XTeamSchedule::DB
       create_table :working_times do |table|
         table.column :resource_id, :integer
         table.column :assignment_id, :integer
+        table.column :schedule_id, :integer
         table.column :begin_date, :date
         table.column :duration, :integer
         table.column :notes, :string
