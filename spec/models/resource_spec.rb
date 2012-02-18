@@ -25,15 +25,6 @@ describe XTeamSchedule::Resource do
       @resource = Factory(:resource)
     end
     
-    it 'image must be valid base64' do
-      @resource.image = '_invalid_'
-      @resource.should_not be_valid
-      @resource.errors[:image].first.should =~ /base64/i
-      
-      @resource.image = '=Valid\Base64='
-      @resource.should be_valid
-    end
-    
     it 'requires a name' do
       @resource.name = nil
       @resource.should_not be_valid
