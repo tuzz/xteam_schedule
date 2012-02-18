@@ -1,5 +1,9 @@
 describe XTeamSchedule::Parser do
   
-  it 'has some specs'
+  describe '.parse' do
+    it 'should return an instance of XTeamSchedule' do
+      XTeamSchedule::Parser.parse({}).class.should == XTeamSchedule
+    end
+  end
   
 end
