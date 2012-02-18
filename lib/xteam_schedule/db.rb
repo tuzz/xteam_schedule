@@ -1,5 +1,3 @@
-require 'active_record'
-
 class XTeamSchedule::DB
   
   def self.connect
