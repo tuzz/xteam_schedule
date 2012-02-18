@@ -12,6 +12,19 @@ describe XTeamSchedule::Assignment do
       assignment_group = Factory(:assignment_group, :assignments => [@assignment])
       @assignment.assignment_group.should == assignment_group
     end
+    
+    it 'has many working_times' do
+      @assignment.working_times.should == []
+      working_time = @assignment.working_times.create!(:begin_date => Date.new, :duration => 0)
+      @assignment.working_times.size.should == 1
+      @assignment.working_times.should == [working_time]
+    end
+    
+    it 'destroys working_times on cascade' do
+      @assignment.working_times.create!(:begin_date => Date.new, :duration => 0)
+      @assignment.destroy
+      XTeamSchedule::WorkingTime.count.should == 0
+    end
   end
   
   describe 'validations' do
