@@ -41,6 +41,12 @@ class XTeamSchedule::DB
         table.column :name, :string
       end
       
+      create_table :working_times do |table|
+        table.column :begin_date, :date
+        table.column :duration, :integer
+        table.column :notes, :string
+      end
+      
     end
   end
   

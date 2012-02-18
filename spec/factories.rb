@@ -19,4 +19,9 @@ FactoryGirl.define do
     sequence(:name) { |n| "Assignment #{n}"}
   end
   
+  factory :working_time, :class => XTeamSchedule::WorkingTime do
+    sequence(:begin_date) { |n| Date.new(2000, n, 01) }
+    duration 10
+  end
+  
 end
