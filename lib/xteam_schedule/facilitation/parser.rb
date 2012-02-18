@@ -1,7 +1,17 @@
 class XTeamSchedule::Parser
   
+  attr_accessor :hash, :schedule
+  
   def self.parse(hash)
-    schedule = XTeamSchedule.new
+    new(hash).parse
+  end
+  
+  def initialize(hash)
+    self.hash = hash
+    self.schedule = XTeamSchedule.new
+  end
+  
+  def parse
     # componentised parse methods
     schedule
   end
