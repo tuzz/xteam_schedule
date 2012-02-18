@@ -13,6 +13,7 @@ class XTeamSchedule::Parser
   
   def parse
     parse_resource_groups!
+    parse_assignment_groups!
     schedule
   end
   
@@ -23,6 +24,15 @@ private
       schedule.resource_groups.create!(
         :name => rg['name'],
         :expanded_in_library => boolean(rg['expanded in library'])
+      )
+    end
+  end
+  
+  def parse_assignment_groups!
+    hash['task categories'].try(:each) do |ag|
+      schedule.assignment_groups.create!(
+        :name => ag['name'],
+        :expanded_in_library => boolean(ag['expanded in library'])
       )
     end
   end
