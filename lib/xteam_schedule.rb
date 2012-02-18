@@ -1,5 +1,6 @@
-require 'active_record'
 require 'plist'
+require 'active_record'
+require 'sqlite3'
 
 require 'xteam_schedule/xteam_schedule'
 require 'xteam_schedule/io'
