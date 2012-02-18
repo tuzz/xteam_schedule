@@ -13,6 +13,7 @@ class XTeamSchedule::Parser
   
   def parse
     parse_resource_groups!
+    parse_resources!
     parse_assignment_groups!
     schedule
   end
@@ -25,6 +26,23 @@ private
         :name => rg['name'],
         :expanded_in_library => rg['expanded in library']
       )
+    end
+  end
+  
+  def parse_resources!
+    hash['resources'].try(:each) do |r|
+      resource_group = schedule.resource_groups.find_by_name(r['group'])
+      if resource_group
+        string_io = r['image']
+        resource_group.resources.create!(
+          :displayed_in_planning => r['displayedInPlanning'],
+          :email => r['email'],
+          :image => string_io.read,
+          :mobile => r['mobile'],
+          :name => r['name'],
+          :phone => r['phone']
+        )
+      end
     end
   end
   
