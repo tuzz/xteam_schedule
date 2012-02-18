@@ -8,7 +8,7 @@ class XTeamSchedule::Parser
   
   def initialize(hash)
     self.hash = hash
-    self.schedule = XTeamSchedule::Schedule.new
+    self.schedule = XTeamSchedule::Schedule.create!
   end
   
   def parse

@@ -13,6 +13,10 @@ describe XTeamSchedule::Parser do
       parser.hash.should == hash
       parser.schedule.should_not be_nil
     end
+    
+    it 'saves the schedule so that children may be created' do
+      XTeamSchedule::Parser.new({}).schedule.should_not be_new_record
+    end
   end
   
   describe '#parse' do
