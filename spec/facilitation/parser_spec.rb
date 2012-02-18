@@ -42,8 +42,8 @@ describe XTeamSchedule::Parser do
   describe '#parse_resource_groups!' do
     before do
       @hash = { 'resource groups' => [
-        { 'name' => 'foo', 'expanded in library' => 'Yes' },
-        { 'name' => 'bar', 'expanded in library' => 'No'  }
+        { 'name' => 'foo', 'expanded in library' => true },
+        { 'name' => 'bar', 'expanded in library' => false  }
       ]}
       @parser = XTeamSchedule::Parser.new(@hash)
     end
@@ -69,8 +69,8 @@ describe XTeamSchedule::Parser do
   describe '#parse_assignment_groups!' do
     before do
       @hash = { 'task categories' => [
-        { 'name' => 'foo', 'expanded in library' => 'Yes' },
-        { 'name' => 'bar', 'expanded in library' => 'No'  }
+        { 'name' => 'foo', 'expanded in library' => true },
+        { 'name' => 'bar', 'expanded in library' => false  }
       ]}
       @parser = XTeamSchedule::Parser.new(@hash)
     end
@@ -90,20 +90,6 @@ describe XTeamSchedule::Parser do
       @parser.send(:parse_assignment_groups!)
       XTeamSchedule::AssignmentGroup.find_all_by_expanded_in_library(true).count.should == 1
       XTeamSchedule::AssignmentGroup.find_all_by_expanded_in_library(false).count.should == 1
-    end
-  end
-  
-  describe '#boolean' do
-    before do
-      @parser = XTeamSchedule::Parser.new(@hash)
-    end
-    
-    it 'returns true when the given string matches yes' do
-      %w(yes Yes YES yesterday bayes).each { |word| @parser.send(:boolean, word).should be_true }
-    end
-    
-    it "returns false when the given string doesn't match yes" do
-      %w(none of these should match).each { |word| @parser.send(:boolean, word).should be_false }
     end
   end
   

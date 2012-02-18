@@ -23,7 +23,7 @@ private
     hash['resource groups'].try(:each) do |rg|
       schedule.resource_groups.create!(
         :name => rg['name'],
-        :expanded_in_library => boolean(rg['expanded in library'])
+        :expanded_in_library => rg['expanded in library']
       )
     end
   end
@@ -32,13 +32,9 @@ private
     hash['task categories'].try(:each) do |ag|
       schedule.assignment_groups.create!(
         :name => ag['name'],
-        :expanded_in_library => boolean(ag['expanded in library'])
+        :expanded_in_library => ag['expanded in library']
       )
     end
-  end
-  
-  def boolean(string)
-    string =~ /yes/i ? true : false
   end
   
 end
