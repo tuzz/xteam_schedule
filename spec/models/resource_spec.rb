@@ -18,6 +18,19 @@ describe XTeamSchedule::Resource do
       resource_group = Factory(:resource_group, :resources => [@resource])
       @resource.resource_group.should == resource_group
     end
+    
+    it 'has many working_times' do
+      @resource.working_times.should == []
+      working_time = @resource.working_times.create!(:begin_date => Date.new, :duration => 0)
+      @resource.working_times.size.should == 1
+      @resource.working_times.should == [working_time]
+    end
+    
+    it 'destroys working_times on cascade' do
+      @resource.working_times.create!(:begin_date => Date.new, :duration => 0)
+      @resource.destroy
+      XTeamSchedule::WorkingTime.count.should == 0
+    end
   end
   
   describe 'validations' do

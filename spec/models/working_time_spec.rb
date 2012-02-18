@@ -2,6 +2,18 @@ require 'spec_helper'
 
 describe XTeamSchedule::WorkingTime do
   
+  describe 'associations' do
+    before do
+      @working_time = Factory(:working_time)
+    end
+    
+    it 'belongs to a resource' do
+      @working_time.resource.should be_nil
+      resource = Factory(:resource, :working_times => [@working_time])
+      @working_time.resource.should == resource
+    end
+  end
+  
   describe 'validations' do
     before do
       @working_time = Factory(:working_time)
