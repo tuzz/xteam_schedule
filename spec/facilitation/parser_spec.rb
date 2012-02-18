@@ -1,8 +1,8 @@
 describe XTeamSchedule::Parser do
   
   describe '.parse' do
-    it 'returns an instance of XTeamSchedule' do
-      XTeamSchedule::Parser.parse({}).should be_an XTeamSchedule
+    it 'returns an instance of Schedule' do
+      XTeamSchedule::Parser.parse({}).should be_an XTeamSchedule::Schedule
     end
   end
   
@@ -16,8 +16,8 @@ describe XTeamSchedule::Parser do
   end
   
   describe '#parse' do
-    it 'returns an instance of XTeamSchedule' do
-      XTeamSchedule::Parser.new({}).parse.should be_an XTeamSchedule
+    it 'returns an instance of Schedule' do
+      XTeamSchedule::Parser.new({}).parse.should be_an XTeamSchedule::Schedule
     end
   end
   

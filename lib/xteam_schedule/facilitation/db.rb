@@ -11,6 +11,10 @@ class XTeamSchedule::DB
     ActiveRecord::Schema.verbose = false
     ActiveRecord::Schema.define do
       
+      create_table :schedules do |table|
+        
+      end
+      
       create_table :resource_groups do |table|
         table.column :expanded_in_library, :boolean, :default => true
         table.column :name, :string

@@ -1,7 +1,6 @@
 require 'rspec'
 require 'factory_girl'
 require 'database_cleaner'
-
 require 'xteam_schedule'
 
 RSpec.configure do |config|
