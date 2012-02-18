@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "Read and write schedules for use with adnx's XTeam software"
   s.author      = 'Christopher Patuzzo'
   s.email       = 'chris.patuzzo@gmail.com'
-  s.files       = ['README.md', 'lib/xteam_schedule.rb', 'lib/xteam_schedule/core.rb', 'lib/xteam_schedule/io.rb', 'lib/xteam_schedule/db.rb', 'lib/xteam_schedule/resource_group.rb', 'lib/xteam_schedule/resource.rb', 'lib/xteam_schedule/assignment_group.rb']
+  s.files       = ['README.md', 'lib/xteam_schedule.rb', 'lib/xteam_schedule/core.rb', 'lib/xteam_schedule/io.rb', 'lib/xteam_schedule/db.rb', 'lib/xteam_schedule/resource_group.rb', 'lib/xteam_schedule/resource.rb', 'lib/xteam_schedule/assignment_group.rb', 'lib/xteam_schedule/assignment.rb']
   s.homepage    = 'https://github.com/cpatuzzo/xteam_schedule'
   
   s.add_dependency 'plist'
