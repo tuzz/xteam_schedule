@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe XTeamSchedule::Parser do
   
   describe '.parse' do
@@ -154,5 +156,4 @@ describe XTeamSchedule::Parser do
       XTeamSchedule::AssignmentGroup.find_all_by_expanded_in_library(false).count.should == 1
     end
   end
-  
 end
