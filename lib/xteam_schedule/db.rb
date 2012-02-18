@@ -34,6 +34,7 @@ class XTeamSchedule::DB
       end
       
       create_table :assignments do |table|
+        table.column :assignment_group_id, :integer
         table.column :name, :string
       end
       

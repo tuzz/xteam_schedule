@@ -8,6 +8,25 @@ describe XTeamSchedule::AssignmentGroup do
     end
   end
   
+  describe 'associations' do
+    before do
+      @assignment_group = Factory(:assignment_group)
+    end
+    
+    it 'has many assignments' do
+      @assignment_group.assignments.should == []
+      assignment = @assignment_group.assignments.create!(:name => 'foo')
+      @assignment_group.assignments.size.should == 1
+      @assignment_group.assignments.should == [assignment]
+    end
+    
+    it 'destroys assignments on cascade' do
+      @assignment_group.assignments.create!(:name => 'foo')
+      @assignment_group.destroy
+      XTeamSchedule::Assignment.count.should == 0
+    end
+  end
+  
   describe 'validations' do
     before do
       @assignment_group = Factory(:assignment_group)
