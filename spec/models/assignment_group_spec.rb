@@ -13,6 +13,12 @@ describe XTeamSchedule::AssignmentGroup do
       @assignment_group = Factory(:assignment_group)
     end
     
+    it 'belongs to a schedule' do
+      @assignment_group.schedule.should be_nil
+      schedule = Factory(:schedule, :assignment_groups => [@assignment_group])
+      @assignment_group.schedule.should == schedule
+    end
+    
     it 'has many assignments' do
       @assignment_group.assignments.should == []
       assignment = @assignment_group.assignments.create!(:name => 'foo')
