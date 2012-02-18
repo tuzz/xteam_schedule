@@ -28,6 +28,11 @@ class XTeamSchedule::DB
         table.column :phone, :string
       end
       
+      create_table :assignment_groups do |table|
+        table.column :expanded_in_library, :boolean, :default => true
+        table.column :name, :string
+      end
+      
     end
   end
   
