@@ -12,4 +12,8 @@ FactoryGirl.define do
     sequence(:name) { |n| "Assignment Group #{n}"}
   end
   
+  factory :assignment, :class => XTeamSchedule::Assignment do
+    sequence(:name) { |n| "Assignment #{n}"}
+  end
+  
 end

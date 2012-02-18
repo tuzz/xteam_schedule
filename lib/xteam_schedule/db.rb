@@ -33,6 +33,10 @@ class XTeamSchedule::DB
         table.column :name, :string
       end
       
+      create_table :assignments do |table|
+        table.column :name, :string
+      end
+      
     end
   end
   
