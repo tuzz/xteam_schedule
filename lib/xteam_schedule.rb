@@ -10,6 +10,7 @@ require 'xteam_schedule/models/assignment'
 
 require 'xteam_schedule/facilitation/io'
 require 'xteam_schedule/facilitation/db'
+require 'xteam_schedule/facilitation/parser'
 
 XTeamSchedule::DB.connect
 XTeamSchedule::DB.build_schema

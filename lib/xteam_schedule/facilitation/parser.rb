@@ -1,0 +1,3 @@
+class XTeamSchedule::Parser
+
+end
