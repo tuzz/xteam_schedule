@@ -50,7 +50,7 @@ describe XTeamSchedule::Parser do
     
     it 'creates resource groups' do
       @parser.send(:parse_resource_groups!)
-      XTeamSchedule::ResourceGroup.count.should == 2
+      XTeamSchedule::ResourceGroup.count.should_not be_zero
     end
     
     it 'sets the name attribute correctly' do
@@ -77,7 +77,7 @@ describe XTeamSchedule::Parser do
     
     it 'creates assignment groups' do
       @parser.send(:parse_assignment_groups!)
-      XTeamSchedule::AssignmentGroup.count.should == 2
+      XTeamSchedule::AssignmentGroup.count.should_not be_zero
     end
     
     it 'sets the name attribute correctly' do
