@@ -18,6 +18,12 @@ describe XTeamSchedule::WorkingTime do
       assignment = Factory(:assignment, :working_times => [@working_time])
       @working_time.assignment.should == assignment
     end
+    
+    it 'delegates resource_group to resource'
+    
+    it 'delegates assignment_group to assignment'
+    
+    it 'delegates schedule to resource'
   end
   
   describe 'validations' do

@@ -31,6 +31,8 @@ describe XTeamSchedule::Resource do
       @resource.destroy
       XTeamSchedule::WorkingTime.count.should == 0
     end
+    
+    it 'delegates schedule to resource_group'
   end
   
   describe 'validations' do

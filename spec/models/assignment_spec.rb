@@ -25,6 +25,8 @@ describe XTeamSchedule::Assignment do
       @assignment.destroy
       XTeamSchedule::WorkingTime.count.should == 0
     end
+    
+    it 'delegates schedule to assignment_group'
   end
   
   describe 'validations' do
