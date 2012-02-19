@@ -78,8 +78,8 @@ describe XTeamSchedule::Parser do
     
     it 'sets the expanded_in_library attribute correctly' do
       @parser.send(:parse_resource_groups!)
-      XTeamSchedule::ResourceGroup.find_all_by_expanded_in_library(true).count.should == 1
-      XTeamSchedule::ResourceGroup.find_all_by_expanded_in_library(false).count.should == 1
+      XTeamSchedule::ResourceGroup.find_by_expanded_in_library(true).should_not be_nil
+      XTeamSchedule::ResourceGroup.find_by_expanded_in_library(false).should_not be_nil
     end
   end
   
@@ -162,8 +162,8 @@ describe XTeamSchedule::Parser do
     
     it 'sets the expanded_in_library attribute correctly' do
       @parser.send(:parse_assignment_groups!)
-      XTeamSchedule::AssignmentGroup.find_all_by_expanded_in_library(true).count.should == 1
-      XTeamSchedule::AssignmentGroup.find_all_by_expanded_in_library(false).count.should == 1
+      XTeamSchedule::AssignmentGroup.find_by_expanded_in_library(true).should_not be_nil
+      XTeamSchedule::AssignmentGroup.find_by_expanded_in_library(false).should_not be_nil
     end
   end
   
