@@ -203,10 +203,10 @@ describe XTeamSchedule::Parser do
         'resources' => [{ 'name' => 'baz', 'group' => 'foo' }],
         'tasks' => [{ 'name' => 'quux', 'category' => 'bar'}],
         'objectsForResources' => [
-          ['baz', [{ 'task' => 'quux', 'begin date' => '01/31/2000', 'duration' => 10, 'notes' => 'notes1'}]],
-          ['zab', [{ 'task' => 'quux', 'begin date' => '02/31/2000', 'duration' => 11, 'notes' => 'notes2'}]],
-          ['baz', [{ 'task' => 'xuuq', 'begin date' => '03/31/2000', 'duration' => 11, 'notes' => 'notes3'}]],
-          ['zab', [{ 'task' => 'xuuq', 'begin date' => '04/31/2000', 'duration' => 11, 'notes' => 'notes4'}]]
+          ['baz', [{ 'task' => 'quux', 'begin date' => '01/15/2000', 'duration' => 10, 'notes' => 'notes1'}]],
+          ['zab', [{ 'task' => 'quux', 'begin date' => '02/15/2000', 'duration' => 11, 'notes' => 'notes2'}]],
+          ['baz', [{ 'task' => 'xuuq', 'begin date' => '03/15/2000', 'duration' => 12, 'notes' => 'notes3'}]],
+          ['zab', [{ 'task' => 'xuuq', 'begin date' => '04/15/2000', 'duration' => 13, 'notes' => 'notes4'}]]
         ]
       }
       @parser = XTeamSchedule::Parser.new(@hash)
@@ -238,7 +238,7 @@ describe XTeamSchedule::Parser do
     
     it 'sets the begin_date attribute correctly' do
       @parser.send(:parse_working_times!)
-      XTeamSchedule::WorkingTime.find_by_notes('notes1').begin_date.should == Date.new(2000, 01, 31)
+      XTeamSchedule::WorkingTime.find_by_notes('notes1').begin_date.should == Date.new(2000, 01, 15)
     end
     
     it 'sets the duration attribute correctly' do
