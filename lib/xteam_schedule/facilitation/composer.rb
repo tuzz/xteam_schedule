@@ -20,7 +20,8 @@ private
   
   def compose_resource_groups!
     hash['resource groups'] ||= []
-    schedule.resource_groups.each do |rg|
+    resource_groups = schedule.resource_groups
+    resource_groups.each do |rg|
       hash['resource groups'] << {
         'name' => rg.name,
         'expanded in library' => rg.expanded_in_library
