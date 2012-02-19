@@ -205,7 +205,7 @@ describe XTeamSchedule::Composer do
     end
     
     def working_times
-      @composer.hash['objectsForResources'].map(&:first).map(&:second).flatten
+      @composer.hash['objectsForResources'].values.flatten
     end
     
     it 'creates working times' do

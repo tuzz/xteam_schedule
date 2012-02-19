@@ -70,19 +70,20 @@ private
   end
   
   def compose_working_times!
-    hash['objectsForResources'] ||= []
+    hash['objectsForResources'] ||= {}
     resources = schedule.resource_groups.map(&:resources).flatten
-    working_times = resources.map(&:working_times).flatten
-    working_times_with_parents = working_times.select { |wt| wt.resource and wt.assignment }
-    working_times_with_parents.each do |wt|
-      hash['objectsForResources'] << [
-        [wt.resource.name, [{
+    resources.each do |r|
+      working_times_with_parents = r.working_times.select { |wt| wt.resource and wt.assignment }
+      next unless working_times_with_parents
+      hash['objectsForResources'].merge!(r.name => [])
+      working_times_with_parents.each do |wt|
+        hash['objectsForResources'][r.name] << {
           'task' => wt.assignment.name,
           'begin date' => compose_date(wt.begin_date),
           'duration' => wt.duration,
           'notes' => wt.notes
-        }]]
-      ]
+        }
+      end
     end
   end
   
