@@ -245,6 +245,15 @@ describe XTeamSchedule::Composer do
   end
   
   describe '#compose_date' do
-    it 'has some specs'
+    before do
+      schedule = XTeamSchedule::Schedule.new
+      @composer = XTeamSchedule::Composer.new(schedule)
+    end
+    
+    it 'creates corresponding date strings' do
+      @composer.send(:compose_date, Date.new(2000, 01, 20)).should == '01/20/2000'
+      @composer.send(:compose_date, Date.new(1990, 12, 10)).should == '12/10/1990'
+      @composer.send(:compose_date, Date.new(2010, 06, 07)).should == '06/07/2010'
+    end
   end
 end

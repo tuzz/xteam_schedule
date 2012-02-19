@@ -253,7 +253,15 @@ describe XTeamSchedule::Parser do
   end
   
   describe '#parse_date' do
-    it 'has some specs'
+    before do
+      @parser = XTeamSchedule::Parser.new({})
+    end
+    
+    it 'creates corresponding date objects' do
+      @parser.send(:parse_date, '01/20/2000').should == Date.new(2000, 01, 20)
+      @parser.send(:parse_date, '12/10/1990').should == Date.new(1990, 12, 10)
+      @parser.send(:parse_date, '06/07/2010').should == Date.new(2010, 06, 07)
+    end
   end
   
 end
