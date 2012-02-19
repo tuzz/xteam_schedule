@@ -38,7 +38,7 @@ describe XTeamSchedule::Composer do
       @composer.compose
     end
     
-    it 'calls compose assignment_groups!' do
+    it 'calls compose_assignment_groups!' do
       @composer.should_receive(:compose_assignment_groups!)
       @composer.compose
     end
