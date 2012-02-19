@@ -98,7 +98,7 @@ describe XTeamSchedule::Composer do
       @schedule = XTeamSchedule::Schedule.new
       rg = @schedule.resource_groups.new(:name => 'foo')
       rg.resources.new(:displayed_in_planning => false, :email => 'foo@bar.com', :image => 'image',
-                       :mobile => '0123456789', 'name' => 'bar', 'phone' => '9876543210', 'kind' => 0)
+                       :mobile => '0123456789', :name => 'bar', :phone => '9876543210', :kind => 0)
       XTeamSchedule::Resource.new(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_resource_groups!)
