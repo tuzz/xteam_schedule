@@ -46,7 +46,8 @@ private
         'mobile' => r.mobile,
         'name' => r.name,
         'phone' => r.phone,
-        'kind' => r.kind
+        'kind' => r.kind,
+        'group' => r.resource_group.name
       }
     end
   end

@@ -149,6 +149,11 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_resources!)
       @composer.hash['resources'].detect { |r| r['kind'] == 0 }.should_not be_nil
     end
+    
+    it 'sets the group key correctly' do
+      @composer.send(:compose_resources!)
+      @composer.hash['resources'].detect { |r| r['group'] == 'foo' }.should_not be_nil
+    end
   end
   
   describe '#compose_assignment_groups!' do
