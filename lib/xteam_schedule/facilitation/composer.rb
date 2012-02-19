@@ -1,0 +1,3 @@
+class XTeamSchedule::Composer
+
+end
