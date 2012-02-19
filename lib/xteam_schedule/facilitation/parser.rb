@@ -15,6 +15,8 @@ class XTeamSchedule::Parser
     parse_resource_groups!
     parse_resources!
     parse_assignment_groups!
+    parse_assignments!
+    parse_working_times!
     schedule
   end
   
@@ -58,7 +60,6 @@ private
   def parse_assignments!
     hash['tasks'].try(:each) do |a|
       assignment_group = schedule.assignment_groups.find_by_name(a['category'])
-      puts assignment_group.inspect
       if assignment_group
         assignment_group.assignments.create!(
           :name => a['name']
@@ -67,4 +68,27 @@ private
     end
   end
   
+  def parse_working_times!
+    hash['objectsForResources'].try(:each) do |wt_array|
+      r_name = wt_array.first
+      resource = schedule.resources.find_by_name(r_name)
+      if resource
+        wt = wt_array.second.first
+        assignment = schedule.assignments.find_by_name(wt['task'])
+        if assignment
+          assignment.working_times.create!(
+            :resource => resource,
+            :begin_date => parse_date(wt['begin date']),
+            :duration => wt['duration'],
+            :notes => wt['notes']
+          )
+        end
+      end
+    end
+  end
+  
+  def parse_date(date_string)
+    month, day, year = date_string.split('/').map(&:to_i)
+    Date.new(year, month, day)
+  end
 end

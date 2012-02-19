@@ -44,6 +44,16 @@ describe XTeamSchedule::Parser do
       @parser.should_receive(:parse_assignment_groups!)
       @parser.parse
     end
+    
+    it 'calls parse_assignments!' do
+      @parser.should_receive(:parse_assignments!)
+      @parser.parse
+    end
+    
+    it 'calls parse_working_times!' do
+      @parser.should_receive(:parse_working_times!)
+      @parser.parse
+    end
   end
   
   describe '#parse_resource_groups!' do
@@ -182,6 +192,63 @@ describe XTeamSchedule::Parser do
     it 'sets the name attribute correctly' do
       @parser.send(:parse_assignments!)
       XTeamSchedule::Assignment.find_by_name('bar').should_not be_nil
+    end
+  end
+  
+  describe '#parse_working_times!' do
+    before do
+      @hash = {
+        'resource groups' => [{ 'name' => 'foo' }],
+        'task categories' => [{ 'name' => 'bar' }],
+        'resources' => [{ 'name' => 'baz', 'group' => 'foo' }],
+        'tasks' => [{ 'name' => 'quux', 'category' => 'bar'}],
+        'objectsForResources' => [
+          ['baz', [{ 'task' => 'quux', 'begin date' => '01/31/2000', 'duration' => 10, 'notes' => 'notes1'}]],
+          ['zab', [{ 'task' => 'quux', 'begin date' => '02/31/2000', 'duration' => 11, 'notes' => 'notes2'}]],
+          ['baz', [{ 'task' => 'xuuq', 'begin date' => '03/31/2000', 'duration' => 11, 'notes' => 'notes3'}]],
+          ['zab', [{ 'task' => 'xuuq', 'begin date' => '04/31/2000', 'duration' => 11, 'notes' => 'notes4'}]]
+        ]
+      }
+      @parser = XTeamSchedule::Parser.new(@hash)
+      @parser.send(:parse_resource_groups!)
+      @parser.send(:parse_resources!)
+      @parser.send(:parse_assignment_groups!)
+      @parser.send(:parse_assignments!)
+    end
+    
+    it 'creates working times' do
+      @parser.send(:parse_working_times!)
+      XTeamSchedule::WorkingTime.count.should_not be_zero
+    end
+    
+    it 'does not create working times without a resource' do
+      @parser.send(:parse_working_times!)
+      XTeamSchedule::WorkingTime.find_by_notes('notes2').should be_nil
+    end
+    
+    it 'does not create working times without an assignment' do
+      @parser.send(:parse_working_times!)
+      XTeamSchedule::WorkingTime.find_by_notes('notes3').should be_nil
+    end
+    
+    it 'does not create orphaned working times' do
+      @parser.send(:parse_working_times!)
+      XTeamSchedule::WorkingTime.find_by_notes('notes4').should be_nil
+    end
+    
+    it 'sets the begin_date attribute correctly' do
+      @parser.send(:parse_working_times!)
+      XTeamSchedule::WorkingTime.find_by_notes('notes1').begin_date.should == Date.new(2000, 01, 31)
+    end
+    
+    it 'sets the duration attribute correctly' do
+      @parser.send(:parse_working_times!)
+      XTeamSchedule::WorkingTime.find_by_notes('notes1').duration.should == 10
+    end
+    
+    it 'sets the notes attribute correctly' do
+      @parser.send(:parse_working_times!)
+      XTeamSchedule::WorkingTime.find_by_notes('notes1').should_not be_nil
     end
   end
   
