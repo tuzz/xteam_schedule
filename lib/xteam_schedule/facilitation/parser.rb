@@ -35,11 +35,11 @@ private
     hash['resources'].try(:each) do |r|
       resource_group = schedule.resource_groups.find_by_name(r['group'])
       if resource_group
-        string_io = r['image']
+        image = r['image'].class == StringIO ? r['image'].read : ''
         resource_group.resources.create!(
           :displayed_in_planning => r['displayedInPlanning'],
           :email => r['email'],
-          :image => string_io.try(:read),
+          :image => image,
           :mobile => r['mobile'],
           :name => r['name'],
           :phone => r['phone']
