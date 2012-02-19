@@ -10,7 +10,7 @@ describe XTeamSchedule::Schedule do
     it 'has many resource_groups' do
       @schedule.resource_groups.should == []
       resource_group = @schedule.resource_groups.create!(:name => 'foo')
-      @schedule.resource_groups.size.should == 1
+      @schedule.resource_groups.count.should == 1
       @schedule.resource_groups.should == [resource_group]
     end
     
@@ -23,7 +23,7 @@ describe XTeamSchedule::Schedule do
     it 'has many assignment_groups' do
       @schedule.assignment_groups.should == []
       assignment_group = @schedule.assignment_groups.create!(:name => 'foo')
-      @schedule.assignment_groups.size.should == 1
+      @schedule.assignment_groups.count.should == 1
       @schedule.assignment_groups.should == [assignment_group]
     end
     

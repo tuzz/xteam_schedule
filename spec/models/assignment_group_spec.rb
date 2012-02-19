@@ -22,7 +22,7 @@ describe XTeamSchedule::AssignmentGroup do
     it 'has many assignments' do
       @assignment_group.assignments.should == []
       assignment = @assignment_group.assignments.create!(:name => 'foo')
-      @assignment_group.assignments.size.should == 1
+      @assignment_group.assignments.count.should == 1
       @assignment_group.assignments.should == [assignment]
     end
     

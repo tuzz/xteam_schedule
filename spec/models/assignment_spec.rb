@@ -16,7 +16,7 @@ describe XTeamSchedule::Assignment do
     it 'has many working_times' do
       @assignment.working_times.should == []
       working_time = @assignment.working_times.create!(:begin_date => Date.new, :duration => 0)
-      @assignment.working_times.size.should == 1
+      @assignment.working_times.count.should == 1
       @assignment.working_times.should == [working_time]
     end
     

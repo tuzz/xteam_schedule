@@ -22,7 +22,7 @@ describe XTeamSchedule::Resource do
     it 'has many working_times' do
       @resource.working_times.should == []
       working_time = @resource.working_times.create!(:begin_date => Date.new, :duration => 0)
-      @resource.working_times.size.should == 1
+      @resource.working_times.count.should == 1
       @resource.working_times.should == [working_time]
     end
     

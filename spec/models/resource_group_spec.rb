@@ -22,7 +22,7 @@ describe XTeamSchedule::ResourceGroup do
     it 'has many resources' do
       @resource_group.resources.should == []
       resource = @resource_group.resources.create!(:name => 'foo')
-      @resource_group.resources.size.should == 1
+      @resource_group.resources.count.should == 1
       @resource_group.resources.should == [resource]
     end
     
