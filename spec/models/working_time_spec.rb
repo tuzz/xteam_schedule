@@ -19,11 +19,23 @@ describe XTeamSchedule::WorkingTime do
       @working_time.assignment.should == assignment
     end
     
-    it 'delegates resource_group to resource'
+    it 'delegates resource_group to resource' do
+      Factory(:resource, :working_times => [@working_time])
+      XTeamSchedule::Resource.any_instance.should_receive(:resource_group)
+      @working_time.resource_group
+    end
     
-    it 'delegates assignment_group to assignment'
+    it 'delegates assignment_group to assignment' do
+      Factory(:assignment, :working_times => [@working_time])
+      XTeamSchedule::Assignment.any_instance.should_receive(:assignment_group)
+      @working_time.assignment_group
+    end
     
-    it 'delegates schedule to resource'
+    it 'delegates schedule to resource' do
+      Factory(:resource, :working_times => [@working_time])
+      XTeamSchedule::Resource.any_instance.should_receive(:schedule)
+      @working_time.schedule
+    end
   end
   
   describe 'validations' do

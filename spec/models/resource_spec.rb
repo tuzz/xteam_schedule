@@ -32,7 +32,11 @@ describe XTeamSchedule::Resource do
       XTeamSchedule::WorkingTime.count.should == 0
     end
     
-    it 'delegates schedule to resource_group'
+    it 'delegates schedule to resource_group' do
+      Factory(:resource_group, :resources => [@resource])
+      XTeamSchedule::ResourceGroup.any_instance.should_receive(:schedule)
+      @resource.schedule
+    end
   end
   
   describe 'validations' do

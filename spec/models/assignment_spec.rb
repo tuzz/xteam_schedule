@@ -26,7 +26,11 @@ describe XTeamSchedule::Assignment do
       XTeamSchedule::WorkingTime.count.should == 0
     end
     
-    it 'delegates schedule to assignment_group'
+    it 'delegates schedule to assignment_group' do
+      Factory(:assignment_group, :assignments => [@assignment])
+      XTeamSchedule::AssignmentGroup.any_instance.should_receive(:schedule)
+      @assignment.schedule
+    end
   end
   
   describe 'validations' do
