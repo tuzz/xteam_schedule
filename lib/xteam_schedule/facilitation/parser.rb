@@ -37,7 +37,7 @@ private
         resource_group.resources.create!(
           :displayed_in_planning => r['displayedInPlanning'],
           :email => r['email'],
-          :image => string_io.read,
+          :image => string_io.try(:read),
           :mobile => r['mobile'],
           :name => r['name'],
           :phone => r['phone']
