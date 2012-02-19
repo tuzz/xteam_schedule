@@ -42,6 +42,11 @@ describe XTeamSchedule::Composer do
       @composer.should_receive(:compose_assignment_groups!)
       @composer.compose
     end
+    
+    it 'calls compose_assignments!' do
+      @composer.should_receive(:compose_assignments!)
+      @composer.compose
+    end
   end
   
   describe '#compose_resource_groups!' do
@@ -146,6 +151,33 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_assignment_groups!)
       @composer.hash['task categories'].detect { |ag| ag['expanded in library'] == true }.should_not be_nil
       @composer.hash['task categories'].detect { |ag| ag['expanded in library'] == false }.should_not be_nil
+    end
+  end
+  
+  describe '#compose_assignments' do
+    before do
+      @schedule = XTeamSchedule::Schedule.new
+      ag = @schedule.assignment_groups.new(:name => 'foo')
+      ag.assignments.new(:name => 'bar')
+      XTeamSchedule::Assignment.new(:name => 'baz')
+      @composer = XTeamSchedule::Composer.new(@schedule)
+      @composer.send(:compose_assignment_groups!)
+    end
+    
+    it 'creates assignments' do
+      @composer.send(:compose_assignments!)
+      @composer.hash['tasks'].count.should_not be_zero
+    end
+    
+    it 'does not create orphaned assignments' do
+      @composer.send(:compose_assignments!)
+      @composer.hash['tasks'].detect { |r| r['name'] == 'bar' }.should_not be_nil
+      @composer.hash['tasks'].detect { |r| r['name'] == 'baz' }.should be_nil
+    end
+    
+    it 'sets the name key correctly' do
+      @composer.send(:compose_assignments!)
+      @composer.hash['tasks'].detect { |r| r['name'] == 'bar' }.should_not be_nil
     end
   end
 end

@@ -15,6 +15,7 @@ class XTeamSchedule::Composer
     compose_resource_groups!
     compose_resources!
     compose_assignment_groups!
+    compose_assignments!
     hash
   end
   
@@ -53,6 +54,16 @@ private
       hash['task categories'] << {
         'name' => ag.name,
         'expanded in library' => ag.expanded_in_library
+      }
+    end
+  end
+  
+  def compose_assignments!
+    hash['tasks'] ||= []
+    assignments = schedule.assignment_groups.map(&:assignments).flatten
+    assignments.each do |a|
+      hash['tasks'] << {
+        'name' => a.name
       }
     end
   end
