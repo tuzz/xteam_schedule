@@ -185,10 +185,10 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_assignments!' do
     before do
-      @schedule = XTeamSchedule::Schedule.create!
-      ag = @schedule.assignment_groups.create!(:name => 'foo')
-      ag.assignments.create!(:name => 'bar', :kind => 0)
-      XTeamSchedule::Assignment.create!(:name => 'baz')
+      @schedule = XTeamSchedule::Schedule.new
+      ag = @schedule.assignment_groups.new(:name => 'foo')
+      ag.assignments.new(:name => 'bar', :kind => 0)
+      XTeamSchedule::Assignment.new(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_assignment_groups!)
     end
@@ -217,15 +217,15 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_working_times!' do
     before do
-      @schedule = XTeamSchedule::Schedule.create!
-      foo = @schedule.resource_groups.create!(:name => 'foo')
-      bar = @schedule.assignment_groups.create!(:name => 'bar')
-      baz = foo.resources.create!(:name => 'baz')
-      quux = bar.assignments.create!(:name => 'quux')
-      baz.working_times.create!(:assignment => quux, :begin_date => Date.new(2000, 01, 15), :duration => 10, :notes => 'notes1')
-      XTeamSchedule::WorkingTime.create!(:assignment => quux, :begin_date => Date.new(2000, 02, 15), :duration => 11, :notes => 'notes2')
-      baz.working_times.create!(:begin_date => Date.new(2000, 03, 15), :duration => 12, :notes => 'notes3')
-      XTeamSchedule::WorkingTime.create!(:begin_date => Date.new(2000, 04, 15), :duration => 13, :notes => 'notes4')
+      @schedule = XTeamSchedule::Schedule.new
+      foo = @schedule.resource_groups.new(:name => 'foo')
+      bar = @schedule.assignment_groups.new(:name => 'bar')
+      baz = foo.resources.new(:name => 'baz')
+      quux = bar.assignments.new(:name => 'quux')
+      baz.working_times.new(:assignment => quux, :begin_date => Date.new(2000, 01, 15), :duration => 10, :notes => 'notes1')
+      XTeamSchedule::WorkingTime.new(:assignment => quux, :begin_date => Date.new(2000, 02, 15), :duration => 11, :notes => 'notes2')
+      baz.working_times.new(:begin_date => Date.new(2000, 03, 15), :duration => 12, :notes => 'notes3')
+      XTeamSchedule::WorkingTime.new(:begin_date => Date.new(2000, 04, 15), :duration => 13, :notes => 'notes4')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_resource_groups!)
       @composer.send(:compose_resources!)
