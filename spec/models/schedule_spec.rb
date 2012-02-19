@@ -45,6 +45,14 @@ describe XTeamSchedule::Schedule do
       @schedule.destroy
       XTeamSchedule::WorkingTime.count.should == 0
     end
+    
+    it 'has many resources through resource groups' do
+      foo = @schedule.resource_groups.create!(:name => 'foo')
+      bar = @schedule.resource_groups.create!(:name => 'bar')
+      baz = foo.resources.create!(:name => 'baz')
+      quux = bar.resources.create!(:name => 'quux')
+      @schedule.resources.should == [baz, quux]
+    end
   end
   
 end
