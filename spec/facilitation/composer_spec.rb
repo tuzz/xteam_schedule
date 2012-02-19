@@ -37,6 +37,11 @@ describe XTeamSchedule::Composer do
       @composer.should_receive(:compose_resources!)
       @composer.compose
     end
+    
+    it 'calls compose assignment_groups!' do
+      @composer.should_receive(:compose_assignment_groups!)
+      @composer.compose
+    end
   end
   
   describe '#compose_resource_groups!' do
@@ -115,6 +120,32 @@ describe XTeamSchedule::Composer do
     it 'sets the phone key correctly' do
       @composer.send(:compose_resources!)
       @composer.hash['resources'].detect { |r| r['phone'] == '9876543210' }.should_not be_nil
+    end
+  end
+  
+  describe '#compose_assignment_groups!' do
+    before do
+      @schedule = XTeamSchedule::Schedule.new
+      @schedule.assignment_groups.new(:name => 'foo', :expanded_in_library => true)
+      @schedule.assignment_groups.new(:name => 'bar', :expanded_in_library => false)
+      @composer = XTeamSchedule::Composer.new(@schedule)
+    end
+    
+    it 'creates assignment groups' do
+      @composer.send(:compose_assignment_groups!)
+      @composer.hash['task categories'].count.should_not be_zero
+    end
+    
+    it 'sets the name key correctly' do
+      @composer.send(:compose_assignment_groups!)
+      @composer.hash['task categories'].detect { |ag| ag['name'] == 'foo' }.should_not be_nil
+      @composer.hash['task categories'].detect { |ag| ag['name'] == 'bar' }.should_not be_nil
+    end
+    
+    it 'sets the expanded in library key correctly' do
+      @composer.send(:compose_assignment_groups!)
+      @composer.hash['task categories'].detect { |ag| ag['expanded in library'] == true }.should_not be_nil
+      @composer.hash['task categories'].detect { |ag| ag['expanded in library'] == false }.should_not be_nil
     end
   end
 end
