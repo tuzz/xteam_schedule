@@ -252,4 +252,8 @@ describe XTeamSchedule::Parser do
     end
   end
   
+  describe '#parse_date' do
+    it 'has some specs'
+  end
+  
 end

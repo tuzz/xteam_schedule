@@ -47,6 +47,11 @@ describe XTeamSchedule::Composer do
       @composer.should_receive(:compose_assignments!)
       @composer.compose
     end
+    
+    it 'calls compose_working_times!' do
+      @composer.should_receive(:compose_working_times!)
+      @composer.compose
+    end
   end
   
   describe '#compose_resource_groups!' do
@@ -179,5 +184,67 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_assignments!)
       @composer.hash['tasks'].detect { |r| r['name'] == 'bar' }.should_not be_nil
     end
+  end
+  
+  describe '#compose_working_times!' do
+    before do
+      @schedule = XTeamSchedule::Schedule.create!
+      foo = @schedule.resource_groups.create!(:name => 'foo')
+      bar = @schedule.assignment_groups.create!(:name => 'bar')
+      baz = foo.resources.create!(:name => 'baz')
+      quux = bar.assignments.create!(:name => 'quux')
+      baz.working_times.create!(:assignment => quux, :begin_date => Date.new(2000, 01, 15), :duration => 10, :notes => 'notes1')
+      XTeamSchedule::WorkingTime.create!(:assignment => quux, :begin_date => Date.new(2000, 02, 15), :duration => 11, :notes => 'notes2')
+      baz.working_times.create!(:begin_date => Date.new(2000, 03, 15), :duration => 12, :notes => 'notes3')
+      XTeamSchedule::WorkingTime.create!(:begin_date => Date.new(2000, 04, 15), :duration => 13, :notes => 'notes4')
+      @composer = XTeamSchedule::Composer.new(@schedule)
+      @composer.send(:compose_resource_groups!)
+      @composer.send(:compose_resources!)
+      @composer.send(:compose_assignment_groups!)
+      @composer.send(:compose_assignments!)
+    end
+    
+    def working_times
+      @composer.hash['objectsForResources'].map(&:first).map(&:second).flatten
+    end
+    
+    it 'creates working times' do
+      @composer.send(:compose_working_times!)
+      working_times.count.should_not be_zero
+    end
+    
+    it 'does not create working times without a resource' do
+      @composer.send(:compose_working_times!)
+      working_times.detect { |wt| wt['notes'] == 'notes2' }.should be_nil
+    end
+    
+    it 'does not create working times without an assignment' do
+      @composer.send(:compose_working_times!)
+      working_times.detect { |wt| wt['notes'] == 'notes3' }.should be_nil
+    end
+    
+    it 'does not create orphaned working times' do
+      @composer.send(:compose_working_times!)
+      working_times.detect { |wt| wt['notes'] == 'notes4' }.should be_nil
+    end
+    
+    it 'sets the begin date key correctly' do
+      @composer.send(:compose_working_times!)
+      working_times.detect { |wt| wt['begin date'] == '01/15/2000'}.should_not be_nil
+    end
+    
+    it 'sets the duration key correctly' do
+      @composer.send(:compose_working_times!)
+      working_times.detect { |wt| wt['duration'] == 10 }.should_not be_nil
+    end
+    
+    it 'sets the notes key correctly' do
+      @composer.send(:compose_working_times!)
+      working_times.detect { |wt| wt['notes'] == 'notes1' }.should_not be_nil
+    end
+  end
+  
+  describe '#compose_date' do
+    it 'has some specs'
   end
 end

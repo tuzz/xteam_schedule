@@ -16,6 +16,7 @@ class XTeamSchedule::Composer
     compose_resources!
     compose_assignment_groups!
     compose_assignments!
+    compose_working_times!
     hash
   end
   
@@ -39,7 +40,7 @@ private
       hash['resources'] << {
         'displayedInPlanning' => r.displayed_in_planning,
         'email' => r.email,
-        'image' => StringIO.new(r.image),
+        'image' => (StringIO.new(r.image) if r.image),
         'mobile' => r.mobile,
         'name' => r.name,
         'phone' => r.phone
@@ -66,5 +67,30 @@ private
         'name' => a.name
       }
     end
+  end
+  
+  def compose_working_times!
+    hash['objectsForResources'] ||= []
+    resources = schedule.resource_groups.map(&:resources).flatten
+    working_times = resources.map(&:working_times).flatten
+    working_times_with_parents = working_times.select { |wt| wt.resource and wt.assignment }
+    working_times_with_parents.each do |wt|
+      hash['objectsForResources'] << [
+        [wt.resource.name, [{
+          'task' => wt.assignment.name,
+          'begin date' => compose_date(wt.begin_date),
+          'duration' => wt.duration,
+          'notes' => wt.notes
+        }]]
+      ]
+    end
+  end
+  
+  def compose_date(date)
+    components = []
+    components << ("%02d" % date.month)
+    components << ("%02d" % date.day)
+    components << date.year
+    components.join('/')
   end
 end
