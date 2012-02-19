@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe XTeamSchedule::Assignment do
   
+  describe 'defaults' do
+    it 'uses 0 for kind' do
+      XTeamSchedule::Assignment.new.kind.should be_zero
+    end
+  end
+  
   describe 'associations' do
     before do
       @assignment = Factory(:assignment)
@@ -46,6 +52,11 @@ describe XTeamSchedule::Assignment do
     it 'requires unique names' do
       duplicate = XTeamSchedule::Assignment.new(:name => @assignment.name)
       duplicate.should_not be_valid
+    end
+    
+    it 'requires a kind' do
+      @assignment.kind = nil
+      @assignment.should_not be_valid
     end
   end
   

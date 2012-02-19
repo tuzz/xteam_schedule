@@ -6,6 +6,10 @@ describe XTeamSchedule::Resource do
     it 'uses true for displayed_in_planning' do
       XTeamSchedule::Resource.new.displayed_in_planning.should be_true
     end
+    
+    it 'uses 0 for kind' do
+      XTeamSchedule::Resource.new.kind.should be_zero
+    end
   end
   
   describe 'associations' do
@@ -52,6 +56,11 @@ describe XTeamSchedule::Resource do
     it 'requires unique names' do
       duplicate = XTeamSchedule::Resource.new(:name => @resource.name)
       duplicate.should_not be_valid
+    end
+    
+    it 'requires a kind' do
+      @resource.kind = nil
+      @resource.should_not be_valid
     end
   end
   

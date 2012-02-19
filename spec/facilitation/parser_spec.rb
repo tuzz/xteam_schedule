@@ -210,8 +210,8 @@ describe XTeamSchedule::Parser do
       @hash = {
         'resource groups' => [{ 'name' => 'foo' }],
         'task categories' => [{ 'name' => 'bar' }],
-        'resources' => [{ 'name' => 'baz', 'group' => 'foo' }],
-        'tasks' => [{ 'name' => 'quux', 'category' => 'bar'}],
+        'resources' => [{ 'name' => 'baz', 'group' => 'foo', 'kind' => 0 }],
+        'tasks' => [{ 'name' => 'quux', 'category' => 'bar', 'kind' => 0 }],
         'objectsForResources' => [
           ['baz', [{ 'task' => 'quux', 'begin date' => '01/15/2000', 'duration' => 10, 'notes' => 'notes1'}]],
           ['zab', [{ 'task' => 'quux', 'begin date' => '02/15/2000', 'duration' => 11, 'notes' => 'notes2'}]],
