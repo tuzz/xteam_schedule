@@ -161,10 +161,10 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_assignments!' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
-      ag = @schedule.assignment_groups.new(:name => 'foo')
-      ag.assignments.new(:name => 'bar')
-      XTeamSchedule::Assignment.new(:name => 'baz')
+      @schedule = XTeamSchedule::Schedule.create!
+      ag = @schedule.assignment_groups.create!(:name => 'foo')
+      ag.assignments.create!(:name => 'bar')
+      XTeamSchedule::Assignment.create!(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_assignment_groups!)
     end

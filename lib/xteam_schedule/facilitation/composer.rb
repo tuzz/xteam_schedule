@@ -64,7 +64,8 @@ private
     assignments = schedule.assignment_groups.map(&:assignments).flatten
     assignments.each do |a|
       hash['tasks'] << {
-        'name' => a.name
+        'name' => a.name,
+        'category' => a.assignment_group.name
       }
     end
   end
