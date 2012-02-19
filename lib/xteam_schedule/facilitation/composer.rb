@@ -75,7 +75,7 @@ private
     resources = schedule.resource_groups.map(&:resources).flatten
     resources.each do |r|
       working_times_with_parents = r.working_times.select { |wt| wt.resource and wt.assignment }
-      next unless working_times_with_parents
+      next unless working_times_with_parents.any?
       hash['objectsForResources'].merge!(r.name => [])
       working_times_with_parents.each do |wt|
         hash['objectsForResources'][r.name] << {
