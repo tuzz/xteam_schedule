@@ -213,6 +213,11 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_assignments!)
       @composer.hash['tasks'].detect { |a| a['kind'] == 0 }.should_not be_nil
     end
+    
+    it 'sets the category attribute correctly' do
+      @composer.send(:compose_assignments!)
+      @composer.hash['tasks'].detect { |a| a['category'] == 'foo' }.should_not be_nil
+    end
   end
   
   describe '#compose_working_times!' do
