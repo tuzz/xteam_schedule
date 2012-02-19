@@ -53,6 +53,14 @@ describe XTeamSchedule::Schedule do
       quux = bar.resources.create!(:name => 'quux')
       @schedule.resources.should == [baz, quux]
     end
+    
+    it 'has many assignments through assignment groups' do
+      foo = @schedule.assignment_groups.create(:name => 'foo')
+      bar = @schedule.assignment_groups.create!(:name => 'bar')
+      baz = foo.assignments.create!(:name => 'baz')
+      quux = bar.assignments.create!(:name => 'quux')
+      @schedule.assignments.should == [baz, quux]
+    end
   end
   
 end
