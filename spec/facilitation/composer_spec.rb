@@ -3,6 +3,13 @@ require 'spec_helper'
 describe XTeamSchedule::Composer do
   
   describe '.compose' do
+    it 'saves the schedule' do
+      schedule = XTeamSchedule::Schedule.new
+      schedule.should be_new_record
+      XTeamSchedule::Composer.compose(schedule)
+      schedule.should_not be_new_record
+    end
+    
     it 'returns a hash' do
       schedule = XTeamSchedule::Schedule.new
       XTeamSchedule::Composer.compose(schedule).should be_a Hash
