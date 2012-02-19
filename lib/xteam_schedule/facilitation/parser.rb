@@ -62,7 +62,8 @@ private
       assignment_group = schedule.assignment_groups.find_by_name(a['category'])
       if assignment_group
         assignment_group.assignments.create!(
-          :name => a['name']
+          :name => a['name'],
+          :kind => a['kind']
         )
       end
     end

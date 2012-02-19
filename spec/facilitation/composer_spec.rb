@@ -163,7 +163,7 @@ describe XTeamSchedule::Composer do
     before do
       @schedule = XTeamSchedule::Schedule.create!
       ag = @schedule.assignment_groups.create!(:name => 'foo')
-      ag.assignments.create!(:name => 'bar')
+      ag.assignments.create!(:name => 'bar', :kind => 0)
       XTeamSchedule::Assignment.create!(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_assignment_groups!)
@@ -176,13 +176,18 @@ describe XTeamSchedule::Composer do
     
     it 'does not create orphaned assignments' do
       @composer.send(:compose_assignments!)
-      @composer.hash['tasks'].detect { |r| r['name'] == 'bar' }.should_not be_nil
-      @composer.hash['tasks'].detect { |r| r['name'] == 'baz' }.should be_nil
+      @composer.hash['tasks'].detect { |a| a['name'] == 'bar' }.should_not be_nil
+      @composer.hash['tasks'].detect { |a| a['name'] == 'baz' }.should be_nil
     end
     
     it 'sets the name key correctly' do
       @composer.send(:compose_assignments!)
-      @composer.hash['tasks'].detect { |r| r['name'] == 'bar' }.should_not be_nil
+      @composer.hash['tasks'].detect { |a| a['name'] == 'bar' }.should_not be_nil
+    end
+    
+    it 'sets the kind key correctly' do
+      @composer.send(:compose_assignments!)
+      @composer.hash['tasks'].detect { |a| a['kind'] == 0 }.should_not be_nil
     end
   end
   

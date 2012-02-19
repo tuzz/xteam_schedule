@@ -171,8 +171,8 @@ describe XTeamSchedule::Parser do
     before do
       @hash = {
         'task categories' => [{ 'name' => 'foo' }],
-        'tasks' => [{ 'category' => 'foo', 'name' => 'bar' },
-                    { 'category' => 'baz', 'name' => 'quux' }]
+        'tasks' => [{ 'category' => 'foo', 'name' => 'bar', 'kind' => 0 },
+                    { 'category' => 'baz', 'name' => 'quux', 'kind' => 1 }]
       }
       @parser = XTeamSchedule::Parser.new(@hash)
       @parser.send(:parse_assignment_groups!)
@@ -192,6 +192,11 @@ describe XTeamSchedule::Parser do
     it 'sets the name attribute correctly' do
       @parser.send(:parse_assignments!)
       XTeamSchedule::Assignment.find_by_name('bar').should_not be_nil
+    end
+    
+    it 'sets the kind attribute correctly' do
+      @parser.send(:parse_assignments!)
+      XTeamSchedule::Assignment.find_by_kind('0').should_not be_nil
     end
   end
   

@@ -65,7 +65,8 @@ private
     assignments.each do |a|
       hash['tasks'] << {
         'name' => a.name,
-        'category' => a.assignment_group.name
+        'category' => a.assignment_group.name,
+        'kind' => a.kind
       }
     end
   end
