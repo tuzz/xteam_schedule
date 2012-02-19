@@ -28,7 +28,8 @@ private
     resource_groups.each do |rg|
       hash['resource groups'] << {
         'name' => rg.name,
-        'expanded in library' => rg.expanded_in_library
+        'expanded in library' => rg.expanded_in_library,
+        'kind' => rg.kind
       }
     end
   end
@@ -55,7 +56,8 @@ private
     assignment_groups.each do |ag|
       hash['task categories'] << {
         'name' => ag.name,
-        'expanded in library' => ag.expanded_in_library
+        'expanded in library' => ag.expanded_in_library,
+        'kind' => ag.kind
       }
     end
   end

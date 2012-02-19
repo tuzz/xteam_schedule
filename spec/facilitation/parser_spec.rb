@@ -59,8 +59,8 @@ describe XTeamSchedule::Parser do
   describe '#parse_resource_groups!' do
     before do
       @hash = { 'resource groups' => [
-        { 'name' => 'foo', 'expanded in library' => true },
-        { 'name' => 'bar', 'expanded in library' => false  }
+        { 'name' => 'foo', 'expanded in library' => true, 'kind' => 0 },
+        { 'name' => 'bar', 'expanded in library' => false, 'kind' => 1  }
       ]}
       @parser = XTeamSchedule::Parser.new(@hash)
     end
@@ -81,13 +81,19 @@ describe XTeamSchedule::Parser do
       XTeamSchedule::ResourceGroup.find_by_expanded_in_library(true).should_not be_nil
       XTeamSchedule::ResourceGroup.find_by_expanded_in_library(false).should_not be_nil
     end
+    
+    it 'sets the kind attribute correctly' do
+      @parser.send(:parse_resource_groups!)
+      XTeamSchedule::ResourceGroup.find_by_kind(0).should_not be_nil
+      XTeamSchedule::ResourceGroup.find_by_kind(1).should_not be_nil
+    end
   end
   
   describe '#parse_resources!' do
     before do
       image = StringIO.new('image')
       @hash = {
-        'resource groups' => [{ 'name' => 'foo'}],
+        'resource groups' => [{ 'name' => 'foo', 'kind' => 0 }],
         'resources' => [
           { 'displayedInPlanning' => false, 'email' => 'foo@bar.com', 'group' => 'foo', 'kind' => 0,
             'image' => image, 'mobile' => '0123456789', 'name' => 'bar', 'phone' => '9876543210' },
@@ -148,8 +154,8 @@ describe XTeamSchedule::Parser do
   describe '#parse_assignment_groups!' do
     before do
       @hash = { 'task categories' => [
-        { 'name' => 'foo', 'expanded in library' => true },
-        { 'name' => 'bar', 'expanded in library' => false  }
+        { 'name' => 'foo', 'expanded in library' => true, 'kind' => 0 },
+        { 'name' => 'bar', 'expanded in library' => false, 'kind' => 1  }
       ]}
       @parser = XTeamSchedule::Parser.new(@hash)
     end
@@ -170,12 +176,18 @@ describe XTeamSchedule::Parser do
       XTeamSchedule::AssignmentGroup.find_by_expanded_in_library(true).should_not be_nil
       XTeamSchedule::AssignmentGroup.find_by_expanded_in_library(false).should_not be_nil
     end
+    
+    it 'sets the kind attribute correctly' do
+      @parser.send(:parse_assignment_groups!)
+      XTeamSchedule::AssignmentGroup.find_by_kind(0).should_not be_nil
+      XTeamSchedule::AssignmentGroup.find_by_kind(1).should_not be_nil
+    end
   end
   
   describe '#parse_assignments!' do
     before do
       @hash = {
-        'task categories' => [{ 'name' => 'foo' }],
+        'task categories' => [{ 'name' => 'foo', 'kind' => 0 }],
         'tasks' => [{ 'category' => 'foo', 'name' => 'bar', 'kind' => 0 },
                     { 'category' => 'baz', 'name' => 'quux', 'kind' => 1 }]
       }
@@ -208,8 +220,8 @@ describe XTeamSchedule::Parser do
   describe '#parse_working_times!' do
     before do
       @hash = {
-        'resource groups' => [{ 'name' => 'foo' }],
-        'task categories' => [{ 'name' => 'bar' }],
+        'resource groups' => [{ 'name' => 'foo', 'kind' => 0  }],
+        'task categories' => [{ 'name' => 'bar', 'kind' => 0  }],
         'resources' => [{ 'name' => 'baz', 'group' => 'foo', 'kind' => 0 }],
         'tasks' => [{ 'name' => 'quux', 'category' => 'bar', 'kind' => 0 }],
         'objectsForResources' => [

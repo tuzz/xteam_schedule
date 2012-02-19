@@ -57,8 +57,8 @@ describe XTeamSchedule::Composer do
   describe '#compose_resource_groups!' do
     before do
       @schedule = XTeamSchedule::Schedule.new
-      @schedule.resource_groups.new(:name => 'foo', :expanded_in_library => true)
-      @schedule.resource_groups.new(:name => 'bar', :expanded_in_library => false)
+      @schedule.resource_groups.new(:name => 'foo', :expanded_in_library => true, :kind => 0)
+      @schedule.resource_groups.new(:name => 'bar', :expanded_in_library => false, :kind => 1)
       @composer = XTeamSchedule::Composer.new(@schedule)
     end
     
@@ -77,6 +77,12 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_resource_groups!)
       @composer.hash['resource groups'].detect { |rg| rg['expanded in library'] == true }.should_not be_nil
       @composer.hash['resource groups'].detect { |rg| rg['expanded in library'] == false }.should_not be_nil
+    end
+    
+    it 'sets the kind key correctly' do
+      @composer.send(:compose_resource_groups!)
+      @composer.hash['resource groups'].detect { |rg| rg['kind'] == 0 }.should_not be_nil
+      @composer.hash['resource groups'].detect { |rg| rg['kind'] == 1 }.should_not be_nil
     end
   end
   
@@ -141,8 +147,8 @@ describe XTeamSchedule::Composer do
   describe '#compose_assignment_groups!' do
     before do
       @schedule = XTeamSchedule::Schedule.new
-      @schedule.assignment_groups.new(:name => 'foo', :expanded_in_library => true)
-      @schedule.assignment_groups.new(:name => 'bar', :expanded_in_library => false)
+      @schedule.assignment_groups.new(:name => 'foo', :expanded_in_library => true, :kind => 0)
+      @schedule.assignment_groups.new(:name => 'bar', :expanded_in_library => false, :kind => 1)
       @composer = XTeamSchedule::Composer.new(@schedule)
     end
     
@@ -161,6 +167,12 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_assignment_groups!)
       @composer.hash['task categories'].detect { |ag| ag['expanded in library'] == true }.should_not be_nil
       @composer.hash['task categories'].detect { |ag| ag['expanded in library'] == false }.should_not be_nil
+    end
+    
+    it 'sets the kind key correctly' do
+      @composer.send(:compose_assignment_groups!)
+      @composer.hash['task categories'].detect { |ag| ag['kind'] == 0 }.should_not be_nil
+      @composer.hash['task categories'].detect { |ag| ag['kind'] == 1 }.should_not be_nil
     end
   end
   

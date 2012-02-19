@@ -6,6 +6,11 @@ describe XTeamSchedule::AssignmentGroup do
     it 'uses true for expanded_in_library' do
       XTeamSchedule::AssignmentGroup.new.expanded_in_library.should be_true
     end
+    
+    it 'uses 0 for kind' do
+      XTeamSchedule::AssignmentGroup.new.kind.should == 0
+    end
+    
   end
   
   describe 'associations' do
@@ -46,6 +51,11 @@ describe XTeamSchedule::AssignmentGroup do
     it 'requires unique names' do
       duplicate = XTeamSchedule::AssignmentGroup.new(:name => @assignment_group.name)
       duplicate.should_not be_valid
+    end
+    
+    it 'requires a kind' do
+      @assignment_group.kind = nil
+      @assignment_group.should_not be_valid
     end
   end
   

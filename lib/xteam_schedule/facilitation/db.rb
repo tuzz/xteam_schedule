@@ -18,6 +18,7 @@ class XTeamSchedule::DB
         table.column :schedule_id, :integer
         table.column :expanded_in_library, :boolean, :default => true
         table.column :name, :string
+        table.column :kind, :integer, :default => 0
       end
       
       create_table :resources do |table|
@@ -35,6 +36,7 @@ class XTeamSchedule::DB
         table.column :schedule_id, :integer
         table.column :expanded_in_library, :boolean, :default => true
         table.column :name, :string
+        table.column :kind, :integer, :default => 0
       end
       
       create_table :assignments do |table|
