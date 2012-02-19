@@ -69,20 +69,21 @@ private
   end
   
   def parse_working_times!
-    hash['objectsForResources'].try(:each) do |wt_array|
-      r_name = wt_array.first
-      resource = schedule.resources.find_by_name(r_name)
-      if resource
-        wt = wt_array.second.first
-        assignment = schedule.assignments.find_by_name(wt['task'])
-        if assignment
-          assignment.working_times.create!(
-            :resource => resource,
-            :begin_date => parse_date(wt['begin date']),
-            :duration => wt['duration'],
-            :notes => wt['notes']
-          )
-        end
+    resources = schedule.resource_groups.map(&:resources).flatten
+    assignments = schedule.assignment_groups.map(&:assignments).flatten
+    hash['objectsForResources'] ||= {}
+    hash['objectsForResources'].each do |r_name, wt_array|
+      resource = resources.detect { |r| r.name == r_name }
+      next unless resource
+      wt_array.each do |wt|
+        assignment = assignments.detect { |a| a.name == wt['task'] }
+        next unless assignment
+        resource.working_times.create!(
+          :assignment => assignment,
+          :begin_date => parse_date(wt['begin date']),
+          :duration => wt['duration'],
+          :notes => wt['notes']
+        )
       end
     end
   end
