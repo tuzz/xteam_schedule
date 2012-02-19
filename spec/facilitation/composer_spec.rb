@@ -85,7 +85,7 @@ describe XTeamSchedule::Composer do
       @schedule = XTeamSchedule::Schedule.new
       rg = @schedule.resource_groups.new(:name => 'foo')
       rg.resources.new(:displayed_in_planning => false, :email => 'foo@bar.com', :image => 'image',
-                       :mobile => '0123456789', 'name' => 'bar', 'phone' => '9876543210')
+                       :mobile => '0123456789', 'name' => 'bar', 'phone' => '9876543210', 'kind' => 0)
       XTeamSchedule::Resource.new(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_resource_groups!)
@@ -130,6 +130,11 @@ describe XTeamSchedule::Composer do
     it 'sets the phone key correctly' do
       @composer.send(:compose_resources!)
       @composer.hash['resources'].detect { |r| r['phone'] == '9876543210' }.should_not be_nil
+    end
+    
+    it 'sets the kind key correctly' do
+      @composer.send(:compose_resources!)
+      @composer.hash['resources'].detect { |r| r['kind'] == 0 }.should_not be_nil
     end
   end
   

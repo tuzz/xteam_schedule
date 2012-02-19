@@ -89,9 +89,9 @@ describe XTeamSchedule::Parser do
       @hash = {
         'resource groups' => [{ 'name' => 'foo'}],
         'resources' => [
-          { 'displayedInPlanning' => false, 'email' => 'foo@bar.com', 'group' => 'foo',
+          { 'displayedInPlanning' => false, 'email' => 'foo@bar.com', 'group' => 'foo', 'kind' => 0,
             'image' => image, 'mobile' => '0123456789', 'name' => 'bar', 'phone' => '9876543210' },
-          { 'group' => 'bar', 'name' => 'baz' }
+          { 'group' => 'bar', 'name' => 'baz', 'kind' => 0 }
         ]
       }
       @parser = XTeamSchedule::Parser.new(@hash)
@@ -137,6 +137,11 @@ describe XTeamSchedule::Parser do
     it 'sets the phone attribute correctly' do
       @parser.send(:parse_resources!)
       XTeamSchedule::Resource.find_by_phone('9876543210').should_not be_nil
+    end
+    
+    it 'sets the kind attribute correctly' do
+      @parser.send(:parse_resources!)
+      XTeamSchedule::Resource.find_by_kind(0).should_not be_nil
     end
   end
   

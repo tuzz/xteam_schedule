@@ -28,6 +28,7 @@ class XTeamSchedule::DB
         table.column :mobile, :string
         table.column :name, :string
         table.column :phone, :string
+        table.column :kind, :integer
       end
       
       create_table :assignment_groups do |table|

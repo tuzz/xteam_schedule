@@ -43,7 +43,8 @@ private
         'image' => (StringIO.new(r.image) if r.image),
         'mobile' => r.mobile,
         'name' => r.name,
-        'phone' => r.phone
+        'phone' => r.phone,
+        'kind' => r.kind
       }
     end
   end

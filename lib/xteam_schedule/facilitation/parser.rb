@@ -42,7 +42,8 @@ private
           :image => image,
           :mobile => r['mobile'],
           :name => r['name'],
-          :phone => r['phone']
+          :phone => r['phone'],
+          :kind => r['kind']
         )
       end
     end
