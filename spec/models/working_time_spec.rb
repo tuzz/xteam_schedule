@@ -18,12 +18,6 @@ describe XTeamSchedule::WorkingTime do
       assignment = Factory(:assignment, :working_times => [@working_time])
       @working_time.assignment.should == assignment
     end
-    
-    it 'belongs to a schedule' do
-      @working_time.schedule.should be_nil
-      schedule = Factory(:schedule, :working_times => [@working_time])
-      @working_time.schedule.should == schedule
-    end
   end
   
   describe 'validations' do
