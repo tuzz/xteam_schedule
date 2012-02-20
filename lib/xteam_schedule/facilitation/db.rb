@@ -41,6 +41,7 @@ class XTeamSchedule::DB
       
       create_table :assignments do |table|
         table.column :assignment_group_id, :integer
+        table.column :colour_id, :integer
         table.column :name, :string
         table.column :kind, :integer, :default => 0
       end

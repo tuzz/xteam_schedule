@@ -20,6 +20,19 @@ describe XTeamSchedule::Colour do
     end
   end
   
+  describe 'associations' do
+    before do
+      @colour = Factory(:colour)
+    end
+    
+    it 'has many assignments' do
+      @colour.assignments.should == []
+      assignment = @colour.assignments.create!(:name => 'foo')
+      @colour.assignments.count.should == 1
+      @colour.assignments.should == [assignment]
+    end
+  end
+  
   describe 'validations' do
     before do
       @colour = Factory(:colour)
