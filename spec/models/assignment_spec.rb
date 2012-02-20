@@ -13,7 +13,7 @@ describe XTeamSchedule::Assignment do
       @assignment = Factory(:assignment)
     end
     
-    it 'belongs to a assignment group' do
+    it 'belongs to an assignment group' do
       @assignment.assignment_group.should be_nil
       assignment_group = Factory(:assignment_group, :assignments => [@assignment])
       @assignment.assignment_group.should == assignment_group
