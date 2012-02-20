@@ -1,3 +1,3 @@
 class XTeamSchedule::Colour < ActiveRecord::Base
-  validates_presence_of :red, :green, :blue
+  validates_presence_of :alpha, :red, :green, :blue
 end

@@ -54,6 +54,7 @@ class XTeamSchedule::DB
       end
       
       create_table :colours do |table|
+        table.column :alpha, :float, :default => 1
         table.column :red, :float, :default => 0.5
         table.column :green, :float, :default => 0.5
         table.column :blue, :float, :default => 0.5

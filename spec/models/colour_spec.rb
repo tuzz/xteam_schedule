@@ -3,6 +3,10 @@ require 'spec_helper'
 describe XTeamSchedule::Colour do
   
   describe 'defaults' do
+    it 'uses 1 for alpha' do
+      XTeamSchedule::Colour.new.alpha.should == 1
+    end
+    
     it 'uses 0.5 for red' do
       XTeamSchedule::Colour.new.red.should == 0.5
     end
@@ -19,6 +23,11 @@ describe XTeamSchedule::Colour do
   describe 'validations' do
     before do
       @colour = Factory(:colour)
+    end
+    
+    it 'requires an alpha' do
+      @colour.alpha = nil
+      @colour.should_not be_valid
     end
     
     it 'requires a red' do
