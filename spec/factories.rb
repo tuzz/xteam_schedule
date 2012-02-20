@@ -24,4 +24,7 @@ FactoryGirl.define do
     duration 10
   end
   
+  factory :colour, :class => XTeamSchedule::Colour do
+  end
+  
 end

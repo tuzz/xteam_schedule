@@ -53,6 +53,12 @@ class XTeamSchedule::DB
         table.column :notes, :string
       end
       
+      create_table :colours do |table|
+        table.column :red, :float, :default => 0.5
+        table.column :green, :float, :default => 0.5
+        table.column :blue, :float, :default => 0.5
+      end
+      
     end
   end
   
