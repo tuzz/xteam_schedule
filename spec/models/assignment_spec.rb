@@ -86,7 +86,7 @@ describe XTeamSchedule::Assignment do
       @assignment = Factory(:assignment)
     end
     
-    it "should alias 'color' to 'colour'" do
+    it "aliases 'color' to 'colour'" do
       @assignment.color.should == @assignment.colour
     end
   end
