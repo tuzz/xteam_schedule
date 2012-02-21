@@ -19,12 +19,6 @@ describe XTeamSchedule::Assignment do
       @assignment.assignment_group.should == assignment_group
     end
     
-    it 'belongs to a colour' do
-      @assignment.colour.should be_nil
-      colour = Factory(:colour, :assignments => [@assignment])
-      @assignment.colour.should == colour
-    end
-    
     it 'has many working_times' do
       @assignment.working_times.should == []
       working_time = @assignment.working_times.create!(:begin_date => Date.new, :duration => 0)

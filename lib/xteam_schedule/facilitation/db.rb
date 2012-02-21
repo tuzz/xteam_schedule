@@ -41,7 +41,6 @@ class XTeamSchedule::DB
       
       create_table :assignments do |table|
         table.column :assignment_group_id, :integer
-        table.column :colour_id, :integer
         table.column :name, :string
         table.column :kind, :integer, :default => 0
       end
@@ -52,13 +51,6 @@ class XTeamSchedule::DB
         table.column :begin_date, :date
         table.column :duration, :integer
         table.column :notes, :string
-      end
-      
-      create_table :colours do |table|
-        table.column :alpha, :float, :default => 1
-        table.column :red, :float, :default => 0.5
-        table.column :green, :float, :default => 0.5
-        table.column :blue, :float, :default => 0.5
       end
       
     end
