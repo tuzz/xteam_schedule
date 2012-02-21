@@ -69,12 +69,12 @@ describe XTeamSchedule::Assignment do
     end
     
     it 'requires a 0 - 1 rgba colour string' do
-      %w{red #ff0 #00ff00 0.5 -1,1,1,1}.each do |invalid|
+      %w{red    #ff0    #00ff00    0.5    -1,1,1,1}.each do |invalid|
         @assignment.colour = invalid
         @assignment.should_not be_valid, "#{invalid}"
       end
       
-      %w{1,1,1,1 0,0,0,0 0.1,0.2,0.3,0.4 1,0,0.5,0.5}.each do |valid|
+      %w{1,1,1,1    0,0,0,0    0.1,0.2,0.3,0.4    1,0,0.5,0.5}.each do |valid|
         @assignment.colour = valid
         @assignment.should be_valid, "#{valid}"
       end
