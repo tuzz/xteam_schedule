@@ -6,10 +6,6 @@ describe XTeamSchedule::Assignment do
     it 'uses 0 for kind' do
       XTeamSchedule::Assignment.new.kind.should be_zero
     end
-    
-    it "uses '0.5,0.5,0.5,1' for colour" do
-      XTeamSchedule::Assignment.new[:colour].should == '0.5,0.5,0.5,1'
-    end
   end
   
   describe 'associations' do
@@ -61,43 +57,6 @@ describe XTeamSchedule::Assignment do
     it 'requires a kind' do
       @assignment.kind = nil
       @assignment.should_not be_valid
-    end
-    
-    it 'requires a colour' do
-      @assignment.colour = nil
-      @assignment.should_not be_valid
-    end
-    
-    it 'requires a 0 - 1 rgba colour string' do
-      %w{red    #ff0    #00ff00    0.5    -1,1,1,1}.each do |invalid|
-        @assignment.colour = invalid
-        @assignment.should_not be_valid, "#{invalid}"
-      end
-      
-      %w{1,1,1,1    0,0,0,0    0.1,0.2,0.3,0.4    1,0,0.5,0.5}.each do |valid|
-        @assignment.colour = valid
-        @assignment.should be_valid, "#{valid}"
-      end
-    end
-  end
-  
-  describe 'aliases' do
-    before do
-      @assignment = Factory(:assignment)
-    end
-    
-    it "aliases 'color' to 'colour'" do
-      @assignment.color.should == @assignment.colour
-    end
-  end
-  
-  describe '#colour' do
-    before do
-      @assignment = Factory(:assignment, :colour => '0.1,0.2,0.3,0.4')
-    end
-    
-    it 'parses the colour attribute into a friendly hash' do
-      @assignment.colour.should == { :red => 0.1, :green => 0.2, :blue => 0.3, :alpha => 0.4 }
     end
   end
   

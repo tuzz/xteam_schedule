@@ -43,7 +43,6 @@ class XTeamSchedule::DB
         table.column :assignment_group_id, :integer
         table.column :name, :string
         table.column :kind, :integer, :default => 0
-        table.column :colour, :string, :default => '0.5,0.5,0.5,1'
       end
       
       create_table :working_times do |table|
