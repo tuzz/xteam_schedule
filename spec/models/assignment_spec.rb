@@ -8,7 +8,7 @@ describe XTeamSchedule::Assignment do
     end
     
     it "uses '0.5,0.5,0.5,1' for colour" do
-      XTeamSchedule::Assignment.new.colour.should == '0.5,0.5,0.5,1'
+      XTeamSchedule::Assignment.new[:colour].should == '0.5,0.5,0.5,1'
     end
   end
   
@@ -78,6 +78,16 @@ describe XTeamSchedule::Assignment do
         @assignment.colour = valid
         @assignment.should be_valid, "#{valid}"
       end
+    end
+  end
+  
+  describe '#colour' do
+    before do
+      @assignment = Factory(:assignment, :colour => '0.1,0.2,0.3,0.4')
+    end
+    
+    it 'parses the colour attribute into a friendly hash' do
+      @assignment.colour.should == { :red => 0.1, :green => 0.2, :blue => 0.3, :alpha => 0.4 }
     end
   end
   

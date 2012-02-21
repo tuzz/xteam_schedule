@@ -8,6 +8,13 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   validates_presence_of :kind, :colour
   validate :rgba_colour
   
+  def colour
+    red, green, blue, alpha = self[:colour].split(',').map { |c| Float(c) }
+    { :red => red, :green => green, :blue => blue, :alpha => alpha}
+  rescue
+    { :red => 0.5, :green => 0.5, :blue => 0.5, :alpha => 1 }
+  end
+  
 private
 
   def rgba_colour
