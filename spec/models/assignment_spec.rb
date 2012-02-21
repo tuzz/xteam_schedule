@@ -81,6 +81,16 @@ describe XTeamSchedule::Assignment do
     end
   end
   
+  describe 'aliases' do
+    before do
+      @assignment = Factory(:assignment)
+    end
+    
+    it "should alias 'color' to 'colour'" do
+      @assignment.color.should == @assignment.colour
+    end
+  end
+  
   describe '#colour' do
     before do
       @assignment = Factory(:assignment, :colour => '0.1,0.2,0.3,0.4')

@@ -14,6 +14,7 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   rescue
     { :red => 0.5, :green => 0.5, :blue => 0.5, :alpha => 1 }
   end
+  alias :color :colour
   
 private
 
