@@ -12,6 +12,8 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   after_initialize :set_default_colour
   before_save :symbolize_colour!
   after_validation :float_colour_values!
+
+  alias_attribute :color, :colour
   
 private
   
