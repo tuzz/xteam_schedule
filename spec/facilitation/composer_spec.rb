@@ -192,7 +192,7 @@ describe XTeamSchedule::Composer do
     before do
       @schedule = XTeamSchedule::Schedule.new
       ag = @schedule.assignment_groups.new(:name => 'foo')
-      ag.assignments.new(:name => 'bar', :kind => 0)
+      ag.assignments.new(:name => 'bar', :kind => 0, :colour => { :red => 0.1, :green => 0.2, :blue => 0.3 })
       XTeamSchedule::Assignment.new(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_assignment_groups!)
@@ -222,6 +222,12 @@ describe XTeamSchedule::Composer do
     it 'sets the category attribute correctly' do
       @composer.send(:compose_assignments!)
       @composer.hash['tasks'].detect { |a| a['category'] == 'foo' }.should_not be_nil
+    end
+    
+    it 'sets the colour attribute correctly' do
+      @composer.send(:compose_assignments!)
+      @composer.hash['tasks'].detect { |a| a['color'] == {
+        'alpha' => 1, 'red' => 0.1, 'green' => 0.2, 'blue' => 0.3 }}.should_not be_nil
     end
   end
   
@@ -280,6 +286,18 @@ describe XTeamSchedule::Composer do
     it 'sets the notes key correctly' do
       @composer.send(:compose_working_times!)
       working_times.detect { |wt| wt['notes'] == 'notes1' }.should_not be_nil
+    end
+  end
+  
+  describe '#compose_colour' do
+    before do
+      schedule = XTeamSchedule::Schedule.new
+      @composer = XTeamSchedule::Composer.new(schedule)
+    end
+    
+    it 'creates a correspoding colour hash' do
+      @composer.send(:compose_colour, { :red => 0.1, :green => 0.2, :blue => 0.3 }).
+        should == { 'alpha' => 1, 'red' => 0.1, 'green' => 0.2, 'blue' => 0.3 }
     end
   end
   

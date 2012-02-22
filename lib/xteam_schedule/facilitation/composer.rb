@@ -71,7 +71,8 @@ private
       hash['tasks'] << {
         'name' => a.name,
         'category' => a.assignment_group.name,
-        'kind' => a.kind
+        'kind' => a.kind,
+        'color' => compose_colour(a.colour)
       }
     end
   end
@@ -92,6 +93,10 @@ private
         }
       end
     end
+  end
+  
+  def compose_colour(colour_hash)
+    { 'alpha' => 1 }.merge([:red, :green, :blue].inject({}) { |h, c| h[c.to_s] = colour_hash[c]; h })
   end
   
   def compose_date(date)
