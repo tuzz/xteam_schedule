@@ -6,6 +6,10 @@ describe XTeamSchedule::Assignment do
     it 'uses 0 for kind' do
       XTeamSchedule::Assignment.new.kind.should be_zero
     end
+    
+    it 'uses { :red => 0.5, :green => 0.5, :blue => 0.5 } for colour' do
+      XTeamSchedule::Assignment.new.colour.should == { :red => 0.5, :green => 0.5, :blue => 0.5 }
+    end
   end
   
   describe 'associations' do
@@ -56,6 +60,11 @@ describe XTeamSchedule::Assignment do
     
     it 'requires a kind' do
       @assignment.kind = nil
+      @assignment.should_not be_valid
+    end
+    
+    it 'requires a colour' do
+      @assignment.colour = nil
       @assignment.should_not be_valid
     end
   end
