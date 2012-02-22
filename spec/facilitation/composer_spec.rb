@@ -238,10 +238,10 @@ describe XTeamSchedule::Composer do
       bar = @schedule.assignment_groups.new(:name => 'bar')
       baz = foo.resources.new(:name => 'baz')
       quux = bar.assignments.new(:name => 'quux')
-      baz.working_times.new(:assignment => quux, :begin_date => Date.new(2000, 01, 15), :duration => 10, :notes => 'notes1')
-      XTeamSchedule::WorkingTime.new(:assignment => quux, :begin_date => Date.new(2000, 02, 15), :duration => 11, :notes => 'notes2')
-      baz.working_times.new(:begin_date => Date.new(2000, 03, 15), :duration => 12, :notes => 'notes3')
-      XTeamSchedule::WorkingTime.new(:begin_date => Date.new(2000, 04, 15), :duration => 13, :notes => 'notes4')
+      baz.working_times.new(:assignment => quux, :begin_date => Date.new(2000, 01, 15), :duration => 10, :notes => 'notes1', :object_id => 1)
+      XTeamSchedule::WorkingTime.new(:assignment => quux, :begin_date => Date.new(2000, 02, 15), :duration => 11, :notes => 'notes2', :object_id => 2)
+      baz.working_times.new(:begin_date => Date.new(2000, 03, 15), :duration => 12, :notes => 'notes3', :object_id => 3)
+      XTeamSchedule::WorkingTime.new(:begin_date => Date.new(2000, 04, 15), :duration => 13, :notes => 'notes4', :object_id => 4)
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_resource_groups!)
       @composer.send(:compose_resources!)
@@ -286,6 +286,11 @@ describe XTeamSchedule::Composer do
     it 'sets the notes key correctly' do
       @composer.send(:compose_working_times!)
       working_times.detect { |wt| wt['notes'] == 'notes1' }.should_not be_nil
+    end
+    
+    it 'sets the object id key correctly' do
+      @composer.send(:compose_working_times!)
+      working_times.detect { |wt| wt['objectID'] == 1 }.should_not be_nil
     end
   end
   

@@ -87,7 +87,8 @@ private
           :assignment => assignment,
           :begin_date => parse_date(wt['begin date']),
           :duration => wt['duration'],
-          :notes => wt['notes']
+          :notes => wt['notes'],
+          :object_id => wt['objectID']
         )
       end
     end
