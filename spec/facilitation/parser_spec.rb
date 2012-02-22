@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe XTeamSchedule::Parser do
   
+  def color_hash(factor = 1)
+    { 'alpha' => 1, 'red' => 0.1 * factor, 'green' => 0.2 * factor, 'blue' => 0.3 * factor }
+  end
+  
   describe '.parse' do
     it 'returns an instance of Schedule' do
       XTeamSchedule::Parser.parse({}).should be_an XTeamSchedule::Schedule
@@ -154,8 +158,8 @@ describe XTeamSchedule::Parser do
   describe '#parse_assignment_groups!' do
     before do
       @hash = { 'task categories' => [
-        { 'name' => 'foo', 'expanded in library' => true, 'kind' => 0 },
-        { 'name' => 'bar', 'expanded in library' => false, 'kind' => 1  }
+        { 'name' => 'foo', 'expanded in library' => true, 'kind' => 0, 'color' => color_hash },
+        { 'name' => 'bar', 'expanded in library' => false, 'kind' => 1, 'color' => color_hash  }
       ]}
       @parser = XTeamSchedule::Parser.new(@hash)
     end
@@ -188,8 +192,8 @@ describe XTeamSchedule::Parser do
     before do
       @hash = {
         'task categories' => [{ 'name' => 'foo', 'kind' => 0 }],
-        'tasks' => [{ 'category' => 'foo', 'name' => 'bar', 'kind' => 0 },
-                    { 'category' => 'baz', 'name' => 'quux', 'kind' => 1 }]
+        'tasks' => [{ 'category' => 'foo', 'name' => 'bar', 'kind' => 0, 'color' => color_hash },
+                    { 'category' => 'baz', 'name' => 'quux', 'kind' => 1, 'color' => color_hash }]
       }
       @parser = XTeamSchedule::Parser.new(@hash)
       @parser.send(:parse_assignment_groups!)
@@ -215,6 +219,11 @@ describe XTeamSchedule::Parser do
       @parser.send(:parse_assignments!)
       XTeamSchedule::Assignment.find_by_kind('0').should_not be_nil
     end
+    
+    it 'sets the colour attribute correctly' do
+      @parser.send(:parse_assignments!)
+      XTeamSchedule::Assignment.first.colour.should == { :red => 0.1, :green => 0.2, :blue => 0.3 }
+    end
   end
   
   describe '#parse_working_times!' do
@@ -223,7 +232,7 @@ describe XTeamSchedule::Parser do
         'resource groups' => [{ 'name' => 'foo', 'kind' => 0  }],
         'task categories' => [{ 'name' => 'bar', 'kind' => 0  }],
         'resources' => [{ 'name' => 'baz', 'group' => 'foo', 'kind' => 0 }],
-        'tasks' => [{ 'name' => 'quux', 'category' => 'bar', 'kind' => 0 }],
+        'tasks' => [{ 'name' => 'quux', 'category' => 'bar', 'kind' => 0, 'color' => color_hash }],
         'objectsForResources' => [
           ['baz', [{ 'task' => 'quux', 'begin date' => '01/15/2000', 'duration' => 10, 'notes' => 'notes1'}]],
           ['zab', [{ 'task' => 'quux', 'begin date' => '02/15/2000', 'duration' => 11, 'notes' => 'notes2'}]],
@@ -271,6 +280,17 @@ describe XTeamSchedule::Parser do
     it 'sets the notes attribute correctly' do
       @parser.send(:parse_working_times!)
       XTeamSchedule::WorkingTime.find_by_notes('notes1').should_not be_nil
+    end
+  end
+  
+  describe '#parse_colour' do
+    before do
+      @parser = XTeamSchedule::Parser.new({})
+    end
+    
+    it 'creates a correspoding colour hash' do
+      @parser.send(:parse_colour, { 'alpha' => 1, 'red' => 0.1, 'green' => 0.2, 'blue' => 0.3 }).
+        should == { :red => 0.1, :green => 0.2, :blue => 0.3 }
     end
   end
   

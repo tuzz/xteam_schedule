@@ -66,7 +66,8 @@ private
       if assignment_group
         assignment_group.assignments.create!(
           :name => a['name'],
-          :kind => a['kind']
+          :kind => a['kind'],
+          :colour => parse_colour(a['color'])
         )
       end
     end
@@ -90,6 +91,10 @@ private
         )
       end
     end
+  end
+  
+  def parse_colour(colour_data)
+    [:red, :green, :blue].inject({}) { |h, c| h[c] = colour_data[c.to_s]; h }
   end
   
   def parse_date(date_string)
