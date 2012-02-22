@@ -11,6 +11,7 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   serialize :colour, Hash
   after_initialize :set_default_colour
   before_save :symbolize_colour!
+  after_validation :float_colour_values!
   
 private
   
@@ -20,6 +21,10 @@ private
   
   def symbolize_colour!
     self.colour = colour.inject({}) { |h, (k, v)| h[k.to_sym] = v; h }
+  end
+  
+  def float_colour_values!
+    self.colour = colour.inject({}) { |h, (k, v)| h[k] = v.to_f; h } if colour.class == Hash
   end
   
   def rgb_colour

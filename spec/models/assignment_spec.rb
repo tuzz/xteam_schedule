@@ -105,4 +105,16 @@ describe XTeamSchedule::Assignment do
     end
   end
   
+  describe '#float_colour_values!' do
+    before do
+      @assignment = Factory(:assignment)
+    end
+    
+    it 'converts hash values to floats' do
+      @assignment.colour = { :red => '0.5', :green => 0.5, :blue => '0.5' }
+      @assignment.send(:float_colour_values!)
+      @assignment.colour.should == { :red => 0.5, :green => 0.5, :blue => 0.5 }
+    end
+  end
+  
 end
