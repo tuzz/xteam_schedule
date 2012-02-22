@@ -90,7 +90,7 @@ private
           'begin date' => compose_date(wt.begin_date),
           'duration' => wt.duration,
           'notes' => wt.notes,
-          'objectID' => wt.object_id
+          'objectID' => wt.id
         }
       end
     end

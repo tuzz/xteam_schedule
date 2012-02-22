@@ -234,10 +234,10 @@ describe XTeamSchedule::Parser do
         'resources' => [{ 'name' => 'baz', 'group' => 'foo', 'kind' => 0 }],
         'tasks' => [{ 'name' => 'quux', 'category' => 'bar', 'kind' => 0, 'color' => color_hash }],
         'objectsForResources' => [
-          ['baz', [{ 'task' => 'quux', 'begin date' => '01/15/2000', 'duration' => 10, 'notes' => 'notes1', 'objectID' => 1 }]],
-          ['zab', [{ 'task' => 'quux', 'begin date' => '02/15/2000', 'duration' => 11, 'notes' => 'notes2', 'objectID' => 2 }]],
-          ['baz', [{ 'task' => 'xuuq', 'begin date' => '03/15/2000', 'duration' => 12, 'notes' => 'notes3', 'objectID' => 3 }]],
-          ['zab', [{ 'task' => 'xuuq', 'begin date' => '04/15/2000', 'duration' => 13, 'notes' => 'notes4', 'objectID' => 4 }]]
+          ['baz', [{ 'task' => 'quux', 'begin date' => '01/15/2000', 'duration' => 10, 'notes' => 'notes1'}]],
+          ['zab', [{ 'task' => 'quux', 'begin date' => '02/15/2000', 'duration' => 11, 'notes' => 'notes2'}]],
+          ['baz', [{ 'task' => 'xuuq', 'begin date' => '03/15/2000', 'duration' => 12, 'notes' => 'notes3'}]],
+          ['zab', [{ 'task' => 'xuuq', 'begin date' => '04/15/2000', 'duration' => 13, 'notes' => 'notes4'}]]
         ]
       }
       @parser = XTeamSchedule::Parser.new(@hash)
@@ -280,11 +280,6 @@ describe XTeamSchedule::Parser do
     it 'sets the notes attribute correctly' do
       @parser.send(:parse_working_times!)
       XTeamSchedule::WorkingTime.find_by_notes('notes1').should_not be_nil
-    end
-    
-    it 'sets the object id attribute correctly' do
-      @parser.send(:parse_working_times!)
-      XTeamSchedule::WorkingTime.find_by_object_id(1).should_not be_nil
     end
   end
   

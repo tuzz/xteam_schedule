@@ -52,7 +52,6 @@ class XTeamSchedule::DB
         table.column :begin_date, :date
         table.column :duration, :integer
         table.column :notes, :string
-        table.column :object_id, :integer
       end
       
     end
