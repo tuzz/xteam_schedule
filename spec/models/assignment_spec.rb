@@ -69,4 +69,16 @@ describe XTeamSchedule::Assignment do
     end
   end
   
+  describe '#symbolize_colour!' do
+    before do
+      @assignment = Factory(:assignment)
+    end
+    
+    it 'converts hash keys to symbols' do
+      @assignment.colour = { 'red' => 0.5, :green => 0.5, 'blue' => 0.5 }
+      @assignment.send(:symbolize_colour!)
+      @assignment.colour.should == { :red => 0.5, :green => 0.5, :blue => 0.5 }
+    end
+  end
+  
 end

@@ -9,11 +9,16 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   
   serialize :colour, Hash
   after_initialize :set_default_colour
+  before_save :symbolize_colour!
   
 private
   
   def set_default_colour
     self.colour = { :red => 0.5, :green => 0.5, :blue => 0.5 } if colour.empty?
+  end
+  
+  def symbolize_colour!
+    self.colour = colour.inject({}) { |h, (k, v)| h[k.to_sym] = v; h }
   end
   
 end
