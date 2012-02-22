@@ -6,6 +6,7 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   validates :name, :presence => true,
                    :uniqueness => true
   validates_presence_of :kind, :colour
+  validate :rgb_colour
   
   serialize :colour, Hash
   after_initialize :set_default_colour
@@ -19,6 +20,14 @@ private
   
   def symbolize_colour!
     self.colour = colour.inject({}) { |h, (k, v)| h[k.to_sym] = v; h }
+  end
+  
+  def rgb_colour
+    is_out_of_range = proc { |c| f = Float(c); f < 0 || f > 1 }
+    raise 'invalid' if [:red, :green, :blue].any? { |c| is_out_of_range[colour[c]] }
+    raise 'invalid' if colour.count != 3
+  rescue
+    errors.add(:colour, 'is not a valid rgb hash')
   end
   
 end

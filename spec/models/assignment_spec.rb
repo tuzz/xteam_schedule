@@ -67,6 +67,30 @@ describe XTeamSchedule::Assignment do
       @assignment.colour = nil
       @assignment.should_not be_valid
     end
+    
+    it 'requires a valid rgb hash' do
+      valid = [
+        { :red => 0.1, :green => 0.2, :blue => 0.3 },
+        { :red => 0, :green => 1, :blue => 0.5 },
+        { :red => 0.5, :green => 0.5, :blue => 0.5 }
+      ]
+      valid.each do |valid|
+        @assignment.colour = valid
+        @assignment.should be_valid, "#{valid}"
+      end
+      
+      invalid = [
+        { :red => 1.1, :green => 0.2, :blue => 0.3 },
+        { :red => -0.1, :green => 0.2, :blue => 0.3 },
+        { :red => 0.1, :green => 0.2, :blue => 0.3, :alpha => 1 },
+        { :red => 0.1, :green => 0.2 },
+        'string', ['array'], :symbol, Object.new
+      ]
+      invalid.each do |invalid|
+        @assignment.colour = invalid
+        @assignment.should_not be_valid, "#{invalid}"
+      end
+    end
   end
   
   describe '#symbolize_colour!' do
