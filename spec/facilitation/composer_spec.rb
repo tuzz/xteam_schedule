@@ -287,11 +287,6 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_working_times!)
       working_times.detect { |wt| wt['notes'] == 'notes1' }.should_not be_nil
     end
-    
-    it 'sets the object id key correctly' do
-      @composer.send(:compose_working_times!)
-      working_times.detect { |wt| wt['objectID'] == 1 }.should_not be_nil
-    end
   end
   
   describe '#compose_colour' do

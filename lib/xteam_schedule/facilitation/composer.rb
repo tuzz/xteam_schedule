@@ -89,8 +89,7 @@ private
           'task' => wt.assignment.name,
           'begin date' => compose_date(wt.begin_date),
           'duration' => wt.duration,
-          'notes' => wt.notes,
-          'objectID' => wt.id
+          'notes' => wt.notes
         }
       end
     end
