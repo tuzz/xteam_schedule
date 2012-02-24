@@ -63,8 +63,8 @@ describe XTeamSchedule::Parser do
   describe '#parse_resource_groups!' do
     before do
       @hash = { 'resource groups' => [
-        { 'name' => 'foo', 'expanded in library' => true, 'kind' => 0 },
-        { 'name' => 'bar', 'expanded in library' => false, 'kind' => 1  }
+        { 'name' => 'foo', 'expanded in library' => true },
+        { 'name' => 'bar', 'expanded in library' => false  }
       ]}
       @parser = XTeamSchedule::Parser.new(@hash)
     end
@@ -85,23 +85,17 @@ describe XTeamSchedule::Parser do
       XTeamSchedule::ResourceGroup.find_by_expanded_in_library(true).should_not be_nil
       XTeamSchedule::ResourceGroup.find_by_expanded_in_library(false).should_not be_nil
     end
-    
-    it 'sets the kind attribute correctly' do
-      @parser.send(:parse_resource_groups!)
-      XTeamSchedule::ResourceGroup.find_by_kind(0).should_not be_nil
-      XTeamSchedule::ResourceGroup.find_by_kind(1).should_not be_nil
-    end
   end
   
   describe '#parse_resources!' do
     before do
       image = StringIO.new('image')
       @hash = {
-        'resource groups' => [{ 'name' => 'foo', 'kind' => 0 }],
+        'resource groups' => [{ 'name' => 'foo' }],
         'resources' => [
-          { 'displayedInPlanning' => false, 'email' => 'foo@bar.com', 'group' => 'foo', 'kind' => 0,
+          { 'displayedInPlanning' => false, 'email' => 'foo@bar.com', 'group' => 'foo',
             'image' => image, 'mobile' => '0123456789', 'name' => 'bar', 'phone' => '9876543210' },
-          { 'group' => 'bar', 'name' => 'baz', 'kind' => 0 }
+          { 'group' => 'bar', 'name' => 'baz' }
         ]
       }
       @parser = XTeamSchedule::Parser.new(@hash)
@@ -148,18 +142,13 @@ describe XTeamSchedule::Parser do
       @parser.send(:parse_resources!)
       XTeamSchedule::Resource.find_by_phone('9876543210').should_not be_nil
     end
-    
-    it 'sets the kind attribute correctly' do
-      @parser.send(:parse_resources!)
-      XTeamSchedule::Resource.find_by_kind(0).should_not be_nil
-    end
   end
   
   describe '#parse_assignment_groups!' do
     before do
       @hash = { 'task categories' => [
-        { 'name' => 'foo', 'expanded in library' => true, 'kind' => 0, 'color' => color_hash },
-        { 'name' => 'bar', 'expanded in library' => false, 'kind' => 1, 'color' => color_hash  }
+        { 'name' => 'foo', 'expanded in library' => true, 'color' => color_hash },
+        { 'name' => 'bar', 'expanded in library' => false, 'color' => color_hash  }
       ]}
       @parser = XTeamSchedule::Parser.new(@hash)
     end
@@ -180,20 +169,14 @@ describe XTeamSchedule::Parser do
       XTeamSchedule::AssignmentGroup.find_by_expanded_in_library(true).should_not be_nil
       XTeamSchedule::AssignmentGroup.find_by_expanded_in_library(false).should_not be_nil
     end
-    
-    it 'sets the kind attribute correctly' do
-      @parser.send(:parse_assignment_groups!)
-      XTeamSchedule::AssignmentGroup.find_by_kind(0).should_not be_nil
-      XTeamSchedule::AssignmentGroup.find_by_kind(1).should_not be_nil
-    end
   end
   
   describe '#parse_assignments!' do
     before do
       @hash = {
-        'task categories' => [{ 'name' => 'foo', 'kind' => 0 }],
-        'tasks' => [{ 'category' => 'foo', 'name' => 'bar', 'kind' => 0, 'color' => color_hash },
-                    { 'category' => 'baz', 'name' => 'quux', 'kind' => 1, 'color' => color_hash }]
+        'task categories' => [{ 'name' => 'foo' }],
+        'tasks' => [{ 'category' => 'foo', 'name' => 'bar', 'color' => color_hash },
+                    { 'category' => 'baz', 'name' => 'quux', 'color' => color_hash }]
       }
       @parser = XTeamSchedule::Parser.new(@hash)
       @parser.send(:parse_assignment_groups!)
@@ -215,11 +198,6 @@ describe XTeamSchedule::Parser do
       XTeamSchedule::Assignment.find_by_name('bar').should_not be_nil
     end
     
-    it 'sets the kind attribute correctly' do
-      @parser.send(:parse_assignments!)
-      XTeamSchedule::Assignment.find_by_kind('0').should_not be_nil
-    end
-    
     it 'sets the colour attribute correctly' do
       @parser.send(:parse_assignments!)
       XTeamSchedule::Assignment.first.colour.should == { :red => 0.1, :green => 0.2, :blue => 0.3 }
@@ -229,10 +207,10 @@ describe XTeamSchedule::Parser do
   describe '#parse_working_times!' do
     before do
       @hash = {
-        'resource groups' => [{ 'name' => 'foo', 'kind' => 0  }],
-        'task categories' => [{ 'name' => 'bar', 'kind' => 0  }],
-        'resources' => [{ 'name' => 'baz', 'group' => 'foo', 'kind' => 0 }],
-        'tasks' => [{ 'name' => 'quux', 'category' => 'bar', 'kind' => 0, 'color' => color_hash }],
+        'resource groups' => [{ 'name' => 'foo' }],
+        'task categories' => [{ 'name' => 'bar' }],
+        'resources' => [{ 'name' => 'baz', 'group' => 'foo' }],
+        'tasks' => [{ 'name' => 'quux', 'category' => 'bar', 'color' => color_hash }],
         'objectsForResources' => [
           ['baz', [{ 'task' => 'quux', 'begin date' => '01/15/2000', 'duration' => 10, 'notes' => 'notes1'}]],
           ['zab', [{ 'task' => 'quux', 'begin date' => '02/15/2000', 'duration' => 11, 'notes' => 'notes2'}]],

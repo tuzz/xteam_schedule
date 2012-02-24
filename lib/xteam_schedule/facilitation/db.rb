@@ -18,7 +18,6 @@ class XTeamSchedule::DB
         table.column :schedule_id, :integer
         table.column :expanded_in_library, :boolean, :default => true
         table.column :name, :string
-        table.column :kind, :integer, :default => 0
       end
       
       create_table :resources do |table|
@@ -29,20 +28,17 @@ class XTeamSchedule::DB
         table.column :mobile, :string
         table.column :name, :string
         table.column :phone, :string
-        table.column :kind, :integer, :default => 0
       end
       
       create_table :assignment_groups do |table|
         table.column :schedule_id, :integer
         table.column :expanded_in_library, :boolean, :default => true
         table.column :name, :string
-        table.column :kind, :integer, :default => 0
       end
       
       create_table :assignments do |table|
         table.column :assignment_group_id, :integer
         table.column :name, :string
-        table.column :kind, :integer, :default => 0
         table.column :colour, :string
       end
       

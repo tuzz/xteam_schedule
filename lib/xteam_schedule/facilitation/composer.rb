@@ -29,8 +29,7 @@ private
     resource_groups.each do |rg|
       hash['resource groups'] << {
         'name' => rg.name,
-        'expanded in library' => rg.expanded_in_library,
-        'kind' => rg.kind
+        'expanded in library' => rg.expanded_in_library
       }
     end
   end
@@ -46,7 +45,6 @@ private
         'mobile' => r.mobile,
         'name' => r.name,
         'phone' => r.phone,
-        'kind' => r.kind,
         'group' => r.resource_group.name
       }
     end
@@ -58,8 +56,7 @@ private
     assignment_groups.each do |ag|
       hash['task categories'] << {
         'name' => ag.name,
-        'expanded in library' => ag.expanded_in_library,
-        'kind' => ag.kind
+        'expanded in library' => ag.expanded_in_library
       }
     end
   end
@@ -71,7 +68,7 @@ private
       hash['tasks'] << {
         'name' => a.name,
         'category' => a.assignment_group.name,
-        'kind' => a.kind,
+        'kind' => 0,
         'color' => compose_colour(a.colour)
       }
     end

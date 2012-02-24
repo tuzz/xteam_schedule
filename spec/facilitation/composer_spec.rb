@@ -64,8 +64,8 @@ describe XTeamSchedule::Composer do
   describe '#compose_resource_groups!' do
     before do
       @schedule = XTeamSchedule::Schedule.new
-      @schedule.resource_groups.new(:name => 'foo', :expanded_in_library => true, :kind => 0)
-      @schedule.resource_groups.new(:name => 'bar', :expanded_in_library => false, :kind => 1)
+      @schedule.resource_groups.new(:name => 'foo', :expanded_in_library => true)
+      @schedule.resource_groups.new(:name => 'bar', :expanded_in_library => false)
       @composer = XTeamSchedule::Composer.new(@schedule)
     end
     
@@ -85,12 +85,6 @@ describe XTeamSchedule::Composer do
       @composer.hash['resource groups'].detect { |rg| rg['expanded in library'] == true }.should_not be_nil
       @composer.hash['resource groups'].detect { |rg| rg['expanded in library'] == false }.should_not be_nil
     end
-    
-    it 'sets the kind key correctly' do
-      @composer.send(:compose_resource_groups!)
-      @composer.hash['resource groups'].detect { |rg| rg['kind'] == 0 }.should_not be_nil
-      @composer.hash['resource groups'].detect { |rg| rg['kind'] == 1 }.should_not be_nil
-    end
   end
   
   describe '#compose_resources!' do
@@ -98,7 +92,7 @@ describe XTeamSchedule::Composer do
       @schedule = XTeamSchedule::Schedule.new
       rg = @schedule.resource_groups.new(:name => 'foo')
       rg.resources.new(:displayed_in_planning => false, :email => 'foo@bar.com', :image => 'image',
-                       :mobile => '0123456789', :name => 'bar', :phone => '9876543210', :kind => 0)
+                       :mobile => '0123456789', :name => 'bar', :phone => '9876543210')
       XTeamSchedule::Resource.new(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_resource_groups!)
@@ -145,11 +139,6 @@ describe XTeamSchedule::Composer do
       @composer.hash['resources'].detect { |r| r['phone'] == '9876543210' }.should_not be_nil
     end
     
-    it 'sets the kind key correctly' do
-      @composer.send(:compose_resources!)
-      @composer.hash['resources'].detect { |r| r['kind'] == 0 }.should_not be_nil
-    end
-    
     it 'sets the group key correctly' do
       @composer.send(:compose_resources!)
       @composer.hash['resources'].detect { |r| r['group'] == 'foo' }.should_not be_nil
@@ -159,8 +148,8 @@ describe XTeamSchedule::Composer do
   describe '#compose_assignment_groups!' do
     before do
       @schedule = XTeamSchedule::Schedule.new
-      @schedule.assignment_groups.new(:name => 'foo', :expanded_in_library => true, :kind => 0)
-      @schedule.assignment_groups.new(:name => 'bar', :expanded_in_library => false, :kind => 1)
+      @schedule.assignment_groups.new(:name => 'foo', :expanded_in_library => true)
+      @schedule.assignment_groups.new(:name => 'bar', :expanded_in_library => false)
       @composer = XTeamSchedule::Composer.new(@schedule)
     end
     
@@ -180,19 +169,13 @@ describe XTeamSchedule::Composer do
       @composer.hash['task categories'].detect { |ag| ag['expanded in library'] == true }.should_not be_nil
       @composer.hash['task categories'].detect { |ag| ag['expanded in library'] == false }.should_not be_nil
     end
-    
-    it 'sets the kind key correctly' do
-      @composer.send(:compose_assignment_groups!)
-      @composer.hash['task categories'].detect { |ag| ag['kind'] == 0 }.should_not be_nil
-      @composer.hash['task categories'].detect { |ag| ag['kind'] == 1 }.should_not be_nil
-    end
   end
   
   describe '#compose_assignments!' do
     before do
       @schedule = XTeamSchedule::Schedule.new
       ag = @schedule.assignment_groups.new(:name => 'foo')
-      ag.assignments.new(:name => 'bar', :kind => 0, :colour => { :red => 0.1, :green => 0.2, :blue => 0.3 })
+      ag.assignments.new(:name => 'bar', :colour => { :red => 0.1, :green => 0.2, :blue => 0.3 })
       XTeamSchedule::Assignment.new(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_assignment_groups!)
@@ -214,7 +197,7 @@ describe XTeamSchedule::Composer do
       @composer.hash['tasks'].detect { |a| a['name'] == 'bar' }.should_not be_nil
     end
     
-    it 'sets the kind key correctly' do
+    it 'sets the kind key to 0' do
       @composer.send(:compose_assignments!)
       @composer.hash['tasks'].detect { |a| a['kind'] == 0 }.should_not be_nil
     end

@@ -5,5 +5,4 @@ class XTeamSchedule::Resource < ActiveRecord::Base
   
   validates :name, :presence => true,
                    :uniqueness => true
-  validates_presence_of :kind
 end

@@ -5,7 +5,7 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   
   validates :name, :presence => true,
                    :uniqueness => true
-  validates_presence_of :kind, :colour
+  validates_presence_of :colour
   validate :rgb_colour
   
   serialize :colour, Hash

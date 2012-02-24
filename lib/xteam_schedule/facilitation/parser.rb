@@ -26,8 +26,7 @@ private
     hash['resource groups'].try(:each) do |rg|
       schedule.resource_groups.create!(
         :name => rg['name'],
-        :expanded_in_library => rg['expanded in library'],
-        :kind => rg['kind']
+        :expanded_in_library => rg['expanded in library']
       )
     end
   end
@@ -43,8 +42,7 @@ private
           :image => image,
           :mobile => r['mobile'],
           :name => r['name'],
-          :phone => r['phone'],
-          :kind => r['kind']
+          :phone => r['phone']
         )
       end
     end
@@ -54,8 +52,7 @@ private
     hash['task categories'].try(:each) do |ag|
       schedule.assignment_groups.create!(
         :name => ag['name'],
-        :expanded_in_library => ag['expanded in library'],
-        :kind => ag['kind']
+        :expanded_in_library => ag['expanded in library']
       )
     end
   end
@@ -66,7 +63,6 @@ private
       if assignment_group
         assignment_group.assignments.create!(
           :name => a['name'],
-          :kind => a['kind'],
           :colour => parse_colour(a['color'])
         )
       end

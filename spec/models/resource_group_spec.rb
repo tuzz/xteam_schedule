@@ -6,10 +6,6 @@ describe XTeamSchedule::ResourceGroup do
     it 'uses true for expanded_in_library' do
       XTeamSchedule::ResourceGroup.new.expanded_in_library.should be_true
     end
-    
-    it 'uses 0 for kind' do
-      XTeamSchedule::ResourceGroup.new.kind.should == 0
-    end
   end
   
   describe 'associations' do
@@ -50,11 +46,6 @@ describe XTeamSchedule::ResourceGroup do
     it 'requires unique names' do
       duplicate = XTeamSchedule::ResourceGroup.new(:name => @resource_group.name)
       duplicate.should_not be_valid
-    end
-    
-    it 'requires a kind' do
-      @resource_group.kind = nil
-      @resource_group.should_not be_valid
     end
   end
   
