@@ -89,7 +89,8 @@ private
           'task' => wt.assignment.name,
           'begin date' => compose_date(wt.begin_date),
           'duration' => wt.duration,
-          'notes' => wt.notes
+          'notes' => wt.notes,
+          'title' => ''
         }
       end
     end

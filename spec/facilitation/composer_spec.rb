@@ -287,6 +287,11 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_working_times!)
       working_times.detect { |wt| wt['notes'] == 'notes1' }.should_not be_nil
     end
+    
+    it 'sets the title key to empty string' do
+      @composer.send(:compose_working_times!)
+      working_times.detect { |wt| wt['title'].empty? }.should_not be_nil
+    end
   end
   
   describe '#compose_colour' do
