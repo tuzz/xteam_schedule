@@ -41,7 +41,14 @@ describe XTeamSchedule::Resource do
   
   describe 'validations' do
     before do
-      @resource = Factory(:resource)
+      @schedule1 = Factory(:schedule)
+      @schedule2 = Factory(:schedule)
+      
+      @resource_group1 = Factory(:resource_group, :schedule => @schedule1)
+      @resource_group2 = Factory(:resource_group, :schedule => @schedule1)
+      @resource_group3 = Factory(:resource_group, :schedule => @schedule2)
+      
+      @resource = Factory(:resource, :resource_group => @resource_group1)
     end
     
     it 'requires a name' do
@@ -49,9 +56,16 @@ describe XTeamSchedule::Resource do
       @resource.should_not be_valid
     end
     
-    it 'requires unique names' do
-      duplicate = XTeamSchedule::Resource.new(:name => @resource.name)
-      duplicate.should_not be_valid
+    it 'requires unique names within the schedule' do
+      n = @resource.name
+      duplicate_within_group = XTeamSchedule::Resource.new(:name => n, :resource_group => @resource_group1)
+      duplicate_within_schedule = XTeamSchedule::Resource.new(:name => n, :resource_group => @resource_group2)
+      duplicate_in_different_schedule = XTeamSchedule::Resource.new(:name => n, :resource_group => @resource_group3)
+      
+      @resource.should be_valid
+      duplicate_within_group.should_not be_valid
+      duplicate_within_schedule.should_not be_valid
+      duplicate_in_different_schedule.should be_valid
     end
   end
   
