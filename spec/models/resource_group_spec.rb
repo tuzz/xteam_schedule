@@ -47,6 +47,12 @@ describe XTeamSchedule::ResourceGroup do
       duplicate = XTeamSchedule::ResourceGroup.new(:name => @resource_group.name)
       duplicate.should_not be_valid
     end
+    
+    it 'scopes name uniqueness to schedule' do
+      duplicate = XTeamSchedule::ResourceGroup.new(:name => @resource_group.name)
+      duplicate.schedule_id = 1
+      duplicate.should be_valid
+    end
   end
   
 end
