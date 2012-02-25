@@ -44,4 +44,60 @@ describe XTeamSchedule::Interface do
     end
   end
   
+  describe 'aliases' do
+    before do
+      @interface = Factory(:interface)
+    end
+    
+    it "aliases 'display_assignment_names' to 'display_assignments_name'" do
+      @interface.display_assignments_name = false
+      @interface.display_assignment_names.should be_false
+    end
+    
+    it "aliases 'display_assignment_names=' to 'display_assignments_name='" do
+      @interface.display_assignment_names = false
+      @interface.display_assignments_name.should be_false
+    end
+    
+    it "aliases 'display_resource_names' to 'display_resources_name'" do
+      @interface.display_resources_name = true
+      @interface.display_resource_names.should be_true
+    end
+    
+    it "aliases 'display_resource_names=' to 'display_resources_name='" do
+      @interface.display_resources_name = true
+      @interface.display_resource_names.should be_true
+    end
+    
+    it "aliases 'display_resource_pictures' to 'display_resources_pictures'" do
+      @interface.display_resources_pictures = false
+      @interface.display_resource_pictures.should be_false
+    end
+    
+    it "aliases 'display_resource_pictures=' to 'display_resources_pictures='" do
+      @interface.display_resources_pictures = false
+      @interface.display_resource_pictures.should be_false
+    end
+    
+    it "aliases 'display_total_working_hours' to 'display_total_of_working_hours'" do
+      @interface.display_total_of_working_hours = true
+      @interface.display_total_working_hours.should be_true
+    end
+    
+    it "aliases 'display_total_working_hours=' to 'display_total_of_working_hours='" do
+      @interface.display_total_working_hours = true
+      @interface.display_total_of_working_hours.should be_true
+    end
+    
+    it "aliases 'display_assignment_notes' to 'display_assignments_notes'" do
+      @interface.display_assignments_notes = true
+      @interface.display_assignment_notes.should be_true
+    end
+    
+    it "aliases 'display_assignment_notes=' to 'display_assignments_notes='" do
+      @interface.display_assignment_notes = true
+      @interface.display_assignments_notes.should be_true
+    end
+  end
+  
 end
