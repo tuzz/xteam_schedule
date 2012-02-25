@@ -98,7 +98,8 @@ private
       :display_resources_pictures => hash['display resource icons'],
       :display_total_of_working_hours => hash['display resource totals'],
       :display_assignments_notes => hash['display task notes'],
-      :display_absences => hash['display absence cells']
+      :display_absences => hash['display absence cells'],
+      :time_granularity => hash['time navigation mode']
     )
   end
   

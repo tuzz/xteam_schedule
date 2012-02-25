@@ -275,7 +275,8 @@ describe XTeamSchedule::Parser do
         'display resource icons'  => false,
         'display resource totals' => true,
         'display task notes'      => false,
-        'display absence cells'   => false
+        'display absence cells'   => false,
+        'time navigation mode'    => XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
       }
       @parser = XTeamSchedule::Parser.new(@hash)
     end
@@ -313,6 +314,12 @@ describe XTeamSchedule::Parser do
     it 'sets the display_absences attribute correctly' do
       @parser.send(:parse_interface!)
       XTeamSchedule::Interface.find_by_display_absences(false).should_not be_nil
+    end
+    
+    it 'sets the time_granularity attribute correctly' do
+      @parser.send(:parse_interface!)
+      day_granularity = XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
+      XTeamSchedule::Interface.find_by_time_granularity(day_granularity).should_not be_nil
     end
   end
   
