@@ -292,7 +292,8 @@ describe XTeamSchedule::Composer do
         :display_resources_pictures => false,
         :display_total_of_working_hours => true,
         :display_assignments_notes => false,
-        :display_absences => false
+        :display_absences => false,
+        :time_granularity => XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
       )
       @composer = XTeamSchedule::Composer.new(@schedule)
     end
@@ -334,6 +335,11 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_interface!)
       @composer.hash['display absence cells'].should_not be_nil
       @composer.hash['display absence cells'].should be_false
+    end
+    
+    it 'sets the time_granularity key correctly' do
+      @composer.send(:compose_interface!)
+      @composer.hash['time navigation mode'].should == XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
     end
   end
   
