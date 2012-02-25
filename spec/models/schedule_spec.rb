@@ -58,6 +58,23 @@ describe XTeamSchedule::Schedule do
       xuuq = quux.working_times.create!(:begin_date => Date.new, :duration => 0)
       @schedule.working_times.should == [zab, xuuq]
     end
+    
+    it 'has one interface' do
+      @schedule.interface.should_not be_nil
+      @schedule.interface.class.should == XTeamSchedule::Interface
+    end
+  end
+  
+  describe '#set_default_interface' do
+    before do
+      @schedule = Factory(:schedule)
+    end
+    
+    it "sets the interface if there isn't one already" do
+      @schedule.interface = nil
+      @schedule.send(:set_default_interface)
+      @schedule.interface.should_not be_nil
+    end
   end
   
 end

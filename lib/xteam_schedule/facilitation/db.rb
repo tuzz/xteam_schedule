@@ -14,6 +14,10 @@ class XTeamSchedule::DB
       create_table :schedules do |table|
       end
       
+      create_table :interfaces do |table|
+        table.column :schedule_id, :integer
+      end
+      
       create_table :resource_groups do |table|
         table.column :schedule_id, :integer
         table.column :expanded_in_library, :boolean, :default => true
