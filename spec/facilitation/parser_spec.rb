@@ -63,6 +63,11 @@ describe XTeamSchedule::Parser do
       @parser.should_receive(:parse_interface!)
       @parser.parse
     end
+    
+    it 'calls parse_schedule!' do
+      @parser.should_receive(:parse_schedule!)
+      @parser.parse
+    end
   end
   
   describe '#parse_resource_groups!' do
@@ -320,6 +325,26 @@ describe XTeamSchedule::Parser do
       @parser.send(:parse_interface!)
       day_granularity = XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
       XTeamSchedule::Interface.find_by_time_granularity(day_granularity).should_not be_nil
+    end
+  end
+  
+  describe '#parse_schedule!' do
+    before do
+      @hash = {
+        'begin date' => '03/31/2010',
+        'end date' => '12/25/2015'
+      }
+      @parser = XTeamSchedule::Parser.new(@hash)
+    end
+    
+    it 'sets the begin_date attribute correctly' do
+      @parser.send(:parse_schedule!)
+      XTeamSchedule::Schedule.find_by_begin_date(Date.new(2010, 03, 31)).should_not be_nil
+    end
+    
+    it 'sets the end_date attribute correctly' do
+      @parser.send(:parse_schedule!)
+      XTeamSchedule::Schedule.find_by_end_date(Date.new(2015, 12, 25)).should_not be_nil
     end
   end
   

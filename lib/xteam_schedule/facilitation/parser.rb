@@ -18,6 +18,7 @@ class XTeamSchedule::Parser
     parse_assignments!
     parse_working_times!
     parse_interface!
+    parse_schedule!
     schedule
   end
   
@@ -102,6 +103,13 @@ private
       :display_assignments_notes => hash['display task notes'],
       :display_absences => hash['display absence cells'],
       :time_granularity => time_granularity
+    )
+  end
+  
+  def parse_schedule!
+    schedule.update_attributes!(
+      :begin_date => parse_date(hash['begin date']),
+      :end_date => parse_date(hash['end date'])
     )
   end
   

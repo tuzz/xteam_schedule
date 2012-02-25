@@ -19,6 +19,7 @@ class XTeamSchedule::Composer
     compose_assignments!
     compose_working_times!
     compose_interface!
+    compose_schedule!
     hash
   end
   
@@ -104,6 +105,11 @@ private
     hash['display task notes'] = interface.display_assignments_notes
     hash['display absence cells'] = interface.display_absences
     hash['interface status'] = { 'latest time navigation mode' => interface.time_granularity }
+  end
+  
+  def compose_schedule!
+    hash['begin date'] = compose_date(schedule.begin_date)
+    hash['end date'] = compose_date(schedule.end_date)
   end
   
   def compose_colour(colour_hash)

@@ -64,6 +64,11 @@ describe XTeamSchedule::Composer do
       @composer.should_receive(:compose_interface!)
       @composer.compose
     end
+    
+    it 'calls compose_schedule!' do
+      @composer.should_receive(:compose_schedule!)
+      @composer.compose
+    end
   end
   
   describe '#compose_resource_groups!' do
@@ -341,6 +346,25 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_interface!)
       day_granularity = XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
       @composer.hash['interface status']['latest time navigation mode'].should == day_granularity
+    end
+  end
+  
+  describe '#compose_schedule' do
+    before do
+      @schedule = XTeamSchedule::Schedule.new
+      @schedule.begin_date = Date.new(2010, 03, 31)
+      @schedule.end_date = Date.new(2015, 12, 25)
+      @composer = XTeamSchedule::Composer.new(@schedule)
+    end
+    
+    it 'sets the begin_date key correctly' do
+      @composer.send(:compose_schedule!)
+      @composer.hash['begin date'].should == '03/31/2010'
+    end
+    
+    it 'sets the end_date key correctly' do
+      @composer.send(:compose_schedule!)
+      @composer.hash['end date'].should == '12/25/2015'
     end
   end
   
