@@ -33,6 +33,11 @@ describe XTeamSchedule::Interface do
     it "uses true for 'display_absences'" do
       XTeamSchedule::Interface.new.display_absences.should be_true
     end
+    
+    it "uses month for 'time_granularity'" do
+      XTeamSchedule::Interface.new.time_granularity.
+        should == XTeamSchedule::Interface::TIME_GRANULARITIES[:month]
+    end
   end
   
   describe 'associations' do

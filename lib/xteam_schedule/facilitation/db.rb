@@ -23,6 +23,7 @@ class XTeamSchedule::DB
         table.column :display_total_of_working_hours, :boolean, :default => false
         table.column :display_assignments_notes, :boolean, :default => true
         table.column :display_absences, :boolean, :default => true
+        table.column :time_granularity, :integer, :default => XTeamSchedule::Interface::TIME_GRANULARITIES[:month]
       end
       
       create_table :resource_groups do |table|
