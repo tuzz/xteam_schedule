@@ -18,6 +18,7 @@ class XTeamSchedule::Composer
     compose_assignment_groups!
     compose_assignments!
     compose_working_times!
+    compose_interface!
     hash
   end
   
@@ -91,6 +92,17 @@ private
         }
       end
     end
+  end
+  
+  def compose_interface!
+    interface = schedule.interface
+    hash['display task names'] = interface.display_assignments_name
+    hash['display resource names'] = interface.display_resources_name
+    hash['display worked time'] = interface.display_working_hours
+    hash['display resource icons'] = interface.display_resources_pictures
+    hash['display resource totals'] = interface.display_total_of_working_hours
+    hash['display task notes'] = interface.display_assignments_notes
+    hash['display absence cells'] = interface.display_absences
   end
   
   def compose_colour(colour_hash)

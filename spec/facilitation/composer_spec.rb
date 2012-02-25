@@ -59,6 +59,11 @@ describe XTeamSchedule::Composer do
       @composer.should_receive(:compose_working_times!)
       @composer.compose
     end
+    
+    it 'calls compose_interface!' do
+      @composer.should_receive(:compose_interface!)
+      @composer.compose
+    end
   end
   
   describe '#compose_resource_groups!' do
@@ -274,6 +279,61 @@ describe XTeamSchedule::Composer do
     it 'sets the title key to empty string' do
       @composer.send(:compose_working_times!)
       working_times.detect { |wt| wt['title'].empty? }.should_not be_nil
+    end
+  end
+  
+  describe '#compose_interface!' do
+    before do
+      @schedule = XTeamSchedule::Schedule.new
+      @schedule.interface.update_attributes!(
+        :display_assignments_name => false,
+        :display_resources_name => true,
+        :display_working_hours => true,
+        :display_resources_pictures => false,
+        :display_total_of_working_hours => true,
+        :display_assignments_notes => false,
+        :display_absences => false
+      )
+      @composer = XTeamSchedule::Composer.new(@schedule)
+    end
+    
+    it 'sets the display_assignments_name key correctly' do
+      @composer.send(:compose_interface!)
+      @composer.hash['display task names'].should_not be_nil
+      @composer.hash['display task names'].should be_false
+    end
+    
+    it 'sets the display_resources_name key correctly' do
+      @composer.send(:compose_interface!)
+      @composer.hash['display resource names'].should be_true
+    end
+    
+    it 'sets the display_working_hours key correctly' do
+      @composer.send(:compose_interface!)
+      @composer.hash['display worked time'].should be_true
+    end
+    
+    it 'sets the display_resources_pictures key correctly' do
+      @composer.send(:compose_interface!)
+      @composer.hash['display resource icons'].should_not be_nil
+      @composer.hash['display resource icons'].should be_false
+    end
+    
+    it 'sets the display_total_of_working_hours key correctly' do
+      @composer.send(:compose_interface!)
+      @composer.hash['display resource totals'].should be_true
+    end
+    
+    it 'sets the display_assignments_notes key correctly' do
+      @composer.send(:compose_interface!)
+      @composer.hash['display task notes'].should_not be_nil
+      @composer.hash['display task notes'].should be_false
+    end
+    
+    it 'sets the display_absences key correctly' do
+      @composer.send(:compose_interface!)
+      @composer.hash['display absence cells'].should_not be_nil
+      @composer.hash['display absence cells'].should be_false
     end
   end
   
