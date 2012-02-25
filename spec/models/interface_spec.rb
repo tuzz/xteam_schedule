@@ -8,10 +8,12 @@ describe XTeamSchedule::Interface do
     end
     
     it "uses false for 'display_resources_name'" do
+      XTeamSchedule::Interface.new.display_resources_name.should_not be_nil
       XTeamSchedule::Interface.new.display_resources_name.should be_false
     end
     
     it "uses false for 'display_working_hours'" do
+      XTeamSchedule::Interface.new.display_working_hours.should_not be_nil
       XTeamSchedule::Interface.new.display_working_hours.should be_false
     end
     
@@ -20,6 +22,7 @@ describe XTeamSchedule::Interface do
     end
     
     it "uses false for 'display_total_of_working_hours'" do
+      XTeamSchedule::Interface.new.display_total_of_working_hours.should_not be_nil
       XTeamSchedule::Interface.new.display_total_of_working_hours.should be_false
     end
     
@@ -51,11 +54,13 @@ describe XTeamSchedule::Interface do
     
     it "aliases 'display_assignment_names' to 'display_assignments_name'" do
       @interface.display_assignments_name = false
+      @interface.display_assignment_names.should_not be_nil
       @interface.display_assignment_names.should be_false
     end
     
     it "aliases 'display_assignment_names=' to 'display_assignments_name='" do
       @interface.display_assignment_names = false
+      @interface.display_assignments_name.should_not be_nil
       @interface.display_assignments_name.should be_false
     end
     
@@ -71,11 +76,13 @@ describe XTeamSchedule::Interface do
     
     it "aliases 'display_resource_pictures' to 'display_resources_pictures'" do
       @interface.display_resources_pictures = false
+      @interface.display_resource_pictures.should_not be_nil
       @interface.display_resource_pictures.should be_false
     end
     
     it "aliases 'display_resource_pictures=' to 'display_resources_pictures='" do
       @interface.display_resources_pictures = false
+      @interface.display_resource_pictures.should_not be_nil
       @interface.display_resource_pictures.should be_false
     end
     

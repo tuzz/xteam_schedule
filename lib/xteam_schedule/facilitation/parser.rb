@@ -17,6 +17,7 @@ class XTeamSchedule::Parser
     parse_assignment_groups!
     parse_assignments!
     parse_working_times!
+    parse_interface!
     schedule
   end
   
@@ -87,6 +88,18 @@ private
         )
       end
     end
+  end
+  
+  def parse_interface!
+    schedule.interface.update_attributes!(
+      :display_assignments_name => hash['display task names'],
+      :display_resources_name => hash['display resource names'],
+      :display_working_hours => hash['display worked time'],
+      :display_resources_pictures => hash['display resource icons'],
+      :display_total_of_working_hours => hash['display resource totals'],
+      :display_assignments_notes => hash['display task notes'],
+      :display_absences => hash['display absence cells']
+    )
   end
   
   def parse_colour(colour_data)

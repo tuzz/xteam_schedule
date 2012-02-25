@@ -58,6 +58,11 @@ describe XTeamSchedule::Parser do
       @parser.should_receive(:parse_working_times!)
       @parser.parse
     end
+    
+    it 'calls parse_interface!' do
+      @parser.should_receive(:parse_interface!)
+      @parser.parse
+    end
   end
   
   describe '#parse_resource_groups!' do
@@ -258,6 +263,56 @@ describe XTeamSchedule::Parser do
     it 'sets the notes attribute correctly' do
       @parser.send(:parse_working_times!)
       XTeamSchedule::WorkingTime.find_by_notes('notes1').should_not be_nil
+    end
+  end
+  
+  describe '#parse_interface!' do
+    before do
+      @hash = {
+        'display task names'      => false,
+        'display resource names'  => true,
+        'display worked time'     => true,
+        'display resource icons'  => false,
+        'display resource totals' => true,
+        'display task notes'      => false,
+        'display absence cells'   => false
+      }
+      @parser = XTeamSchedule::Parser.new(@hash)
+    end
+    
+    it 'sets the display_assignments_name attribute correctly' do
+      @parser.send(:parse_interface!)
+      XTeamSchedule::Interface.find_by_display_assignments_name(false).should_not be_nil
+    end
+    
+    it 'sets the display_resources_name attribute correctly' do
+      @parser.send(:parse_interface!)
+      XTeamSchedule::Interface.find_by_display_resources_name(true).should_not be_nil
+    end
+    
+    it 'sets the display_working_hours attribute correctly' do
+      @parser.send(:parse_interface!)
+      XTeamSchedule::Interface.find_by_display_working_hours(true).should_not be_nil
+    end
+    
+    it 'sets the display_resources_pictures attribute correctly' do
+      @parser.send(:parse_interface!)
+      XTeamSchedule::Interface.find_by_display_resources_pictures(false).should_not be_nil
+    end
+    
+    it 'sets the display_total_of_working_hours attribute correctly' do
+      @parser.send(:parse_interface!)
+      XTeamSchedule::Interface.find_by_display_total_of_working_hours(true).should_not be_nil
+    end
+    
+    it 'sets the display_assignments_notes attribute correctly' do
+      @parser.send(:parse_interface!)
+      XTeamSchedule::Interface.find_by_display_assignments_notes(false).should_not be_nil
+    end
+    
+    it 'sets the display_absences attribute correctly' do
+      @parser.send(:parse_interface!)
+      XTeamSchedule::Interface.find_by_display_absences(false).should_not be_nil
     end
   end
   
