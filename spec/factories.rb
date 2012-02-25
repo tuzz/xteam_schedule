@@ -9,6 +9,9 @@ FactoryGirl.define do
   factory :weekly_working_schedule, :class => XTeamSchedule::WeeklyWorkingSchedule do
   end
   
+  factory :working_day, :class => XTeamSchedule::WorkingDay do
+  end
+  
   factory :resource_group, :class => XTeamSchedule::ResourceGroup do
     sequence(:name) { |n| "Resource Group #{n}"}
   end

@@ -32,6 +32,15 @@ class XTeamSchedule::DB
         table.column :schedule_id, :integer
       end
       
+      create_table :working_days do |table|
+        table.column :weekly_working_schedule_id, :integer
+        table.column :name, :string
+        table.column :day_begin, :string
+        table.column :day_end, :string
+        table.column :break_begin, :string
+        table.column :break_end, :string
+      end
+      
       create_table :resource_groups do |table|
         table.column :schedule_id, :integer
         table.column :expanded_in_library, :boolean, :default => true
