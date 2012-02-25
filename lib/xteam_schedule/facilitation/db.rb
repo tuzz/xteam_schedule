@@ -12,6 +12,8 @@ class XTeamSchedule::DB
     ActiveRecord::Schema.define do
       
       create_table :schedules do |table|
+        table.column :begin_date, :date, :default => 10.years.ago.to_date
+        table.column :end_date, :date, :default => 10.years.from_now.to_date
       end
       
       create_table :interfaces do |table|

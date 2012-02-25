@@ -2,6 +2,21 @@ require 'spec_helper'
 
 describe XTeamSchedule::Schedule do
   
+  describe 'defaults' do
+    before do
+      @now = Time.now
+      Time.stub(:now).and_return(@now)
+    end
+    
+    it 'uses 10 years ago for begin_date' do
+      XTeamSchedule::Schedule.new.begin_date.should == (@now - 10.years).to_date
+    end
+    
+    it 'uses 10 years from now for end_date' do
+      XTeamSchedule::Schedule.new.end_date.should == (@now + 10.years).to_date
+    end
+  end
+  
   describe 'associations' do
     before do
       @schedule = Factory(:schedule)
