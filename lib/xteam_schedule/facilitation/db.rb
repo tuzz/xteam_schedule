@@ -19,7 +19,7 @@ class XTeamSchedule::DB
         table.column :display_assignments_name, :boolean, :default => true
         table.column :display_resources_name, :boolean, :default => false
         table.column :display_working_hours, :boolean, :default => false
-        table.column :display_resources_picture, :boolean, :default => true
+        table.column :display_resources_pictures, :boolean, :default => true
         table.column :display_total_of_working_hours, :boolean, :default => false
         table.column :display_assignments_notes, :boolean, :default => true
         table.column :display_absences, :boolean, :default => true

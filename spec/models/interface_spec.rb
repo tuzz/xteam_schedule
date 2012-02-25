@@ -15,8 +15,8 @@ describe XTeamSchedule::Interface do
       XTeamSchedule::Interface.new.display_working_hours.should be_false
     end
     
-    it "uses true for 'display_resources_picture'" do
-      XTeamSchedule::Interface.new.display_resources_picture.should be_true
+    it "uses true for 'display_resources_pictures'" do
+      XTeamSchedule::Interface.new.display_resources_pictures.should be_true
     end
     
     it "uses false for 'display_total_of_working_hours'" do
