@@ -110,6 +110,7 @@ private
   end
   
   def parse_date(date_string)
+    return unless date_string.present?
     month, day, year = date_string.split('/').map(&:to_i)
     Date.new(year, month, day)
   end

@@ -111,6 +111,7 @@ private
   end
   
   def compose_date(date)
+    return unless date.present?
     components = []
     components << ("%02d" % date.month)
     components << ("%02d" % date.day)
