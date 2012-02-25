@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.version     = '0.0.1'
   s.date        = '2012-02-15'
   s.summary     = 'XTeam Schedule'
-  s.description = "Read and write schedules for use with adnx's XTeam software"
+  s.description = "Full control over schedules for use with [adnX's xTeam](http://www.adnx.com/i/apps/xteam4mac) software"
   s.author      = 'Christopher Patuzzo'
   s.email       = 'chris.patuzzo@gmail.com'
   s.files       =  ['README.md'] + Dir['lib/**/*.*']
