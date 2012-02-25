@@ -107,13 +107,13 @@ describe XTeamSchedule::Assignment do
       @assignment = Factory(:assignment)
     end
     
-    it "should alias 'color' to 'colour'" do
+    it "aliases 'color' to 'colour'" do
       rgb_hash = { :red => 0.1, :green => 0.2, :blue => 0.3 }
       @assignment.colour = rgb_hash
       @assignment.color.should == rgb_hash
     end
     
-    it "should alias 'color=' to 'colour'" do
+    it "aliases 'color=' to 'colour'" do
       rgb_hash = { :red => 0.1, :green => 0.2, :blue => 0.3 }
       @assignment.color = rgb_hash
       @assignment.colour.should == rgb_hash
