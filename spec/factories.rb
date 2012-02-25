@@ -10,6 +10,10 @@ FactoryGirl.define do
   end
   
   factory :working_day, :class => XTeamSchedule::WorkingDay do
+    day_begin   '09:00'
+    day_end     '17:00'
+    break_begin '12:00'
+    break_end   '13:00'
   end
   
   factory :resource_group, :class => XTeamSchedule::ResourceGroup do

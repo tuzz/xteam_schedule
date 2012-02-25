@@ -15,13 +15,13 @@ describe XTeamSchedule::WeeklyWorkingSchedule do
     
     it 'has many working days' do
       @weekly_working_schedule.working_days = []
-      working_day = @weekly_working_schedule.working_days.create!(:name => 'Monday')
+      working_day = @weekly_working_schedule.working_days.create!(:name => 'Monday', :day_begin => nil)
       @weekly_working_schedule.working_days.count.should == 1
       @weekly_working_schedule.working_days.should == [working_day]
     end
     
     it 'destroys working days on cascade' do
-      @weekly_working_schedule.working_days.create!(:name => 'Monday')
+      @weekly_working_schedule.working_days.create!(:name => 'Monday', :day_begin => nil)
       @weekly_working_schedule.destroy
       XTeamSchedule::WorkingDay.count.should == 0
     end
