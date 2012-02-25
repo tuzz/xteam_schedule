@@ -91,6 +91,8 @@ private
   end
   
   def parse_interface!
+    interface_status = hash['interface status']
+    time_granularity = interface_status['latest time navigation mode'] if interface_status.present?
     schedule.interface.update_attributes!(
       :display_assignments_name => hash['display task names'],
       :display_resources_name => hash['display resource names'],
@@ -99,7 +101,7 @@ private
       :display_total_of_working_hours => hash['display resource totals'],
       :display_assignments_notes => hash['display task notes'],
       :display_absences => hash['display absence cells'],
-      :time_granularity => hash['time navigation mode']
+      :time_granularity => time_granularity
     )
   end
   

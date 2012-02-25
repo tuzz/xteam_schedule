@@ -276,7 +276,7 @@ describe XTeamSchedule::Parser do
         'display resource totals' => true,
         'display task notes'      => false,
         'display absence cells'   => false,
-        'time navigation mode'    => XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
+        'interface status' => { 'latest time navigation mode' => XTeamSchedule::Interface::TIME_GRANULARITIES[:day] }
       }
       @parser = XTeamSchedule::Parser.new(@hash)
     end

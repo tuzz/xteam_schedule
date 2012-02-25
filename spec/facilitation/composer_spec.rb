@@ -339,7 +339,8 @@ describe XTeamSchedule::Composer do
     
     it 'sets the time_granularity key correctly' do
       @composer.send(:compose_interface!)
-      @composer.hash['time navigation mode'].should == XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
+      day_granularity = XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
+      @composer.hash['interface status']['latest time navigation mode'].should == day_granularity
     end
   end
   

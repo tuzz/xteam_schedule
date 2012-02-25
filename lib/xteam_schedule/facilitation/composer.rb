@@ -103,7 +103,7 @@ private
     hash['display resource totals'] = interface.display_total_of_working_hours
     hash['display task notes'] = interface.display_assignments_notes
     hash['display absence cells'] = interface.display_absences
-    hash['time navigation mode'] = interface.time_granularity
+    hash['interface status'] = { 'latest time navigation mode' => interface.time_granularity }
   end
   
   def compose_colour(colour_hash)
