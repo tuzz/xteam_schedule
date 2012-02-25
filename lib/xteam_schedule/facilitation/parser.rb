@@ -18,6 +18,7 @@ class XTeamSchedule::Parser
     parse_assignments!
     parse_working_times!
     parse_interface!
+    parse_weekly_working_schedule!
     parse_schedule!
     schedule
   end
@@ -104,6 +105,9 @@ private
       :display_absences => hash['display absence cells'],
       :time_granularity => time_granularity
     )
+  end
+  
+  def parse_weekly_working_schedule!
   end
   
   def parse_schedule!

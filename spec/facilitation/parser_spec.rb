@@ -64,6 +64,11 @@ describe XTeamSchedule::Parser do
       @parser.parse
     end
     
+    it 'calls parse_weekly_working_schedule!' do
+      @parser.should_receive(:parse_weekly_working_schedule!)
+      @parser.parse
+    end
+    
     it 'calls parse_schedule!' do
       @parser.should_receive(:parse_schedule!)
       @parser.parse
@@ -326,6 +331,15 @@ describe XTeamSchedule::Parser do
       day_granularity = XTeamSchedule::Interface::TIME_GRANULARITIES[:day]
       XTeamSchedule::Interface.find_by_time_granularity(day_granularity).should_not be_nil
     end
+  end
+  
+  describe '#parse_weekly_working_schedule!' do
+    before do
+      @hash = {}
+      @parser = XTeamSchedule::Parser.new(@hash)
+    end
+    
+    it 'sets things'
   end
   
   describe '#parse_schedule!' do
