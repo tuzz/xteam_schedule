@@ -3,8 +3,8 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   has_many :working_times, :dependent => :destroy
   delegate :schedule, :to => :assignment_group
   
-  validates :name, :presence => true,
-                   :uniqueness => true
+  validates_presence_of :name
+  validate :uniqueness_of_name_scoped_to_schedule
   validates_presence_of :colour
   validate :rgb_colour
   
@@ -16,6 +16,17 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   alias_attribute :color, :colour
   
 private
+
+  def uniqueness_of_name_scoped_to_schedule
+    return unless new_record?
+    assignment_group = self.assignment_group or return
+    schedule = assignment_group.schedule or return
+    assignments = schedule.assignments or return
+    
+    if assignments.find_by_name(name).present?
+      errors.add(:name, 'must be unique within the schedule')
+    end
+  end
   
   def set_default_colour
     self.colour = { :red => 0.5, :green => 0.5, :blue => 0.5 } if colour.empty?

@@ -44,14 +44,32 @@ describe XTeamSchedule::Assignment do
       @assignment = Factory(:assignment)
     end
     
+    before do
+      @schedule1 = Factory(:schedule)
+      @schedule2 = Factory(:schedule)
+      
+      @assignment_group1 = Factory(:assignment_group, :schedule => @schedule1)
+      @assignment_group2 = Factory(:assignment_group, :schedule => @schedule1)
+      @assignment_group3 = Factory(:assignment_group, :schedule => @schedule2)
+      
+      @assignment = Factory(:assignment, :assignment_group => @assignment_group1)
+    end
+    
     it 'requires a name' do
       @assignment.name = nil
       @assignment.should_not be_valid
     end
     
-    it 'requires unique names' do
-      duplicate = XTeamSchedule::Assignment.new(:name => @assignment.name)
-      duplicate.should_not be_valid
+    it 'requires unique names within the schedule' do
+      n = @assignment.name
+      duplicate_within_group = XTeamSchedule::Assignment.new(:name => n, :assignment_group => @assignment_group1)
+      duplicate_within_schedule = XTeamSchedule::Assignment.new(:name => n, :assignment_group => @assignment_group2)
+      duplicate_in_different_schedule = XTeamSchedule::Assignment.new(:name => n, :assignment_group => @assignment_group3)
+      
+      @assignment.should be_valid
+      duplicate_within_group.should_not be_valid
+      duplicate_within_schedule.should_not be_valid
+      duplicate_in_different_schedule.should be_valid
     end
     
     it 'requires a colour' do
