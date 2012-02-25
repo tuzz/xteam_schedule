@@ -28,6 +28,10 @@ class XTeamSchedule::DB
         table.column :time_granularity, :integer, :default => XTeamSchedule::Interface::TIME_GRANULARITIES[:month]
       end
       
+      create_table :weekly_working_schedules do |table|
+        table.column :schedule_id, :integer
+      end
+      
       create_table :resource_groups do |table|
         table.column :schedule_id, :integer
         table.column :expanded_in_library, :boolean, :default => true

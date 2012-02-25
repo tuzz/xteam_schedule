@@ -8,10 +8,17 @@ class XTeamSchedule::Schedule < ActiveRecord::Base
   has_one :interface
   after_initialize :set_default_interface
   
+  has_one :weekly_working_schedule
+  after_initialize :set_default_weekly_working_schedule
+  
 private
   
   def set_default_interface
     self.interface ||= XTeamSchedule::Interface.new
+  end
+  
+  def set_default_weekly_working_schedule
+    self.weekly_working_schedule = XTeamSchedule::WeeklyWorkingSchedule.new
   end
   
 end

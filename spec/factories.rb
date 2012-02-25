@@ -6,6 +6,9 @@ FactoryGirl.define do
   factory :interface, :class => XTeamSchedule::Interface do
   end
   
+  factory :weekly_working_schedule, :class => XTeamSchedule::WeeklyWorkingSchedule do
+  end
+  
   factory :resource_group, :class => XTeamSchedule::ResourceGroup do
     sequence(:name) { |n| "Resource Group #{n}"}
   end

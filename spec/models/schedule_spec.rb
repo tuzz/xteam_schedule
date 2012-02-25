@@ -78,6 +78,11 @@ describe XTeamSchedule::Schedule do
       @schedule.interface.should_not be_nil
       @schedule.interface.class.should == XTeamSchedule::Interface
     end
+    
+    it 'has one weekly working schedule' do
+      @schedule.weekly_working_schedule.should_not be_nil
+      @schedule.weekly_working_schedule.class.should == XTeamSchedule::WeeklyWorkingSchedule
+    end
   end
   
   describe '#set_default_interface' do
@@ -89,6 +94,18 @@ describe XTeamSchedule::Schedule do
       @schedule.interface = nil
       @schedule.send(:set_default_interface)
       @schedule.interface.should_not be_nil
+    end
+  end
+  
+  describe '#set_default_weekly_working_schedule' do
+    before do
+      @schedule = Factory(:schedule)
+    end
+    
+    it "sets the weekly_working_schedule if there isn't one already" do
+      @schedule.weekly_working_schedule = nil
+      @schedule.send(:set_default_weekly_working_schedule)
+      @schedule.weekly_working_schedule.should_not be_nil
     end
   end
   
