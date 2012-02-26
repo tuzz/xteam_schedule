@@ -70,7 +70,7 @@ Resource groups contain resources. Typical names for resource groups might be 'M
 name
 
 **Defaults:**
-expanded&#95;in&#95;library => true
+expanded_in_library => true
 
 **Examples queries:**
 
@@ -97,7 +97,7 @@ A resource is an employee. A resource can not be in multiple resource groups.
 name
 
 **Defaults:**
-displayed&#95;in&#95;planning => true
+displayed_in_planning => true
 
 **Example queries:**
 
@@ -120,7 +120,7 @@ Assignment groups are almost identical to resource groups. Typical names might b
 name
 
 **Defaults:**
-expanded&#95;in&#95;library => true
+expanded_in_library => true
 
 **Example queries:**
 
@@ -197,6 +197,36 @@ begin_date, duration
     maximum_duration          = working_times.map(&:duration).max.to_s + ' days'
     recent_working_times      = working_times.where('begin_date > ?', Date.new(2012, 01, 01))
     resources_on_new_projects = recent_working_times.map(&:resource).uniq.map(&:name)
+
+## Interface
+
+A schedule has one interface that is created automatically. The interface is responsible for the display settings of xTeam. The 'display' attributes correspond to 'Settings' > 'Options' in xTeam. Time granularity sets the unit of time represented by a full screen's width. Possible values to pass to the constant are: :day, :week, :month and :year
+
+    schedule.interface.update_attributes!(
+      :display_assignments_name => true,
+      :display_resources_name => false,
+      :display_working_hours => false,
+      :display_resources_pictures => true,
+      :display_total_of_working_hours => false,
+      :display_assignments_notes => true,
+      :display_absences => true,
+      :time_granularity => XTeamSchedule::Interface::TIME_GRANULARITIES[:month]
+    )
+
+**Defaults:**
+The same as the attributes shown above.
+
+**Aliases:**
+
+display_assignment_names => display_assignments_name
+
+display_resource_names => display_resources_name
+
+display_resource_pictures => display_resources_pictures
+
+display_total_working_hours => display_total_of_working_hours
+
+display_assignment_notes => display_assignments_notes
 
 ## Contribution
 
