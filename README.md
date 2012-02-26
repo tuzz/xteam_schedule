@@ -9,7 +9,7 @@ It is capable of reading and writing schedules, whilst providing access to all o
 ### Features:
 
 * **Read and write schedules** and interact with in-memory models through the ActiveRecord interface
-* **Customise everything**; resources, assignments, groups, holidays, absences, iPhone sync settings..
+* **Customise everything**; resources, assignments, groups, colours, interface settings..
 * **Intuitive naming** of models, that correspond to what you see on screen
 * **Full test coverage**, giving confidence to highly dynamic businesses everywhere
 
