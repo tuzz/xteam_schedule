@@ -2,15 +2,17 @@ class XTeamSchedule
   
   def initialize(filename = nil)
     if filename.present?
-      begin
-        hash = IO.read(filename)
-        @schedule = Parser.parse(hash)
-      rescue
-        raise 'Malformed xTeam Schedule file'
-      end
+      hash = IO.read(filename)
+      @schedule = Parser.parse(hash)
     else
       @schedule = Schedule.create!
     end
+  end
+  
+  def write(filename)
+    raise 'No filename provided' unless filename.present?
+    hash = Composer.compose(self)
+    IO.write(hash, filename)
   end
   
   def method_missing(*args);

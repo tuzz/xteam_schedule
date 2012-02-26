@@ -22,6 +22,24 @@ describe XTeamSchedule do
         schedule.resource_groups.should_not be_empty
       }.should_not raise_error
     end
+    
+    it 'can be initialized by passing in a hash'
+  end
+  
+  describe '#write' do
+    before do
+      @schedule = XTeamSchedule.new
+      @hash = XTeamSchedule::Composer.compose(@schedule)
+    end
+    
+    it 'writes the schedule to a file' do
+      XTeamSchedule::IO.should_receive(:write).with(@hash, 'path/to/file')
+      @schedule.write('path/to/file')
+    end
+  end
+  
+  describe '#hash' do
+    it 'returns the composition of the schedule'
   end
   
 end
