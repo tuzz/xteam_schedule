@@ -65,6 +65,11 @@ describe XTeamSchedule::Composer do
       @composer.compose
     end
     
+    it 'calls compose_weekly_working_schedule!' do
+      @composer.should_receive(:compose_weekly_working_schedule!)
+      @composer.compose
+    end
+    
     it 'calls compose_schedule!' do
       @composer.should_receive(:compose_schedule!)
       @composer.compose
@@ -349,6 +354,59 @@ describe XTeamSchedule::Composer do
     end
   end
   
+  describe '#compose_weekly_working_schedule!' do
+    before do
+      @schedule = XTeamSchedule::Schedule.new
+      @composer = XTeamSchedule::Composer.new(@schedule)
+    end
+    
+    def working_schedule
+      @composer.hash['settings']['working schedule']
+    end
+    
+    it 'creates working days' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule.should_not be_empty
+    end
+    
+    it 'sets the name key correctly' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule['monday'].should_not be_nil
+    end
+    
+    it 'sets the day_begin key correctly' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule['monday']['begin'].should == 540
+    end
+    
+    it 'sets the day_end key correctly' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule['monday']['end'].should == 1020
+    end
+    
+    it 'sets the break_begin key correctly' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule['pause_monday']['begin'].should == 720
+    end
+    
+    it 'sets the break_end key correctly' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule['pause_monday']['end'].should == 780
+    end
+    
+    it 'sets the worked key correctly' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule['monday']['worked'].should == 'yes'
+      working_schedule['saturday']['worked'].should == 'no'
+    end
+    
+    it 'skips breaks correctly' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule['pause_monday']['worked'].should == 'yes'
+      working_schedule['pause_saturday']['worked'].should == 'no'
+    end
+  end
+  
   describe '#compose_schedule' do
     before do
       @schedule = XTeamSchedule::Schedule.new
@@ -390,6 +448,19 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_date, Date.new(2000, 01, 20)).should == '01/20/2000'
       @composer.send(:compose_date, Date.new(1990, 12, 10)).should == '12/10/1990'
       @composer.send(:compose_date, Date.new(2010, 06, 07)).should == '06/07/2010'
+    end
+  end
+  
+  describe '#compose_time' do
+    before do
+      schedule = XTeamSchedule::Schedule.new
+      @composer = XTeamSchedule::Composer.new(schedule)
+    end
+    
+    it 'creates corresponding time integers' do
+      @composer.send(:compose_time, '00:00').should == 0
+      @composer.send(:compose_time, '16:40').should == 1000
+      @composer.send(:compose_time, '20:34').should == 1234
     end
   end
 end

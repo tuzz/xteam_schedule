@@ -19,6 +19,7 @@ class XTeamSchedule::Composer
     compose_assignments!
     compose_working_times!
     compose_interface!
+    compose_weekly_working_schedule!
     compose_schedule!
     hash
   end
@@ -107,6 +108,35 @@ private
     hash['interface status'] = { 'latest time navigation mode' => interface.time_granularity }
   end
   
+  def compose_weekly_working_schedule!
+    weekly_working_schedule = schedule.weekly_working_schedule
+    working_days = weekly_working_schedule.working_days
+    
+    hash['settings'] ||= {}
+    hash['settings']['working schedule'] ||= {}
+    
+    working_days.each do |day|
+      day_name = day.name.downcase
+      hash['settings']['working schedule'][day_name] =
+      if day.day_begin.present?
+        { 'worked' => 'yes',
+          'begin' => compose_time(day.day_begin),
+          'end' => compose_time(day.day_end) }
+      else
+        { 'worked' => 'no' }
+      end
+      
+      hash['settings']['working schedule']["pause_#{day_name}"] =
+      if day.day_begin.present? and day.break_begin.present?
+        { 'worked' => 'yes',
+          'begin' => compose_time(day.break_begin),
+          'end' => compose_time(day.break_end) }
+      else
+        { 'worked' => 'no' }
+      end
+    end
+  end
+  
   def compose_schedule!
     hash['begin date'] = compose_date(schedule.begin_date)
     hash['end date'] = compose_date(schedule.end_date)
@@ -123,5 +153,12 @@ private
     components << ("%02d" % date.day)
     components << date.year
     components.join('/')
+  end
+  
+  def compose_time(time_string)
+    return unless time_string.present?
+    hours, minutes = time_string.split(':').map(&:to_i)
+    
+    hours * 60 + minutes
   end
 end
