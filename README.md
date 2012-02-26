@@ -200,7 +200,7 @@ begin_date, duration
 
 ## Interface
 
-A schedule has one interface that is created automatically. The interface is responsible for the display settings of xTeam. The 'display' attributes correspond to 'Settings' > 'Options' in xTeam. Time granularity sets the unit of time represented by a full screen's width. Possible values to pass to the constant are: :day, :week, :month and :year
+A schedule has one interface that is created automatically. The interface is responsible for the display settings of xTeam. Possible values to pass to the granularities constant are: :day, :week, :month and :year
 
     schedule.interface.update_attributes!(
       :display_assignments_name => true,
@@ -227,6 +227,34 @@ display_resource_pictures => display_resources_pictures
 display_total_working_hours => display_total_of_working_hours
 
 display_assignment_notes => display_assignments_notes
+
+## Weekly Working Schedule
+
+The weekly working schedule determines the 'opening hours' of the company. Working days can be accessed directly, or through weekly_working_schedule.
+
+    # Set all days to start at 9am, and finish at 5pm
+    # Set a lunch break from 12pm - 1pm each day
+    working_days = schedule.working_days
+    working_days.each do |day|
+      day.update_attributes!(
+        :day_begin   => '09:00',
+        :day_end     => '17:00',
+        :break_begin => '12:00',
+        :break_end   => '13:00'
+      )
+    end
+
+Non working days are determined by setting the 'day_begin' attribute to nil. This works similarly for days without lunch breaks:
+
+    wednesday = working_days.find_by_name('Wednesday')
+    saturday = working_days.find_by_name('Saturday')
+    sunday = working_days.find_by_name('Sunday')
+    
+    [saturday, sunday].each { |day| day.update_attributes!(:day_begin => nil) }
+    wednesday.update_attribute(:break_begin, nil)
+
+**Defaults:**
+The default weekly working schedule is identical to the same as the one set up above. i.e. 9am-5pm Mon-Fri, with lunch from 12pm-1pm.
 
 ## Contribution
 
