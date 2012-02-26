@@ -11,8 +11,11 @@ class XTeamSchedule
   
   def write(filename)
     raise 'No filename provided' unless filename.present?
-    hash = Composer.compose(self)
     IO.write(hash, filename)
+  end
+  
+  def hash
+    Composer.compose(self)
   end
   
   def method_missing(*args);

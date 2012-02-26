@@ -29,7 +29,7 @@ describe XTeamSchedule do
   describe '#write' do
     before do
       @schedule = XTeamSchedule.new
-      @hash = XTeamSchedule::Composer.compose(@schedule)
+      @hash = @schedule.hash
     end
     
     it 'writes the schedule to a file' do
@@ -39,7 +39,14 @@ describe XTeamSchedule do
   end
   
   describe '#hash' do
-    it 'returns the composition of the schedule'
+    before do
+      @schedule = XTeamSchedule.new
+    end
+    
+    it 'returns the composition of the schedule' do
+      XTeamSchedule::Composer.should_receive(:compose).with(@schedule)
+      @schedule.hash
+    end
   end
   
 end
