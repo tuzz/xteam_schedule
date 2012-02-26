@@ -1,8 +1,8 @@
 class XTeamSchedule
   
-  def initialize(filename = nil)
-    if filename.present?
-      hash = IO.read(filename)
+  def initialize(hash_or_filename = nil)
+    if hash_or_filename.present?
+      hash = hash_or_filename.class == Hash ? hash_or_filename : IO.read(hash_or_filename)
       @schedule = Parser.parse(hash)
     else
       @schedule = Schedule.create!

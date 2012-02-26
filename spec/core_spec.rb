@@ -4,9 +4,8 @@ describe XTeamSchedule do
   
   describe '#initialize' do
     before do
-      XTeamSchedule::IO.stub!(:read).and_return({ 'resource groups' => [
-        { 'expandedInLibrary' => true, 'name' => 'foo'}
-      ]})
+      @hash = { 'resource groups' => [{ 'expandedInLibrary' => true, 'name' => 'foo'}]}
+      XTeamSchedule::IO.stub!(:read).and_return(@hash)
     end
     
     it 'can be initialized with no parameters' do
@@ -16,14 +15,19 @@ describe XTeamSchedule do
       }.should_not raise_error
     end
     
+    it 'can be initialized by passing in a hash' do
+      lambda {
+        schedule = XTeamSchedule.new(@hash)
+        schedule.resource_groups.should_not be_empty
+      }.should_not raise_error
+    end
+    
     it 'can be initialized by passing in a filename' do
       lambda {
         schedule = XTeamSchedule.new('path/to/file')
         schedule.resource_groups.should_not be_empty
       }.should_not raise_error
     end
-    
-    it 'can be initialized by passing in a hash'
   end
   
   describe '#write' do
