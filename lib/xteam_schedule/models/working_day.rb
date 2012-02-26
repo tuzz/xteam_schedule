@@ -14,12 +14,12 @@ private
       return if sym == :day_begin and time.nil?
       return if sym == :break_begin and time.nil?
       unless time =~ time_format
-        errors.add(sym, 'is not a valid 24-hour time, must be hh:mm format')
+        errors.add(sym, "is not a valid 24-hour time, must be hh:mm format: #{time}")
         next
       end
       hours, minutes = time.split(':').map(&:to_i)
       if hours > 23 or minutes > 59
-        errors.add(sym, 'is not a valid 24-hour time, must be hh:mm format')
+        errors.add(sym, "is not a valid 24-hour time, must be hh:mm format: #{time}")
       end
     end
   end
