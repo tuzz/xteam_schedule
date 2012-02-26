@@ -12,6 +12,12 @@ describe XTeamSchedule::WorkingDay do
       weekly_working_schedule = Factory(:weekly_working_schedule, :working_days => [@working_day])
       @working_day.weekly_working_schedule.should == weekly_working_schedule
     end
+    
+    it 'delegates schedule to weekly_working_schedule' do
+      Factory(:weekly_working_schedule, :working_days => [@working_day])
+      XTeamSchedule::WeeklyWorkingSchedule.any_instance.should_receive(:schedule)
+      @working_day.schedule
+    end
   end
   
   describe '#format_of_times' do

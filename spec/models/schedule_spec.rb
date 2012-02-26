@@ -74,6 +74,10 @@ describe XTeamSchedule::Schedule do
       @schedule.working_times.should == [zab, xuuq]
     end
     
+    it 'has many working days through weekly working schedule' do
+      @schedule.working_days.should == @schedule.weekly_working_schedule.working_days
+    end
+    
     it 'has one interface' do
       @schedule.interface.should_not be_nil
       @schedule.interface.class.should == XTeamSchedule::Interface

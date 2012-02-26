@@ -1,5 +1,6 @@
 class XTeamSchedule::WorkingDay < ActiveRecord::Base
   belongs_to :weekly_working_schedule
+  delegate :schedule, :to => :weekly_working_schedule
   
   validate :format_of_times
   
