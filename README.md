@@ -255,6 +255,26 @@ Non working days are determined by setting the 'day_begin' attribute to nil. Thi
 **Defaults:**
 The default weekly working schedule is identical to the same as the one set up above. i.e. 9am-5pm Mon-Fri, with lunch from 12pm-1pm.
 
+## Under Development
+
+This gem is far from complete. The following is a list of features that are under development:
+
+* Resource images
+* Sort by
+* Holidays
+* Absences
+* Remote access
+* To assign
+* Advanced colour controls
+* Schedule splicing between dates
+* Advanced image support
+* Built-in example
+* Documentation
+* Binary operators
+* File system hooks
+* Date/duration helpers
+* Generating reports
+
 ## Contribution
 
 Please feel free to contribute, either through pull requests or feature requests here on Github.
