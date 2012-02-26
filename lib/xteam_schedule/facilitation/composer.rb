@@ -130,7 +130,8 @@ private
       if day.day_begin.present? and day.break_begin.present?
         { 'worked' => 'yes',
           'begin' => compose_time(day.break_begin),
-          'end' => compose_time(day.break_end) }
+          'end' => compose_time(day.break_end),
+          'duration' => compose_time(day.break_end) - compose_time(day.break_begin) }
       else
         { 'worked' => 'no' }
       end

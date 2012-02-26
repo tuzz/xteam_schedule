@@ -394,6 +394,11 @@ describe XTeamSchedule::Composer do
       working_schedule['pause_monday']['end'].should == 780
     end
     
+    it 'sets the break duration correctly' do
+      @composer.send(:compose_weekly_working_schedule!)
+      working_schedule['pause_monday']['duration'].should == 60
+    end
+    
     it 'sets the worked key correctly' do
       @composer.send(:compose_weekly_working_schedule!)
       working_schedule['monday']['worked'].should == 'yes'
