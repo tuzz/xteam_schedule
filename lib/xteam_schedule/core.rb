@@ -9,7 +9,7 @@ class XTeamSchedule
         raise 'Malformed xTeam Schedule file'
       end
     else
-      @schedule = Schedule.new
+      @schedule = Schedule.create!
     end
   end
   
