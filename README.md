@@ -55,7 +55,10 @@ A schedule has many resource groups and assignment groups. It also has many reso
     assignments       = schedule.assignments
     working_times     = schedule.working_times
 
-There are numerous other models, for example a schedule has one 'interface' which contains various display settings. These are explained in detail below.
+There are numerous other models, for example a schedule has one 'interface' which contains various display settings. These are explained in detail below. It is also possible to convert a schedule to/from a hash. After serialisation, this could easily be written to a database.
+
+    hash     = schedule.hash
+    schedule = XTeamSchedule.new(hash)
 
 ## Resource Groups
 
