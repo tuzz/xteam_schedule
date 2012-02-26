@@ -29,7 +29,35 @@ It is not required that you have [xTeam](http://www.adnx.com/i/apps/xteam4mac) i
 
     require 'xteam_schedule'
 
-..... MORE TO COME, THIS GEM IS NOT LIVE YET .....
+**Create a Schedule**
+
+You can create a new schedule, or read one from a file:
+
+    schedule = XTeamSchedule.new
+    schedule = XTeamSchedule.new('path/to/file.xtps')
+
+# Schedules
+
+Schedules are the top level model through which you access everything. The inspect method is custom-made to give you an overview of the contents of the schedule:
+
+    XTeamSchedule.new('path/to/file.xtps')
+    => #<XTeamSchedule resoruce_groups(9), resources(42), assignment_groups(14), assignments(118), working_times(79)>
+
+A schedule has many resource groups and assignment groups. It also has many resources and assignments through resource groups and assignment groups respectively. Finally, a schedule has many working times through either resource groups -> resources or assignment groups -> assignments.
+
+    schedule = XTeamSchedule.new('path/to/file.xtps')
+
+    resource_groups   = schedule.resource_groups
+    resources         = schedule.resources             # or schedule.resource_groups.map(&:resources).flatten
+    assignment_groups = schedule.assignment_groups
+    assignments       = schedule.assignments
+    working_times     = schedule.working_times
+
+There are numerous other models, for example a schedule has one 'interface' which contains various display settings. These are explained in detail below.
+
+# Resource Groups
+
+MORE TO COME
 
 # Contribution
 
