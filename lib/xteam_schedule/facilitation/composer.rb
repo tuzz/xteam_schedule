@@ -113,6 +113,7 @@ private
     working_days = weekly_working_schedule.working_days
     
     hash['settings'] ||= {}
+    hash['settings']['days off'] ||= []
     hash['settings']['working schedule'] ||= {}
     
     working_days.each do |day|
@@ -133,7 +134,7 @@ private
           'end' => compose_time(day.break_end),
           'duration' => compose_time(day.break_end) - compose_time(day.break_begin) }
       else
-        { 'worked' => 'no' }
+        {}
       end
     end
   end

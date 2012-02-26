@@ -364,6 +364,11 @@ describe XTeamSchedule::Composer do
       @composer.hash['settings']['working schedule']
     end
     
+    it "sets the required 'days off' key" do
+      @composer.send(:compose_weekly_working_schedule!)
+      @composer.hash['settings']['days off'].should == []
+    end
+    
     it 'creates working days' do
       @composer.send(:compose_weekly_working_schedule!)
       working_schedule.should_not be_empty
@@ -408,7 +413,7 @@ describe XTeamSchedule::Composer do
     it 'skips breaks correctly' do
       @composer.send(:compose_weekly_working_schedule!)
       working_schedule['pause_monday']['worked'].should == 'yes'
-      working_schedule['pause_saturday']['worked'].should == 'no'
+      working_schedule['pause_saturday']['worked'].should be_nil
     end
   end
   
