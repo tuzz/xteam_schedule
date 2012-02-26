@@ -218,15 +218,11 @@ The same as the attributes shown above.
 
 **Aliases:**
 
-display_assignment_names => display_assignments_name
-
-display_resource_names => display_resources_name
-
-display_resource_pictures => display_resources_pictures
-
-display_total_working_hours => display_total_of_working_hours
-
-display_assignment_notes => display_assignments_notes
+    display_assignment_names    => display_assignments_name
+    display_resource_names      => display_resources_name
+    display_resource_pictures   => display_resources_pictures
+    display_total_working_hours => display_total_of_working_hours
+    display_assignment_notes    => display_assignments_notes
 
 ## Weekly Working Schedule
 
