@@ -131,6 +131,34 @@ expanded&#95;in&#95;library => true
     expanded_groups          = assignment_groups.where(:expanded_in_library => true)
     visible_assignment_count = expanded_groups.map(&:assignments).map(&:count).inject(:+)
 
+## Assignments
+
+An assignment is a task. An assignment cannot be in multiple assignment groups.
+
+    training = schedule.assignment_groups.create!(:name => 'Training')
+    training.assignments.create!(
+      :name => 'Rails Conference',
+      :colour => { :red => 1, :green => 0, :blue => 0 }
+    )
+
+**Required attributes:**
+name
+
+**Defaults:**
+colour => { :red => 0.5, :green => 0.5, :blue => 0.5 }
+
+**Aliases:**
+color => colour
+
+**Example queries**
+
+    assignments = schedule.assignments
+    
+    rails_assignments       = assignments.where('name like "%rails%"')
+    first_assignment_colour = assignments.first.colour
+    singleton_assignments   = assignments.select { |a| a.assignment_group.assignments.count == 1 }
+
+
 ## Contribution
 
 Please feel free to contribute, either through pull requests or feature requests here on Github.
