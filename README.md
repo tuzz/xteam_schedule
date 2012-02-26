@@ -101,8 +101,7 @@ displayed&#95;in&#95;planning => true
 
 **Example queries:**
 
-    resource_groups = schedule.resource_groups
-    resources       = resource_groups.resources
+    resources = schedule.resources
     
     chris_mobile         = resources.find_by_name('Christopher Patuzzo').mobile
     gmail_resource_names = resources.where('email like "%gmail%"').map(&:name)
@@ -150,7 +149,7 @@ colour => { :red => 0.5, :green => 0.5, :blue => 0.5 }
 **Aliases:**
 color => colour
 
-**Example queries**
+**Example queries:**
 
     assignments = schedule.assignments
     
@@ -158,6 +157,46 @@ color => colour
     first_assignment_colour = assignments.first.colour
     singleton_assignments   = assignments.select { |a| a.assignment_group.assignments.count == 1 }
 
+## Working Times
+
+A working time is a relationship between a resource and an assignment. This is equivalent to scheduling an employee on a specific task for a given duration. Assignments are assigned to resources by creating working times.
+
+    developers        = schedule.resource_groups.create!(:name => 'Developers')
+    chris             = developers.resources.create!(:name => 'Christopher Patuzzo')
+    
+    channel_5         = schedule.assignment_groups.create!(:name => 'Channel 5')
+    the_gadget_show   = channel_5.assignments.create!(:name => 'The Gadget Show')
+    
+    chris.working_times.create!(
+      :assignment => the_gadget_show,
+      :begin_date => Date.new(2012, 01, 01),
+      :duration => 20,
+      :notes => 'Based in London'
+    )
+
+The creation can also be written from the assignment, or directly from the model:
+
+    the_gadget_show.working_times.create!(
+      :resource => chris,
+      # etc.
+    )
+    
+    XTeamSchedule::WorkingTime.create!(
+      :resource => chris,
+      :assignment => the_gadget_show,
+      # etc.
+    )
+
+**Required attributes:**
+begin_date, duration
+
+**Example queries:**
+
+    working_times = schedule.working_times
+    
+    maximum_duration          = working_times.map(&:duration).max.to_s + ' days'
+    recent_working_times      = working_times.where('begin_date > ?', Date.new(2012, 01, 01))
+    resources_on_new_projects = recent_working_times.map(&:resource).uniq.map(&:name)
 
 ## Contribution
 
