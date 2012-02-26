@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 xTeam Schedule is a gem that provides full control over schedules for use with [adnX's xTeam](http://www.adnx.com/i/apps/xteam4mac) software.
 
@@ -17,7 +17,7 @@ It is capable of reading and writing schedules, whilst providing access to all o
 
 I am in no way associated with adnX. I work for an agile development company that makes use of xTeam. This project is open-source.
 
-# Getting started
+## Getting started
 
 It is not required that you have [xTeam](http://www.adnx.com/i/apps/xteam4mac) installed. However, you will not be able to visualise your schedules otherwise.
 
@@ -29,6 +29,8 @@ It is not required that you have [xTeam](http://www.adnx.com/i/apps/xteam4mac) i
 
     require 'xteam_schedule'
 
+You may need to require 'rubygems' too, if you are running an old version of Ruby.
+
 **Create a Schedule**
 
 You can create a new schedule, or read one from a file:
@@ -36,7 +38,7 @@ You can create a new schedule, or read one from a file:
     schedule = XTeamSchedule.new
     schedule = XTeamSchedule.new('path/to/file.xtps')
 
-# Schedules
+## Schedules
 
 Schedules are the top level model through which you access everything. The inspect method is custom-made to give you an overview of the contents of the schedule:
 
@@ -55,11 +57,30 @@ A schedule has many resource groups and assignment groups. It also has many reso
 
 There are numerous other models, for example a schedule has one 'interface' which contains various display settings. These are explained in detail below.
 
-# Resource Groups
+## Resource Groups
 
-MORE TO COME
+Resource groups contain resources. Typical names for resource groups might be 'Management', 'Sales', 'Developers', 'Administration', 'Contractors'.
 
-# Contribution
+    schedule.resource_groups.create!(
+      :name => 'Management',
+      :expanded_in_library => true
+    )
+
+**Required attributes:**
+name
+
+**Defaults:**
+expanded&#95;in&#95;library => true
+
+**Examples queries:**
+
+    resource_groups = schedule.resource_groups
+    
+    number_of_groups  = resource_groups.count
+    junior_developers = resource_groups.find_by_name('Junior Developers').resources
+    developer_groups  = resource_groups.where('name like "%developer%"')
+
+## Contribution
 
 Please feel free to contribute, either through pull requests or feature requests here on Github.
 
