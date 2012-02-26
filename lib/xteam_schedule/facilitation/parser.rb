@@ -108,6 +108,35 @@ private
   end
   
   def parse_weekly_working_schedule!
+    settings = hash['settings']
+    return unless settings.present?
+    working_schedule = settings['working schedule']
+    return unless working_schedule.present?
+    
+    weekly_working_schedule = schedule.weekly_working_schedule
+    working_days = weekly_working_schedule.working_days
+    
+    working_days.destroy_all
+    XTeamSchedule::WorkingDay::WORKING_DAY_NAMES.each do |name|
+      day = working_schedule[name.downcase]
+      pause = working_schedule["pause_#{name.downcase}"]
+      
+      if day.present?
+        day_begin = parse_time(day['begin']) if day['worked'] == 'yes'
+        day_end = parse_time(day['end']) if day_begin
+      end
+      
+      if pause.present?
+        break_begin = parse_time(pause['begin']) if pause['worked'] == 'yes'
+        break_end = parse_time(pause['end']) if break_begin
+      end
+      
+      working_days << XTeamSchedule::WorkingDay.create!(
+        :name => name,
+        :day_begin => day_begin, :day_end => day_end,
+        :break_begin => break_begin, :break_end => break_end
+      )
+    end
   end
   
   def parse_schedule!
@@ -125,5 +154,15 @@ private
     return unless date_string.present?
     month, day, year = date_string.split('/').map(&:to_i)
     Date.new(year, month, day)
+  end
+  
+  def parse_time(seconds)
+    return unless seconds.present?
+    hours = seconds / 60
+    minutes = seconds % 60
+    
+    hours = "%02d" % hours
+    minutes = "%02d" % minutes
+    [hours, minutes].join(':')
   end
 end

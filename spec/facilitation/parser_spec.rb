@@ -336,9 +336,9 @@ describe XTeamSchedule::Parser do
   describe '#parse_weekly_working_schedule!' do
     before do
       @hash = { 'settings' => { 'working schedule' => {
-        'monday' => { 'begin' => 540, 'end' => 1050, 'worked' => 'yes' },
-        'pause_monday' => { 'begin' => 720, 'duration' => 60, 'end' => 780, 'worked' => 'yes' },
-        'tuesday' => { 'begin' => 0, 'end' => 900, 'worked' => 'yes' },
+        'monday' => { 'begin' => 0, 'end' => 600, 'worked' => 'yes' },
+        'pause_monday' => { 'begin' => 300, 'duration' => 60, 'end' => 360, 'worked' => 'yes' },
+        'tuesday' => { 'begin' => 600, 'end' => 720, 'worked' => 'yes' },
         'pause_tuesday' => { 'worked' => 'no' },
         'saturday' => { 'worked' => 'no' },
         'pause_saturday' => {}
@@ -346,40 +346,40 @@ describe XTeamSchedule::Parser do
       @parser = XTeamSchedule::Parser.new(@hash)
     end
     
-    it 'creates a new weekly working schedule' do
-      previous_schedule = @parser.schedule.weekly_working_schedule
-      @parser.send(:parse_weekly_working_schedule!)
-      @parser.schedule.weekly_working_schedule.should_not == previous_schedule
-    end
-    
     it 'creates working days' do
       @parser.send(:parse_weekly_working_schedule!)
       XTeamSchedule::WorkingDay.count.should_not be_zero
     end
     
-    it 'the name attribute correctly' do
+    it 'creates working days from scratch' do
+      wednesday = XTeamSchedule::WorkingDay.find_by_name('Wednesday')
+      @parser.send(:parse_weekly_working_schedule!)
+      XTeamSchedule::WorkingDay.find_by_name('Wednesday').should_not equal wednesday
+    end
+    
+    it 'sets the name attribute correctly' do
       @parser.send(:parse_weekly_working_schedule!)
       XTeamSchedule::WorkingDay.find_by_name('Monday').should_not be_nil
     end
     
     it 'sets the day_begin attribute correctly' do
       @parser.send(:parse_weekly_working_schedule!)
-      XTeamSchedule::WorkingDay.find_by_day_begin('09:00').should_not be_nil
+      XTeamSchedule::WorkingDay.find_by_day_begin('00:00').should_not be_nil
     end
     
     it 'sets the day_end attribute correctly' do
       @parser.send(:parse_weekly_working_schedule!)
-      XTeamSchedule::WorkingDay.find_by_day_end('17:30').should_not be_nil
+      XTeamSchedule::WorkingDay.find_by_day_end('10:00').should_not be_nil
     end
     
     it 'sets the break_begin attribute correctly' do
       @parser.send(:parse_weekly_working_schedule!)
-      XTeamSchedule::WorkingDay.find_by_break_begin('12:00').should_not be_nil
+      XTeamSchedule::WorkingDay.find_by_break_begin('05:00').should_not be_nil
     end
     
     it 'sets the break_end attribute correctly' do
       @parser.send(:parse_weekly_working_schedule!)
-      XTeamSchedule::WorkingDay.find_by_break_end('13:00').should_not be_nil
+      XTeamSchedule::WorkingDay.find_by_break_end('06:00').should_not be_nil
     end
     
     it 'sets non-working days to have a nil day_begin attribute' do
@@ -435,6 +435,18 @@ describe XTeamSchedule::Parser do
       @parser.send(:parse_date, '01/20/2000').should == Date.new(2000, 01, 20)
       @parser.send(:parse_date, '12/10/1990').should == Date.new(1990, 12, 10)
       @parser.send(:parse_date, '06/07/2010').should == Date.new(2010, 06, 07)
+    end
+  end
+  
+  describe '#parse_time' do
+    before do
+      @parser = XTeamSchedule::Parser.new({})
+    end
+    
+    it 'creates corresponding time strings' do
+      @parser.send(:parse_time, 0).should == '00:00'
+      @parser.send(:parse_time, 1000).should == '16:40'
+      @parser.send(:parse_time, 1234).should == '20:34'
     end
   end
   
