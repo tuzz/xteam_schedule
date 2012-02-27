@@ -53,7 +53,7 @@ XTeamSchedule.new('path/to/file.xtps')
 => #<XTeamSchedule resoruce_groups(9), resources(42), assignment_groups(14), assignments(118), working_times(79)>
 ```
 
-A schedule has many resource groups and assignment groups. It also has many resources and assignments through resource groups and assignment groups respectively. Finally, a schedule has many working times through either resource groups then resources or assignment groups then assignments.
+A schedule has many resource groups and assignment groups. It also has many resources and assignments through resource groups and assignment groups respectively. Finally, a schedule has many working times through either resource groups then resources or assignment groups then assignments. Wherever possible, naming has been chosen to match xTeam, i.e. 'resource' instead of 'employee'.
 
 ```ruby
 schedule = XTeamSchedule.new('path/to/file.xtps')
@@ -295,7 +295,7 @@ wednesday.update_attribute(:break_begin, nil)
 ```
 
 **Defaults:**
-The default weekly working schedule is identical to the same as the one set up above. i.e. 9am-5pm Mon-Fri, with lunch from 12pm-1pm.
+The default weekly working schedule is identical to the same as the one set up above (except wednesday lunch). i.e. 9am-5pm Mon-Fri, with lunch from 12pm-1pm.
 
 ## Under Development
 
