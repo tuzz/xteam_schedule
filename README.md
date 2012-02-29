@@ -65,7 +65,13 @@ assignments       = schedule.assignments
 working_times     = schedule.working_times
 ```
 
-There are numerous other models, for example a schedule has one 'interface' which contains various display settings. These are explained in detail below. It is also possible to convert a schedule to/from a hash. After serialisation, this could easily be written to a database.
+There are numerous other models, for example a schedule has one 'interface' which contains various display settings. These are explained in detail below. To output a schedule that can be read by xTeam, use the 'write' method:
+
+```ruby
+schedule.write('path/to/file.xtps')
+```
+
+ It is also possible to convert a schedule to/from a hash. After serialisation, this could easily be written to a database.
 
 ```ruby
 hash     = schedule.hash
