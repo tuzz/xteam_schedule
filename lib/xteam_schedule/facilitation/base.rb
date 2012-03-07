@@ -1,4 +1,4 @@
-class XTeamSchedule::DB
+class XTeamSchedule::Base
   
   def self.connect
     ActiveRecord::Base.establish_connection(

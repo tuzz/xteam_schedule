@@ -14,9 +14,9 @@ require 'xteam_schedule/models/working_day'
 require 'xteam_schedule/models/working_time'
 
 require 'xteam_schedule/facilitation/composer'
-require 'xteam_schedule/facilitation/db'
+require 'xteam_schedule/facilitation/base'
 require 'xteam_schedule/facilitation/io'
 require 'xteam_schedule/facilitation/parser'
 
-XTeamSchedule::DB.connect
-XTeamSchedule::DB.build_schema
+XTeamSchedule::Base.connect
+XTeamSchedule::Base.build_schema
