@@ -21,6 +21,8 @@ I am in no way associated with adnX. I work for an agile development company tha
 
 It is not required that you have [xTeam](http://www.adnx.com/i/apps/xteam4mac) installed. However, you will not be able to visualise your schedules otherwise.
 
+At present, the gem only works the the latest versions of ActiveRecord and is incompatible with existing database connections (rails, for example). This will change soon.
+
 **Install the gem:**
 
 ```ruby
