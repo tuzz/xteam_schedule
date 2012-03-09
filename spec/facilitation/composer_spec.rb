@@ -11,14 +11,14 @@ describe XTeamSchedule::Composer do
     end
     
     it 'returns a hash' do
-      schedule = XTeamSchedule::Schedule.new
+      schedule = XTeamSchedule::Schedule.create!
       XTeamSchedule::Composer.compose(schedule).should be_a Hash
     end
   end
   
   describe '#initialize' do
     it 'sets the schedule and hash instance variables' do
-      schedule = XTeamSchedule::Schedule.new
+      schedule = XTeamSchedule::Schedule.create!
       composer = XTeamSchedule::Composer.new(schedule)
       composer.schedule.should == schedule
       composer.hash.should_not be_nil
@@ -27,7 +27,7 @@ describe XTeamSchedule::Composer do
   
   describe '#compose' do
     before do
-      schedule = XTeamSchedule::Schedule.new
+      schedule = XTeamSchedule::Schedule.create!
       @composer = XTeamSchedule::Composer.new(schedule)
     end
     
@@ -78,9 +78,9 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_resource_groups!' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
-      @schedule.resource_groups.new(:name => 'foo', :expanded_in_library => true)
-      @schedule.resource_groups.new(:name => 'bar', :expanded_in_library => false)
+      @schedule = XTeamSchedule::Schedule.create!
+      @schedule.resource_groups.create!(:name => 'foo', :expanded_in_library => true)
+      @schedule.resource_groups.create!(:name => 'bar', :expanded_in_library => false)
       @composer = XTeamSchedule::Composer.new(@schedule)
     end
     
@@ -104,11 +104,11 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_resources!' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
-      rg = @schedule.resource_groups.new(:name => 'foo')
-      rg.resources.new(:displayed_in_planning => false, :email => 'foo@bar.com', :image => 'image',
+      @schedule = XTeamSchedule::Schedule.create!
+      rg = @schedule.resource_groups.create!(:name => 'foo')
+      rg.resources.create!(:displayed_in_planning => false, :email => 'foo@bar.com', :image => 'image',
                        :mobile => '0123456789', :name => 'bar', :phone => '9876543210')
-      XTeamSchedule::Resource.new(:name => 'baz')
+      XTeamSchedule::Resource.create!(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_resource_groups!)
     end
@@ -162,9 +162,9 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_assignment_groups!' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
-      @schedule.assignment_groups.new(:name => 'foo', :expanded_in_library => true)
-      @schedule.assignment_groups.new(:name => 'bar', :expanded_in_library => false)
+      @schedule = XTeamSchedule::Schedule.create!
+      @schedule.assignment_groups.create!(:name => 'foo', :expanded_in_library => true)
+      @schedule.assignment_groups.create!(:name => 'bar', :expanded_in_library => false)
       @composer = XTeamSchedule::Composer.new(@schedule)
     end
     
@@ -188,10 +188,10 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_assignments!' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
-      ag = @schedule.assignment_groups.new(:name => 'foo')
-      ag.assignments.new(:name => 'bar', :colour => { :red => 0.1, :green => 0.2, :blue => 0.3 })
-      XTeamSchedule::Assignment.new(:name => 'baz')
+      @schedule = XTeamSchedule::Schedule.create!
+      ag = @schedule.assignment_groups.create!(:name => 'foo')
+      ag.assignments.create!(:name => 'bar', :colour => { :red => 0.1, :green => 0.2, :blue => 0.3 })
+      XTeamSchedule::Assignment.create!(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_assignment_groups!)
     end
@@ -231,15 +231,15 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_working_times!' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
-      foo = @schedule.resource_groups.new(:name => 'foo')
-      bar = @schedule.assignment_groups.new(:name => 'bar')
-      baz = foo.resources.new(:name => 'baz')
-      quux = bar.assignments.new(:name => 'quux')
-      baz.working_times.new(:assignment => quux, :begin_date => Date.new(2000, 01, 15), :duration => 10, :notes => 'notes1')
-      XTeamSchedule::WorkingTime.new(:assignment => quux, :begin_date => Date.new(2000, 02, 15), :duration => 11, :notes => 'notes2')
-      baz.working_times.new(:begin_date => Date.new(2000, 03, 15), :duration => 12, :notes => 'notes3')
-      XTeamSchedule::WorkingTime.new(:begin_date => Date.new(2000, 04, 15), :duration => 13, :notes => 'notes4')
+      @schedule = XTeamSchedule::Schedule.create!
+      foo = @schedule.resource_groups.create!(:name => 'foo')
+      bar = @schedule.assignment_groups.create!(:name => 'bar')
+      baz = foo.resources.create!(:name => 'baz')
+      quux = bar.assignments.create!(:name => 'quux')
+      baz.working_times.create!(:assignment => quux, :begin_date => Date.new(2000, 01, 15), :duration => 10, :notes => 'notes1')
+      XTeamSchedule::WorkingTime.create!(:assignment => quux, :begin_date => Date.new(2000, 02, 15), :duration => 11, :notes => 'notes2')
+      baz.working_times.create!(:begin_date => Date.new(2000, 03, 15), :duration => 12, :notes => 'notes3')
+      XTeamSchedule::WorkingTime.create!(:begin_date => Date.new(2000, 04, 15), :duration => 13, :notes => 'notes4')
       @composer = XTeamSchedule::Composer.new(@schedule)
       @composer.send(:compose_resource_groups!)
       @composer.send(:compose_resources!)
@@ -294,7 +294,7 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_interface!' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
+      @schedule = XTeamSchedule::Schedule.create!
       @schedule.interface.update_attributes!(
         :display_assignments_name => false,
         :display_resources_name => true,
@@ -356,7 +356,7 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_weekly_working_schedule!' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
+      @schedule = XTeamSchedule::Schedule.create!
       @composer = XTeamSchedule::Composer.new(@schedule)
     end
     
@@ -419,7 +419,7 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_schedule' do
     before do
-      @schedule = XTeamSchedule::Schedule.new
+      @schedule = XTeamSchedule::Schedule.create!
       @schedule.begin_date = Date.new(2010, 03, 31)
       @schedule.end_date = Date.new(2015, 12, 25)
       @composer = XTeamSchedule::Composer.new(@schedule)
@@ -438,7 +438,7 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_colour' do
     before do
-      schedule = XTeamSchedule::Schedule.new
+      schedule = XTeamSchedule::Schedule.create!
       @composer = XTeamSchedule::Composer.new(schedule)
     end
     
@@ -450,7 +450,7 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_date' do
     before do
-      schedule = XTeamSchedule::Schedule.new
+      schedule = XTeamSchedule::Schedule.create!
       @composer = XTeamSchedule::Composer.new(schedule)
     end
     
@@ -463,7 +463,7 @@ describe XTeamSchedule::Composer do
   
   describe '#compose_time' do
     before do
-      schedule = XTeamSchedule::Schedule.new
+      schedule = XTeamSchedule::Schedule.create!
       @composer = XTeamSchedule::Composer.new(schedule)
     end
     
