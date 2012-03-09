@@ -8,9 +8,11 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   validates_presence_of :colour
   validate :rgb_colour
   
-  after_initialize :set_default_colour
-  def after_initialize
-    set_default_colour
+  ActiveSupport::Deprecation.silence do
+    after_initialize :set_default_colour
+    def after_initialize
+      set_default_colour
+    end
   end
   
   serialize :colour

@@ -2,9 +2,11 @@ class XTeamSchedule::WeeklyWorkingSchedule < ActiveRecord::Base
   belongs_to :schedule
   has_many :working_days, :dependent => :destroy
   
-  after_initialize :set_default_working_days
-  def after_initialize
-    set_default_working_days
+  ActiveSupport::Deprecation.silence do
+    after_initialize :set_default_working_days
+    def after_initialize
+      set_default_working_days
+    end
   end
   
 private
