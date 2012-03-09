@@ -12,7 +12,7 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
     set_default_colour
   end
   
-  serialize :colour, Hash
+  serialize :colour
   before_save :symbolize_colour!
   after_validation :float_colour_values!
 
