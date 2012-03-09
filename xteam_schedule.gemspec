@@ -10,10 +10,10 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/cpatuzzo/xteam_schedule'
   
   s.add_dependency 'plist'
-  s.add_dependency 'activerecord'
+  s.add_dependency 'activerecord', '>= 2.2.2'
   s.add_dependency 'sqlite3'
   
   s.add_development_dependency 'rspec'
-  s.add_development_dependency 'factory_girl'
+  s.add_development_dependency 'factory_girl', '2.2.0'
   s.add_development_dependency 'database_cleaner'
 end
