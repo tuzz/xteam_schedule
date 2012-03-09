@@ -8,8 +8,11 @@ class XTeamSchedule::Assignment < ActiveRecord::Base
   validates_presence_of :colour
   validate :rgb_colour
   
+  def after_initialize
+    set_default_colour
+  end
+  
   serialize :colour, Hash
-  after_initialize :set_default_colour
   before_save :symbolize_colour!
   after_validation :float_colour_values!
 
@@ -29,7 +32,7 @@ private
   end
   
   def set_default_colour
-    self.colour = { :red => 0.5, :green => 0.5, :blue => 0.5 } if colour.empty?
+    self.colour = { :red => 0.5, :green => 0.5, :blue => 0.5 } unless colour.present?
   end
   
   def symbolize_colour!
