@@ -26,16 +26,17 @@ class XTeamSchedule::Parser
 private
   
   def parse_resource_groups!
-    hash['resource groups'].try(:each) do |rg|
+    hash['resource groups'].each do |rg|
       schedule.resource_groups.create!(
         :name => rg['name'],
         :expanded_in_library => rg['expanded in library']
       )
     end
+  rescue
   end
   
   def parse_resources!
-    hash['resources'].try(:each) do |r|
+    hash['resources'].each do |r|
       resource_group = schedule.resource_groups.find_by_name(r['group'])
       if resource_group
         image = r['image'].class == StringIO ? r['image'].read : ''
@@ -49,19 +50,21 @@ private
         )
       end
     end
+  rescue
   end
   
   def parse_assignment_groups!
-    hash['task categories'].try(:each) do |ag|
+    hash['task categories'].each do |ag|
       schedule.assignment_groups.create!(
         :name => ag['name'],
         :expanded_in_library => ag['expanded in library']
       )
     end
+  rescue
   end
   
   def parse_assignments!
-    hash['tasks'].try(:each) do |a|
+    hash['tasks'].each do |a|
       assignment_group = schedule.assignment_groups.find_by_name(a['category'])
       if assignment_group
         assignment_group.assignments.create!(
@@ -70,6 +73,7 @@ private
         )
       end
     end
+  rescue
   end
   
   def parse_working_times!
