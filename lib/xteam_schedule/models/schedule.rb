@@ -16,12 +16,14 @@ class XTeamSchedule::Schedule < ActiveRecord::Base
   end
   
   def working_times
-    XTeamSchedule::WorkingTime.find_by_sql([
+    ids = XTeamSchedule::WorkingTime.find_by_sql([
     "select distinct * from working_times as wt
      join resources r on wt.resource_id = r.id
      join resource_groups rg on r.resource_group_id = rg.id
      where rg.schedule_id = ?", id
-    ])
+    ]).map(&:id)
+    
+    XTeamSchedule::WorkingTime.scoped(:conditions => { :id => ids })
   end
   
 private
