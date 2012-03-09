@@ -7,10 +7,12 @@ class XTeamSchedule::Schedule < ActiveRecord::Base
   has_many :working_days, :through => :weekly_working_schedule
   
   has_one :interface
-  after_initialize :set_default_interface
-  
   has_one :weekly_working_schedule
-  after_initialize :set_default_weekly_working_schedule
+  
+  def after_initialize
+    set_default_interface
+    set_default_weekly_working_schedule
+  end
   
 private
   
