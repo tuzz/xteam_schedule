@@ -22,6 +22,10 @@ class XTeamSchedule
     @schedule.send(*args)
   end
   
+  def self.inspect
+    XTeamSchedule::Schedule.inspect
+  end
+  
   def inspect
     stats = [:resource_groups, :resources, :assignment_groups, :assignments, :working_times].map { |s| [s, send(s).count] }
     stats_string = stats.map { |s| "#{s.first}(#{s.second})" }.join(', ')

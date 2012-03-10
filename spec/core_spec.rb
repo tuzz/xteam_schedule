@@ -53,4 +53,10 @@ describe XTeamSchedule do
     end
   end
   
+  describe '.inspect' do
+    it "uses returns Schedule.inspect" do
+      XTeamSchedule.inspect.should == XTeamSchedule::Schedule.inspect
+    end
+  end
+  
 end
