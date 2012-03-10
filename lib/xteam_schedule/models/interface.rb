@@ -1,4 +1,4 @@
-class XTeamSchedule::Interface < ActiveRecord::Base
+class XTeamSchedule::Interface < XTeamSchedule::Base
   belongs_to :schedule
   
   alias_attribute :display_assignment_names, :display_assignments_name

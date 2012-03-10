@@ -1,4 +1,4 @@
-class XTeamSchedule::ResourceGroup < ActiveRecord::Base
+class XTeamSchedule::ResourceGroup < XTeamSchedule::Base
   belongs_to :schedule
   has_many :resources, :dependent => :destroy
   

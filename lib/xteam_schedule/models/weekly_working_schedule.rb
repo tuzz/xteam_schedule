@@ -1,4 +1,4 @@
-class XTeamSchedule::WeeklyWorkingSchedule < ActiveRecord::Base
+class XTeamSchedule::WeeklyWorkingSchedule < XTeamSchedule::Base
   belongs_to :schedule
   has_many :working_days, :dependent => :destroy
   

@@ -1,4 +1,4 @@
-class XTeamSchedule::WorkingTime < ActiveRecord::Base
+class XTeamSchedule::WorkingTime < XTeamSchedule::Base
   belongs_to :resource
   belongs_to :assignment
   delegate :resource_group, :to => :resource

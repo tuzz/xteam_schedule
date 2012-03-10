@@ -1,4 +1,4 @@
-class XTeamSchedule::AssignmentGroup < ActiveRecord::Base
+class XTeamSchedule::AssignmentGroup < XTeamSchedule::Base
   belongs_to :schedule
   has_many :assignments, :dependent => :destroy
 

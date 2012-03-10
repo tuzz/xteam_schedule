@@ -7,5 +7,4 @@ gem 'sqlite3'
 group :test do
   gem 'rspec'
   gem 'factory_girl', '2.2.0'
-  gem 'database_cleaner'
 end

@@ -1,4 +1,4 @@
-class XTeamSchedule::WorkingDay < ActiveRecord::Base
+class XTeamSchedule::WorkingDay < XTeamSchedule::Base
   belongs_to :weekly_working_schedule
   delegate :schedule, :to => :weekly_working_schedule
   
