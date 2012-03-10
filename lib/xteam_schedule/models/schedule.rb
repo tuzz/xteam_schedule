@@ -35,7 +35,7 @@ private
   end
   
   def set_default_weekly_working_schedule
-    self.weekly_working_schedule = XTeamSchedule::WeeklyWorkingSchedule.new
+    self.weekly_working_schedule ||= XTeamSchedule::WeeklyWorkingSchedule.new
   end
   
 end
