@@ -4,6 +4,8 @@ xTeam Schedule is a gem that provides full control over schedules for use with [
 
 It is capable of reading and writing schedules, whilst providing access to all of its components through the [ActiveRecord](http://api.rubyonrails.org/classes/ActiveRecord/Base.html) interface, which every Ruby on Rails developer will be familiar with. This is absolutely, **the best solution** for managing agile teams.
 
+You can find a blog post explaining some of the thinking behind its implementation [here](https://www.unboxedconsulting.com/blog/gemnastics-with-activerecord).
+
 <img src="http://www.adnx.com/i/uploads/xTeam1.jpg" width="820" alt="xTeam Schedule" />
 
 ### Features:
