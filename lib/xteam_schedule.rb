@@ -19,5 +19,6 @@ require 'xteam_schedule/models/schedule'
 require 'xteam_schedule/models/weekly_working_schedule'
 require 'xteam_schedule/models/working_day'
 require 'xteam_schedule/models/working_time'
+require 'xteam_schedule/models/holiday'
 
 XTeamSchedule::Base.build_schema
