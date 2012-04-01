@@ -169,6 +169,7 @@ private
       next unless index
 
       hash['resources'][index]['days off'] ||= []
+      hash['resources'][index]['use custom days off'] = 1
       r.holidays.each do |h|
         hash['resources'][index]['days off'] << {
           'begin date' => compose_date(h.begin_date),
