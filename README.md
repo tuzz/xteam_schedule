@@ -305,13 +305,41 @@ wednesday.update_attribute(:break_begin, nil)
 **Defaults:**
 The default weekly working schedule is identical to the same as the one set up above (except wednesday lunch). i.e. 9am-5pm Mon-Fri, with lunch from 12pm-1pm.
 
+## Holidays
+
+Holidays can either belong to a resource, or the entire schedule. Holidays on the schedule are shared by all resources. This is useful for bank holidays. You can leave off the end date for one day holidays.
+
+```ruby
+schedule.holidays.create!(:begin_date => Date.new(2012, 12, 25), :name => 'Christmas Day')
+
+resource_group = schedule.resource_groups.create(:name => 'foo')
+resource = resource_group.resources.create!(:name => 'bar')
+resource.holidays.create!(
+  :begin_date => Date.new(2012, 07, 01),
+  :end_date => Date.new(2012, 07, 10),
+  :name => 'Visiting California'
+)
+```
+
+**Required attributes:**
+begin_date
+
+**Example queries:**
+
+```ruby
+holiday_names = schedule.resources.map(&:holidays).flatten.map(&:name)
+resources_without_holidays = schedule.resources.select { |r| r.holidays.empty? }
+finished_holidays = schedule.resources.map(&:holidays).flatten.select { |h|
+  (h.end_date || h.begin_date) < Date.today
+}
+```
+
 ## Under Development
 
 This gem is far from complete. The following is a list of features that are under development:
 
 * Resource images
 * Sort by
-* Holidays
 * Absences
 * Remote access
 * To assign
