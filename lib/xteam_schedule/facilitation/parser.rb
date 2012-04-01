@@ -27,16 +27,17 @@ class XTeamSchedule::Parser
 private
 
   def parse_resource_groups!
+    return unless hash['resource groups'].present?
     hash['resource groups'].each do |rg|
       schedule.resource_groups.create!(
         :name => rg['name'],
         :expanded_in_library => rg['expanded in library']
       )
     end
-  rescue
   end
 
   def parse_resources!
+    return unless hash['resources'].present?
     hash['resources'].each do |r|
       resource_group = schedule.resource_groups.find_by_name(r['group'])
       if resource_group
@@ -51,20 +52,20 @@ private
         )
       end
     end
-  rescue
   end
 
   def parse_assignment_groups!
+    return unless hash['task categories'].present?
     hash['task categories'].each do |ag|
       schedule.assignment_groups.create!(
         :name => ag['name'],
         :expanded_in_library => ag['expanded in library']
       )
     end
-  rescue
   end
 
   def parse_assignments!
+    return unless hash['tasks'].present?
     hash['tasks'].each do |a|
       assignment_group = schedule.assignment_groups.find_by_name(a['category'])
       if assignment_group
@@ -74,13 +75,12 @@ private
         )
       end
     end
-  rescue
   end
 
   def parse_working_times!
+    return unless hash['objectsForResources'].present?
     resources = schedule.resource_groups.map(&:resources).flatten
     assignments = schedule.assignment_groups.map(&:assignments).flatten
-    hash['objectsForResources'] ||= {}
     hash['objectsForResources'].each do |r_name, wt_array|
       resource = resources.detect { |r| r.name == r_name }
       next unless resource
@@ -98,8 +98,8 @@ private
   end
 
   def parse_interface!
-    interface_status = hash['interface status']
-    time_granularity = interface_status['latest time navigation mode'] if interface_status.present?
+    return unless hash['interface status'].present?
+    time_granularity = hash['interface status']['latest time navigation mode']
     schedule.interface.update_attributes!(
       :display_assignments_name => hash['display task names'],
       :display_resources_name => hash['display resource names'],
