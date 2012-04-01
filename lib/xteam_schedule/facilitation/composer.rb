@@ -42,10 +42,11 @@ private
     hash['resources'] ||= []
     resources = schedule.resource_groups.map(&:resources).flatten
     resources.each do |r|
+      image = Base64.decode64(r.image) if r.image
       hash['resources'] << {
         'displayedInPlanning' => r.displayed_in_planning,
         'email' => r.email,
-        'image' => (StringIO.new(r.image) if r.image),
+        'image' => (StringIO.new(image) if image),
         'mobile' => r.mobile,
         'name' => r.name,
         'phone' => r.phone,

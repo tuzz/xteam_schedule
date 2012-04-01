@@ -41,7 +41,7 @@ private
     hash['resources'].each do |r|
       resource_group = schedule.resource_groups.find_by_name(r['group'])
       if resource_group
-        image = r['image'].class == StringIO ? r['image'].read : ''
+        image = r['image'].class == StringIO ? Base64.encode64(r['image'].read) : ''
         resource_group.resources.create!(
           :displayed_in_planning => r['displayedInPlanning'],
           :email => r['email'],

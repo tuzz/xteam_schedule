@@ -111,7 +111,7 @@ describe XTeamSchedule::Composer do
     before do
       @schedule = XTeamSchedule::Schedule.create!
       rg = @schedule.resource_groups.create!(:name => 'foo')
-      rg.resources.create!(:displayed_in_planning => false, :email => 'foo@bar.com', :image => 'image',
+      rg.resources.create!(:displayed_in_planning => false, :email => 'foo@bar.com', :image => Base64.encode64('image'),
                        :mobile => '0123456789', :name => 'bar', :phone => '9876543210')
       XTeamSchedule::Resource.create!(:name => 'baz')
       @composer = XTeamSchedule::Composer.new(@schedule)

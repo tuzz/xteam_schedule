@@ -145,7 +145,8 @@ describe XTeamSchedule::Parser do
 
     it 'sets the image attribute correctly' do
       @parser.send(:parse_resources!)
-      XTeamSchedule::Resource.find_by_image('image').should_not be_nil
+      image = Base64.encode64('image')
+      XTeamSchedule::Resource.find_by_image(image).should_not be_nil
     end
 
     it 'sets the mobile attribute correctly' do
