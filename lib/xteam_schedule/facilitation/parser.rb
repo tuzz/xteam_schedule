@@ -168,13 +168,13 @@ private
 
   def parse_resource_holidays!
     resources = schedule.resource_groups.map(&:resources).flatten
-    hash['resources'] ||= {}
-    hash['resources'].each do |r|
-      settings = r['settings']
+    hash['resources'] ||= []
+    hash['resources'].each do |resource|
+      settings = resource['settings']
       next unless settings.present?
       holidays = settings['days off']
       next unless holidays.present?
-      resource = resources.detect { |r| r.name == r['name'] }
+      resource = resources.detect { |r| r.name == resource['name'] }
       next unless resource.present?
 
       holidays.each do |h|

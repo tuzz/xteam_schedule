@@ -153,6 +153,7 @@ private
     hash['settings']['days off'] ||= []
 
     holidays.each do |h|
+      h.end_date ||= h.begin_date
       hash['settings']['days off'] << {
         'begin date' => compose_date(h.begin_date),
         'end date' => compose_date(h.end_date),
@@ -172,6 +173,7 @@ private
       hash['resources'][index]['settings']['days off'] ||= []
       hash['resources'][index]['settings']['use custom days off'] = 1
       r.holidays.each do |h|
+        h.end_date ||= h.begin_date
         hash['resources'][index]['settings']['days off'] << {
           'begin date' => compose_date(h.begin_date),
           'end date' => compose_date(h.end_date),
