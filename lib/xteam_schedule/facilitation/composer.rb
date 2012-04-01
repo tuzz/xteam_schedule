@@ -1,17 +1,17 @@
 class XTeamSchedule::Composer
-  
+
   attr_accessor :schedule, :hash
-  
+
   def self.compose(schedule)
     new(schedule).compose
   end
-  
+
   def initialize(schedule)
     schedule.save!
     self.schedule = schedule
     self.hash = {}
   end
-  
+
   def compose
     compose_resource_groups!
     compose_resources!
@@ -20,12 +20,13 @@ class XTeamSchedule::Composer
     compose_working_times!
     compose_interface!
     compose_weekly_working_schedule!
+    compose_holidays!
     compose_schedule!
     hash
   end
-  
+
 private
-  
+
   def compose_resource_groups!
     hash['resource groups'] ||= []
     resource_groups = schedule.resource_groups
@@ -36,7 +37,7 @@ private
       }
     end
   end
-  
+
   def compose_resources!
     hash['resources'] ||= []
     resources = schedule.resource_groups.map(&:resources).flatten
@@ -52,7 +53,7 @@ private
       }
     end
   end
-  
+
   def compose_assignment_groups!
     hash['task categories'] ||= []
     assignment_groups = schedule.assignment_groups
@@ -63,7 +64,7 @@ private
       }
     end
   end
-  
+
   def compose_assignments!
     hash['tasks'] ||= []
     assignments = schedule.assignment_groups.map(&:assignments).flatten
@@ -76,7 +77,7 @@ private
       }
     end
   end
-  
+
   def compose_working_times!
     hash['objectsForResources'] ||= {}
     resources = schedule.resource_groups.map(&:resources).flatten
@@ -95,7 +96,7 @@ private
       end
     end
   end
-  
+
   def compose_interface!
     interface = schedule.interface
     hash['display task names'] = interface.display_assignments_name
@@ -107,15 +108,15 @@ private
     hash['display absence cells'] = interface.display_absences
     hash['interface status'] = { 'latest time navigation mode' => interface.time_granularity }
   end
-  
+
   def compose_weekly_working_schedule!
     weekly_working_schedule = schedule.weekly_working_schedule
     working_days = weekly_working_schedule.working_days
-    
+
     hash['settings'] ||= {}
     hash['settings']['days off'] ||= []
     hash['settings']['working schedule'] ||= {}
-    
+
     working_days.each do |day|
       day_name = day.name.downcase
       hash['settings']['working schedule'][day_name] =
@@ -126,7 +127,7 @@ private
       else
         { 'worked' => 'no' }
       end
-      
+
       hash['settings']['working schedule']["pause_#{day_name}"] =
       if day.day_begin.present? and day.break_begin.present?
         { 'worked' => 'yes',
@@ -138,16 +139,54 @@ private
       end
     end
   end
-  
+
+  def compose_holidays!
+    compose_schedule_holidays!
+    compose_resource_holidays!
+  end
+
+  def compose_schedule_holidays!
+    holidays = schedule.holidays
+
+    hash['settings'] ||= {}
+    hash['settings']['days off'] ||= []
+
+    holidays.each do |h|
+      hash['settings']['days off'] << {
+        'begin date' => compose_date(h.begin_date),
+        'end date' => compose_date(h.end_date),
+        'name' => h.name
+      }
+    end
+  end
+
+  def compose_resource_holidays!
+    resources = schedule.resource_groups.map(&:resources).flatten
+    resources.each do |r|
+      next unless r.holidays
+      index = hash['resources'].find_index { |h| h['name'] == r.name }
+      next unless index
+
+      hash['resources'][index]['days off'] ||= []
+      r.holidays.each do |h|
+        hash['resources'][index]['days off'] << {
+          'begin date' => compose_date(h.begin_date),
+          'end date' => compose_date(h.end_date),
+          'name' => h.name
+        }
+      end
+    end
+  end
+
   def compose_schedule!
     hash['begin date'] = compose_date(schedule.begin_date)
     hash['end date'] = compose_date(schedule.end_date)
   end
-  
+
   def compose_colour(colour_hash)
     { 'alpha' => 1 }.merge([:red, :green, :blue].inject({}) { |h, c| h[c.to_s] = colour_hash[c]; h })
   end
-  
+
   def compose_date(date)
     return unless date.present?
     components = []
@@ -156,11 +195,11 @@ private
     components << date.year
     components.join('/')
   end
-  
+
   def compose_time(time_string)
     return unless time_string.present?
     hours, minutes = time_string.split(':').map(&:to_i)
-    
+
     hours * 60 + minutes
   end
 end

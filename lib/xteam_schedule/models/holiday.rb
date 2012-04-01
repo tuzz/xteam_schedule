@@ -9,7 +9,7 @@ private
 
   def can_not_belong_to_both_schedule_and_resource
     if [schedule, resource].all?
-      errors.add_to_base('Can not belong to both a schedule and a resource')
+      errors.add(:base, 'Can not belong to both a schedule and a resource')
     end
   end
 
