@@ -29,6 +29,12 @@ describe XTeamSchedule::Holiday do
       @holiday.begin_date = nil
       @holiday.should_not be_valid
     end
+
+    it 'can not belong to both a schedule and resource' do
+      @holiday.schedule = Factory(:schedule)
+      @holiday.resource = Factory(:resource)
+      @holiday.should_not be_valid
+    end
   end
 
 end
