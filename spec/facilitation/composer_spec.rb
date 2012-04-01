@@ -484,12 +484,12 @@ describe XTeamSchedule::Composer do
       @composer.send(:compose_resources!)
     end
 
-    def resource
-      @composer.hash['resources'].first
+    def resource_settings
+      @composer.hash['resources'].first['settings']
     end
 
     def resource_holidays
-      resource['days off']
+      resource_settings['days off']
     end
 
     it 'creates holidays' do
@@ -514,7 +514,7 @@ describe XTeamSchedule::Composer do
 
     it 'sets the use custom days off key correctly' do
       @composer.send(:compose_resource_holidays!)
-      resource['use custom days off'].should == 1
+      resource_settings['use custom days off'].should == 1
     end
   end
 

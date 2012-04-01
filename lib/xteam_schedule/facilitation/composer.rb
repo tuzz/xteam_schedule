@@ -168,10 +168,11 @@ private
       index = hash['resources'].find_index { |h| h['name'] == r.name }
       next unless index
 
-      hash['resources'][index]['days off'] ||= []
-      hash['resources'][index]['use custom days off'] = 1
+      hash['resources'][index]['settings'] ||= {}
+      hash['resources'][index]['settings']['days off'] ||= []
+      hash['resources'][index]['settings']['use custom days off'] = 1
       r.holidays.each do |h|
-        hash['resources'][index]['days off'] << {
+        hash['resources'][index]['settings']['days off'] << {
           'begin date' => compose_date(h.begin_date),
           'end date' => compose_date(h.end_date),
           'name' => h.name
