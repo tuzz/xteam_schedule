@@ -1,13 +1,13 @@
 class XTeamSchedule::WorkingDay < XTeamSchedule::Base
   belongs_to :weekly_working_schedule
   delegate :schedule, :to => :weekly_working_schedule
-  
+
   validate :format_of_times
-  
-  WORKING_DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  
+
+  WORKING_DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].freeze
+
 private
-  
+
   def format_of_times
     time_format = /\d{2}:\d{2}/
     [:day_begin, :day_end, :break_begin, :break_end].each do |sym|
@@ -24,5 +24,5 @@ private
       end
     end
   end
-  
+
 end
