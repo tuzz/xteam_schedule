@@ -8,13 +8,16 @@ class XTeamSchedule::Schedule < XTeamSchedule::Base
 
   has_one :interface
   has_one :weekly_working_schedule
+  has_one :remote_access
 
   ActiveSupport::Deprecation.silence do
     after_initialize :set_default_interface
     after_initialize :set_default_weekly_working_schedule
+    after_initialize :set_default_remote_access
     def after_initialize
       set_default_interface
       set_default_weekly_working_schedule
+      set_default_remote_access
     end
   end
 
@@ -31,6 +34,10 @@ private
 
   def set_default_weekly_working_schedule
     self.weekly_working_schedule ||= XTeamSchedule::WeeklyWorkingSchedule.new
+  end
+
+  def set_default_remote_access
+    self.remote_access ||= XTeamSchedule::RemoteAccess.new
   end
 
 end

@@ -78,6 +78,10 @@ class XTeamSchedule::Base < ActiveRecord::Base
         table.column :end_date, :date
         table.column :name, :string
       end
+
+      create_table :remote_accesses, :force => true do |table|
+        table.column :schedule_id, :integer
+      end
     end
   end
 end

@@ -100,6 +100,11 @@ describe XTeamSchedule::Schedule do
       @schedule.weekly_working_schedule.should_not be_nil
       @schedule.weekly_working_schedule.class.should == XTeamSchedule::WeeklyWorkingSchedule
     end
+
+    it 'has one remote access' do
+      @schedule.remote_access.should_not be_nil
+      @schedule.remote_access.class.should == XTeamSchedule::RemoteAccess
+    end
   end
 
   describe '#set_default_interface' do
@@ -123,6 +128,18 @@ describe XTeamSchedule::Schedule do
       @schedule.weekly_working_schedule = nil
       @schedule.send(:set_default_weekly_working_schedule)
       @schedule.weekly_working_schedule.should_not be_nil
+    end
+  end
+
+  describe '#set_default_remote_access' do
+    before do
+      @schedule = Factory(:schedule)
+    end
+
+    it "sets the remote_access if there isn't one already" do
+      @schedule.remote_access = nil
+      @schedule.send(:set_default_remote_access)
+      @schedule.remote_access.should_not be_nil
     end
   end
 

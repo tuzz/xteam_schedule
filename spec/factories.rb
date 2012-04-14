@@ -41,4 +41,7 @@ FactoryGirl.define do
     sequence(:begin_date) { |n| Date.new(2000, n, 01) }
   end
 
+  factory :remote_access, :class => XTeamSchedule::RemoteAccess do
+  end
+
 end
