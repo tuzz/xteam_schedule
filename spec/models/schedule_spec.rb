@@ -8,12 +8,18 @@ describe XTeamSchedule::Schedule do
       Time.stub(:now).and_return(@now)
     end
 
+    # activesupport's calculation has changed between versions, so tolerance seems sensible
+    def acceptable_dates(date, tolerance)
+      tolerance = -tolerance..tolerance unless tolerance.class == Range
+      tolerance.map { |i| (date + i.days).to_date }
+    end
+
     it 'uses 10 years ago for begin_date' do
-      XTeamSchedule::Schedule.new.begin_date.should == (@now - 10.years).to_date
+      acceptable_dates(@now - 10.years, 10).should include(XTeamSchedule::Schedule.new.begin_date)
     end
 
     it 'uses 10 years from now for end_date' do
-      XTeamSchedule::Schedule.new.end_date.should == (@now + 10.years).to_date
+      acceptable_dates(@now + 10.years, 10).should include(XTeamSchedule::Schedule.new.end_date)
     end
   end
 

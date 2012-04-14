@@ -1,5 +1,12 @@
+begin
+  require 'yaml'
+  YAML::ENGINE.yamler = 'syck'
+rescue
+end
+
 require 'plist'
 require 'active_record'
+require 'active_support/multibyte'
 require 'sqlite3'
 require 'xteam_schedule/core'
 
@@ -9,6 +16,7 @@ require 'xteam_schedule/facilitation/parser'
 require 'xteam_schedule/facilitation/composer'
 require 'xteam_schedule/facilitation/io'
 require 'xteam_schedule/facilitation/lmc_patch'
+require 'xteam_schedule/facilitation/qtn_patch'
 
 require 'xteam_schedule/models/assignment'
 require 'xteam_schedule/models/assignment_group'
