@@ -74,6 +74,11 @@ describe XTeamSchedule::Parser do
       @parser.parse
     end
 
+    it 'calls parse_remote_access!' do
+      @parser.should_receive(:parse_remote_access!)
+      @parser.parse
+    end
+
     it 'calls parse_schedule!' do
       @parser.should_receive(:parse_schedule!)
       @parser.parse
@@ -494,6 +499,73 @@ describe XTeamSchedule::Parser do
     it 'does not set the end date if it matches the begin date' do
       @parser.send(:parse_resource_holidays!)
       @resource.holidays.find_by_end_date(Date.new(2000, 02, 15)).should be_nil
+    end
+  end
+
+  describe '#parse_remote_access@' do
+    before do
+      @hash = { 'settings' => {
+        'remoteId' => 1,
+        'remoteEnable' => true,
+        'remoteName' => 'XTEAM-01012012-0000',
+        'remoteCustomServerURL' => 'http://example.com',
+        'remoteUseCustomServer' => true,
+        'remoteLoginInfo' => { 'All' => {
+          'login' => 'username',
+          'password' => 'password',
+          'enable' => true
+        }}
+      }}
+      @parser = XTeamSchedule::Parser.new(@hash)
+    end
+
+    it 'sets the server_id attribute correctly' do
+      @parser.send(:parse_remote_access!)
+      XTeamSchedule::RemoteAccess.find_by_server_id(1).should_not be_nil
+    end
+
+    it 'sets the enabled attribute correctly' do
+      @parser.send(:parse_remote_access!)
+      XTeamSchedule::RemoteAccess.find_by_enabled(true).should_not be_nil
+    end
+
+    it 'sets the name attribute correctly' do
+      @parser.send(:parse_remote_access!)
+      XTeamSchedule::RemoteAccess.find_by_name('XTEAM-01012012-0000').should_not be_nil
+    end
+
+    it 'sets the custom_url attribute correctly' do
+      @parser.send(:parse_remote_access!)
+      XTeamSchedule::RemoteAccess.find_by_custom_url('http://example.com').should_not be_nil
+    end
+
+    it 'sets the custom_enabled attribute correctly' do
+      @parser.send(:parse_remote_access!)
+      XTeamSchedule::RemoteAccess.find_by_custom_enabled(true).should_not be_nil
+    end
+
+    it 'sets the global_login attribute correctly' do
+      @parser.send(:parse_remote_access!)
+      XTeamSchedule::RemoteAccess.find_by_global_login('username').should_not be_nil
+    end
+
+    it 'sets the global_password attribute correctly' do
+      @parser.send(:parse_remote_access!)
+      XTeamSchedule::RemoteAccess.find_by_global_password('password').should_not be_nil
+    end
+
+    it 'sets the global_login_enabled attribute correctly' do
+      @parser.send(:parse_remote_access!)
+      XTeamSchedule::RemoteAccess.find_by_global_login_enabled(true).should_not be_nil
+    end
+
+    it 'does not fail if any attributes are missing' do
+      keys = @hash['settings'].keys
+      keys.each do |key|
+        @hash['settings'].delete(key)
+        parser = XTeamSchedule::Parser.new(@hash)
+        lambda { parser.send(:parse_remote_access!) }.should_not raise_error
+      end
     end
   end
 

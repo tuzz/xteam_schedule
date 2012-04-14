@@ -20,6 +20,7 @@ class XTeamSchedule::Parser
     parse_interface!
     parse_weekly_working_schedule!
     parse_holidays!
+    parse_remote_access!
     parse_schedule!
     schedule
   end
@@ -187,6 +188,25 @@ private
         )
       end
     end
+  end
+
+  def parse_remote_access!
+    settings = hash['settings']
+    return unless settings.present?
+    remote_logins = settings['remoteLoginInfo']
+    remote_logins ||= {}
+    global_login = remote_logins['All']
+    global_login ||= {}
+    schedule.remote_access.update_attributes!(
+      :server_id => settings['remoteId'],
+      :enabled => settings['remoteEnable'],
+      :name => settings['remoteName'],
+      :custom_url => settings['remoteCustomServerURL'],
+      :custom_enabled => settings['remoteUseCustomServer'],
+      :global_login => global_login['login'],
+      :global_password => global_login['password'],
+      :global_login_enabled => global_login['enable']
+    )
   end
 
   def parse_schedule!

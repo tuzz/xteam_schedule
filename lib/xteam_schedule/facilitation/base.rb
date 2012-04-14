@@ -88,6 +88,7 @@ class XTeamSchedule::Base < ActiveRecord::Base
         table.column :custom_enabled, :boolean
         table.column :global_login, :string
         table.column :global_password, :string
+        table.column :global_login_enabled, :boolean
       end
     end
   end
