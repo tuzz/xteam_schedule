@@ -81,6 +81,13 @@ class XTeamSchedule::Base < ActiveRecord::Base
 
       create_table :remote_accesses, :force => true do |table|
         table.column :schedule_id, :integer
+        table.column :server_id, :integer
+        table.column :enabled, :boolean
+        table.column :name, :string
+        table.column :custom_url, :string
+        table.column :custom_enabled, :boolean
+        table.column :global_login, :string
+        table.column :global_password, :string
       end
     end
   end
