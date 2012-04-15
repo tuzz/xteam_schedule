@@ -9,7 +9,7 @@ class XTeamSchedule::Composer
   def initialize(schedule)
     schedule.save!
     self.schedule = schedule
-    self.hash = {}
+    self.hash = HashWithoutNilValues.new
   end
 
   def compose

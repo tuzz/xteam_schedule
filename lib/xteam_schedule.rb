@@ -17,6 +17,7 @@ require 'xteam_schedule/facilitation/composer'
 require 'xteam_schedule/facilitation/io'
 require 'xteam_schedule/facilitation/lmc_patch'
 require 'xteam_schedule/facilitation/qtn_patch'
+require 'xteam_schedule/facilitation/without_nil'
 
 require 'xteam_schedule/models/assignment'
 require 'xteam_schedule/models/assignment_group'
