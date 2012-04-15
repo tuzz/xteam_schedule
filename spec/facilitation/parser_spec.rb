@@ -502,7 +502,7 @@ describe XTeamSchedule::Parser do
     end
   end
 
-  describe '#parse_remote_access@' do
+  describe '#parse_remote_access!' do
     before do
       @hash = { 'settings' => {
         'remoteId' => 1,
