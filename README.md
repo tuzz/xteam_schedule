@@ -138,6 +138,8 @@ gmail_resource_names = resources.where('email like "%gmail%"').map(&:name)
 resources.each { |r| r.update_attribute(:displayed_in_planning, true) }
 ```
 
+A resource also has remote access attributes, that are explained below.
+
 ## Assignment Groups
 
 Assignment groups are almost identical to resource groups. Typical names might be 'Training' and 'Research'.
@@ -334,6 +336,57 @@ finished_holidays = schedule.resources.map(&:holidays).flatten.select { |h|
 }
 ```
 
+## Remote Access
+
+Remote access allows the xTeamView application on Mac OS X and iOS devices to view schedules remotely. A schedule has a remote_access object containing most of the setup, including the 'All' login option for the schedule.
+
+```ruby
+schedule.remote_access.update_attributes!(
+  :enabled => true,
+  :custom_url => 'http://xteambridge.example.com',
+  :custom_enabled => true,
+  :global_login => 'username',
+  :global_password => 'password',
+  :global_login_enabled => true
+)
+```
+
+When remote access is switched on in xTeam, there is a handshake process that takes place which assigns a server_id and name to the schedule. If either of these is missing or they become out of sync, the handshake will fail and you will be notified of an error in xTeam. Therefore, it is recommended that you do not change these attributes. Instead, you should enable remote in xTeam then read these attributes from that file. You can then re-use them as you please.
+
+```ruby
+schedule = XTeamSchedule.new('path/to/file/with/remote/enabled.xtps')
+server_id = schedule.remote_access.server_id
+name = schedule.remote_access.name
+
+# An example of re-using the remote configuration for an entirely new schedule
+schedule = XTeamSchedule.new
+schedule.remote_access.update_attributes!(
+  :server_id => server_id,
+  :name => name
+)
+```
+
+There are three additional attributes on each resource for configuring individual logins. It is worth noting that login details have to be plaintext, unfortunately.
+
+```ruby
+resource_group = schedule.resource_groups.create(:name => 'foo')
+resource = resource_group.resources.create!(
+  :name => 'bar',
+  :remote_login => 'foo',
+  :remote_password => 'bar',
+  :remote_login_enabled => true
+)
+```
+
+**Example queries:**
+
+```ruby
+global_login_details = [schedule.remote_access.global_login, schedule.remote_access.global_password]
+resources_without_logins = schedule.resources.reject { |r| r.remote_login }
+usernames = schedule.resources.map(&:remote_login).compact
+raise 'There are duplicated logins' if usernames.count > usernames.uniq.count
+```
+
 ## Under Development
 
 This gem is far from complete. The following is a list of features that are under development:
@@ -341,7 +394,6 @@ This gem is far from complete. The following is a list of features that are unde
 * Resource images
 * Sort by
 * Absences
-* Remote access
 * To assign
 * Advanced colour controls
 * Schedule splicing between dates
