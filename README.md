@@ -11,7 +11,7 @@ You can find a blog post explaining some of the thinking behind its implementati
 ### Features:
 
 * **Read and write schedules** and interact with in-memory models through the ActiveRecord interface
-* **Customise everything**; resources, assignments, groups, colours, interface settings..
+* **Customise everything**; resources, assignments, groups, colours, holidays, remote access..
 * **Intuitive naming** of models, that correspond to what you see on screen
 * **Full test coverage**, giving confidence to highly dynamic businesses everywhere [![Build Status](https://secure.travis-ci.org/cpatuzzo/xteam_schedule.png?branch=master)](http://travis-ci.org/cpatuzzo/xteam_schedule)
 
@@ -305,7 +305,7 @@ wednesday.update_attribute(:break_begin, nil)
 ```
 
 **Defaults:**
-The default weekly working schedule is identical to the same as the one set up above (except wednesday lunch). i.e. 9am-5pm Mon-Fri, with lunch from 12pm-1pm.
+The default weekly working schedule is identical to the one set up above (except wednesday lunch). i.e. 9am-5pm Mon-Fri, with lunch from 12pm-1pm.
 
 ## Holidays
 
@@ -372,8 +372,8 @@ There are three additional attributes on each resource for configuring individua
 resource_group = schedule.resource_groups.create(:name => 'foo')
 resource = resource_group.resources.create!(
   :name => 'bar',
-  :remote_login => 'foo',
-  :remote_password => 'bar',
+  :remote_login => 'bar',
+  :remote_password => 'baz',
   :remote_login_enabled => true
 )
 ```
