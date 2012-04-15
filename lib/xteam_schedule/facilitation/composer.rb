@@ -21,6 +21,7 @@ class XTeamSchedule::Composer
     compose_interface!
     compose_weekly_working_schedule!
     compose_holidays!
+    compose_remote_access!
     compose_schedule!
     hash
   end
@@ -181,6 +182,28 @@ private
         current['end date'] = compose_date(h.end_date)
         current['name'] = h.name
       end
+    end
+  end
+
+  def compose_remote_access!
+    remote_access = schedule.remote_access
+    hash['settings'] ||= {}
+
+    valid_setup = remote_access.server_id && remote_access.name
+    enable = valid_setup && remote_access.enabled
+
+    hash['settings']['remoteId'] = remote_access.server_id if valid_setup
+    hash['settings']['remoteEnable'] = enable
+    hash['settings']['remoteName'] = remote_access.name if valid_setup
+    hash['settings']['remoteCustomServerURL'] = remote_access.custom_url
+    hash['settings']['remoteUseCustomServer'] = remote_access.custom_enabled
+
+    if remote_access.global_login or remote_access.global_password
+      hash['settings']['remoteLoginInfo'] ||= {}
+      hash['settings']['remoteLoginInfo']['All'] ||= {}
+      hash['settings']['remoteLoginInfo']['All']['login'] = remote_access.global_login
+      hash['settings']['remoteLoginInfo']['All']['password'] = remote_access.global_password
+      hash['settings']['remoteLoginInfo']['All']['enable'] = remote_access.global_login_enabled
     end
   end
 

@@ -75,6 +75,11 @@ describe XTeamSchedule::Composer do
       @composer.compose
     end
 
+    it 'calls compose_remote_access!' do
+      @composer.should_receive(:compose_remote_access!)
+      @composer.compose
+    end
+
     it 'calls compose_schedule!' do
       @composer.should_receive(:compose_schedule!)
       @composer.compose
@@ -515,6 +520,95 @@ describe XTeamSchedule::Composer do
     it 'sets the use custom days off key correctly' do
       @composer.send(:compose_resource_holidays!)
       resource_settings['use custom days off'].should == 1
+    end
+  end
+
+  describe '#compose_remote_access!' do
+    before do
+      @schedule = XTeamSchedule::Schedule.create!
+      @schedule.remote_access.update_attributes!(
+        :server_id => 1,
+        :enabled => true,
+        :name => 'XTEAM-01012012-0000',
+        :custom_url => 'http://example.com',
+        :custom_enabled => true,
+        :global_login => 'username',
+        :global_password => 'password',
+        :global_login_enabled => true
+      )
+      @composer = XTeamSchedule::Composer.new(@schedule)
+    end
+
+    def settings
+      @composer.hash['settings']
+    end
+
+    it 'sets the remote id key correctly' do
+      @composer.send(:compose_remote_access!)
+      settings['remoteId'].should == 1
+    end
+
+    it 'sets the remote enable key correctly' do
+      @composer.send(:compose_remote_access!)
+      settings['remoteEnable'].should be_true
+    end
+
+    it 'sets the remote name key correctly' do
+      @composer.send(:compose_remote_access!)
+      settings['remoteName'].should == 'XTEAM-01012012-0000'
+    end
+
+    it 'sets the remote custom server url key correctly' do
+      @composer.send(:compose_remote_access!)
+      settings['remoteCustomServerURL'].should == 'http://example.com'
+    end
+
+    it 'sets the remote use custom server key correctly' do
+      @composer.send(:compose_remote_access!)
+      settings['remoteUseCustomServer'].should be_true
+    end
+
+    it 'sets the remote login info key correctly' do
+      @composer.send(:compose_remote_access!)
+      settings['remoteLoginInfo'].should == { 'All' => {
+        'login' => 'username',
+        'password' => 'password',
+        'enable' => true
+      }}
+    end
+
+    context 'when name is missing' do
+      before do
+        @schedule.remote_access.update_attributes!(:name => nil)
+        @composer = XTeamSchedule::Composer.new(@schedule)
+      end
+
+      it 'does not set the server id key' do
+        @composer.send(:compose_remote_access!)
+        settings['remoteId'].should be_nil
+      end
+
+      it 'disables remote access' do
+        @composer.send(:compose_remote_access!)
+        settings['remoteEnable'].should be_false
+      end
+    end
+
+    context 'when server id is missing' do
+      before do
+        @schedule.remote_access.update_attributes!(:server_id => nil)
+        @composer = XTeamSchedule::Composer.new(@schedule)
+      end
+
+      it 'does not set the name key' do
+        @composer.send(:compose_remote_access!)
+        settings['remoteName'].should be_nil
+      end
+
+      it 'disables remote access' do
+        @composer.send(:compose_remote_access!)
+        settings['remoteEnable'].should be_false
+      end
     end
   end
 
