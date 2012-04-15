@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'xteam_schedule'
-  s.version     = '0.1.1'
-  s.date        = '2012-04-14'
+  s.version     = '0.2.0'
+  s.date        = '2012-04-15'
   s.summary     = 'XTeam Schedule'
   s.description = "Full control over schedules for use with adnX's xTeam software"
   s.author      = 'Christopher Patuzzo'
