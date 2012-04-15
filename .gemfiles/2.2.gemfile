@@ -1,7 +1,7 @@
 source :rubygems
 
 gem 'plist'
-gem 'activerecord', '2.3.12'
+gem 'activerecord', '~> 2.2.0'
 gem 'sqlite3'
 
 group :test do
