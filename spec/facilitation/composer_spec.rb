@@ -610,6 +610,46 @@ describe XTeamSchedule::Composer do
         settings['remoteEnable'].should be_false
       end
     end
+
+    it 'calls compose_remote_access_for_resources!' do
+      @composer.should_receive(:compose_remote_access_for_resources!)
+      @composer.send(:compose_remote_access!)
+    end
+  end
+
+  describe '#compose_remote_access_for_resources!' do
+    before do
+      @schedule = XTeamSchedule::Schedule.create!
+      resource_group = @schedule.resource_groups.create!(:name => 'foo')
+      resource = resource_group.resources.create!(
+        :name => 'bar',
+        :remote_login => 'username',
+        :remote_password => 'password',
+        :remote_login_enabled => true
+      )
+      @composer = XTeamSchedule::Composer.new(@schedule)
+      @composer.send(:compose_resource_groups!)
+      @composer.send(:compose_resources!)
+    end
+
+    def login_details
+      @composer.hash['settings']['remoteLoginInfo']['bar']
+    end
+
+    it 'sets the login key correctly' do
+      @composer.send(:compose_remote_access_for_resources!)
+      login_details['login'].should == 'username'
+    end
+
+    it 'sets the password key correctly' do
+      @composer.send(:compose_remote_access_for_resources!)
+      login_details['password'].should == 'password'
+    end
+
+    it 'sets the enable key correctly' do
+      @composer.send(:compose_remote_access_for_resources!)
+      login_details['enable'].should be_true
+    end
   end
 
   describe '#compose_schedule' do

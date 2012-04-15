@@ -205,6 +205,20 @@ private
       hash['settings']['remoteLoginInfo']['All']['password'] = remote_access.global_password
       hash['settings']['remoteLoginInfo']['All']['enable'] = remote_access.global_login_enabled
     end
+
+    compose_remote_access_for_resources!
+  end
+
+  def compose_remote_access_for_resources!
+    hash['settings'] ||= {}
+    hash['settings']['remoteLoginInfo'] ||= {}
+
+    schedule.resources.each do |r|
+      hash['settings']['remoteLoginInfo'][r.name] = {}
+      hash['settings']['remoteLoginInfo'][r.name]['login'] = r.remote_login
+      hash['settings']['remoteLoginInfo'][r.name]['password'] = r.remote_password
+      hash['settings']['remoteLoginInfo'][r.name]['enable'] = r.remote_login_enabled
+    end
   end
 
   def compose_schedule!
