@@ -31,10 +31,10 @@ private
     hash['resource groups'] ||= []
     resource_groups = schedule.resource_groups
     resource_groups.each do |rg|
-      hash['resource groups'] << {
-        'name' => rg.name,
-        'expanded in library' => rg.expanded_in_library
-      }
+      hash['resource groups'] << {}
+      current = hash['resource groups'].last
+      current['name'] = rg.name
+      current['expanded in library'] = rg.expanded_in_library
     end
   end
 
@@ -43,15 +43,15 @@ private
     resources = schedule.resource_groups.map(&:resources).flatten
     resources.each do |r|
       image = Base64.decode64(r.image) if r.image
-      hash['resources'] << {
-        'displayedInPlanning' => r.displayed_in_planning,
-        'email' => r.email,
-        'image' => (StringIO.new(image) if image),
-        'mobile' => r.mobile,
-        'name' => r.name,
-        'phone' => r.phone,
-        'group' => r.resource_group.name
-      }
+      hash['resources'] << {}
+      current = hash['resources'].last
+      current['displayedInPlanning'] = r.displayed_in_planning
+      current['email'] = r.email
+      current['image'] = (StringIO.new(image) if image)
+      current['mobile'] = r.mobile
+      current['name'] = r.name
+      current['phone'] = r.phone
+      current['group'] = r.resource_group.name
     end
   end
 
@@ -59,10 +59,10 @@ private
     hash['task categories'] ||= []
     assignment_groups = schedule.assignment_groups
     assignment_groups.each do |ag|
-      hash['task categories'] << {
-        'name' => ag.name,
-        'expanded in library' => ag.expanded_in_library
-      }
+      hash['task categories'] << {}
+      current = hash['task categories'].last
+      current['name'] = ag.name
+      current['expanded in library'] = ag.expanded_in_library
     end
   end
 
@@ -70,12 +70,12 @@ private
     hash['tasks'] ||= []
     assignments = schedule.assignment_groups.map(&:assignments).flatten
     assignments.each do |a|
-      hash['tasks'] << {
-        'name' => a.name,
-        'category' => a.assignment_group.name,
-        'kind' => 0,
-        'color' => compose_colour(a.colour)
-      }
+      hash['tasks'] << {}
+      current = hash['tasks'].last
+      current['name'] = a.name
+      current['category'] = a.assignment_group.name
+      current['kind'] = 0
+      current['color'] = compose_colour(a.colour)
     end
   end
 
@@ -85,15 +85,15 @@ private
     resources.each do |r|
       working_times_with_parents = r.working_times.select { |wt| wt.resource and wt.assignment }
       next unless working_times_with_parents.any?
-      hash['objectsForResources'].merge!(r.name => [])
+      hash['objectsForResources'][r.name] = []
       working_times_with_parents.each do |wt|
-        hash['objectsForResources'][r.name] << {
-          'task' => wt.assignment.name,
-          'begin date' => compose_date(wt.begin_date),
-          'duration' => wt.duration,
-          'notes' => wt.notes,
-          'title' => ''
-        }
+        hash['objectsForResources'][r.name] << {}
+        current = hash['objectsForResources'][r.name].last
+        current['task'] = wt.assignment.name
+        current['begin date'] = compose_date(wt.begin_date)
+        current['duration'] = wt.duration
+        current['notes'] = wt.notes
+        current['title'] = ''
       end
     end
   end
@@ -107,7 +107,8 @@ private
     hash['display resource totals'] = interface.display_total_of_working_hours
     hash['display task notes'] = interface.display_assignments_notes
     hash['display absence cells'] = interface.display_absences
-    hash['interface status'] = { 'latest time navigation mode' => interface.time_granularity }
+    hash['interface status'] ||= {}
+    hash['interface status']['latest time navigation mode'] = interface.time_granularity
   end
 
   def compose_weekly_working_schedule!
@@ -120,23 +121,23 @@ private
 
     working_days.each do |day|
       day_name = day.name.downcase
-      hash['settings']['working schedule'][day_name] =
+      hash['settings']['working schedule'][day_name] = {}
+      current = hash['settings']['working schedule'][day_name]
       if day.day_begin.present?
-        { 'worked' => 'yes',
-          'begin' => compose_time(day.day_begin),
-          'end' => compose_time(day.day_end) }
+        current['worked'] = 'yes'
+        current['begin'] = compose_time(day.day_begin)
+        current['end'] = compose_time(day.day_end)
       else
-        { 'worked' => 'no' }
+        current['worked'] = 'no'
       end
 
-      hash['settings']['working schedule']["pause_#{day_name}"] =
+      hash['settings']['working schedule']["pause_#{day_name}"] = {}
+      current = hash['settings']['working schedule']["pause_#{day_name}"]
       if day.day_begin.present? and day.break_begin.present?
-        { 'worked' => 'yes',
-          'begin' => compose_time(day.break_begin),
-          'end' => compose_time(day.break_end),
-          'duration' => compose_time(day.break_end) - compose_time(day.break_begin) }
-      else
-        {}
+        current['worked'] = 'yes'
+        current['begin'] = compose_time(day.break_begin)
+        current['end'] = compose_time(day.break_end)
+        current['duration'] = compose_time(day.break_end) - compose_time(day.break_begin)
       end
     end
   end
@@ -154,11 +155,11 @@ private
 
     holidays.each do |h|
       h.end_date ||= h.begin_date
-      hash['settings']['days off'] << {
-        'begin date' => compose_date(h.begin_date),
-        'end date' => compose_date(h.end_date),
-        'name' => h.name
-      }
+      hash['settings']['days off'] << {}
+      current = hash['settings']['days off'].last
+      current['begin date'] = compose_date(h.begin_date)
+      current['end date'] = compose_date(h.end_date)
+      current['name'] = h.name
     end
   end
 
@@ -174,11 +175,11 @@ private
       hash['resources'][index]['settings']['use custom days off'] = 1
       r.holidays.each do |h|
         h.end_date ||= h.begin_date
-        hash['resources'][index]['settings']['days off'] << {
-          'begin date' => compose_date(h.begin_date),
-          'end date' => compose_date(h.end_date),
-          'name' => h.name
-        }
+        hash['resources'][index]['settings']['days off'] << {}
+        current = hash['resources'][index]['settings']['days off'].last
+        current['begin date'] = compose_date(h.begin_date)
+        current['end date'] = compose_date(h.end_date)
+        current['name'] = h.name
       end
     end
   end
