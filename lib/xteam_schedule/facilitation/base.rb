@@ -49,6 +49,9 @@ class XTeamSchedule::Base < ActiveRecord::Base
         table.column :mobile, :string
         table.column :name, :string
         table.column :phone, :string
+        table.column :remote_login, :string
+        table.column :remote_password, :string
+        table.column :remote_login_enabled, :boolean
       end
 
       create_table :assignment_groups, :force => true do |table|

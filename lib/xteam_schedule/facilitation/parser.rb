@@ -194,7 +194,7 @@ private
     settings = hash['settings']
     return unless settings.present?
     remote_logins = settings['remoteLoginInfo']
-    remote_logins ||= {}
+    return unless remote_logins.present?
     global_login = remote_logins['All']
     global_login ||= {}
     schedule.remote_access.update_attributes!(
@@ -207,6 +207,21 @@ private
       :global_password => global_login['password'],
       :global_login_enabled => global_login['enable']
     )
+    parse_remote_access_for_resources!
+  end
+
+  def parse_remote_access_for_resources!
+    settings = hash['settings']
+    remote_logins = settings['remoteLoginInfo']
+    remote_logins.each do |name, hash|
+      resource = schedule.resources.find_by_name(name)
+      next unless resource
+      resource.update_attributes!(
+        :remote_login => hash['login'],
+        :remote_password => hash['password'],
+        :remote_login_enabled => hash['enable']
+      )
+    end
   end
 
   def parse_schedule!

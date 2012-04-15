@@ -567,6 +567,47 @@ describe XTeamSchedule::Parser do
         lambda { parser.send(:parse_remote_access!) }.should_not raise_error
       end
     end
+
+    it 'calls #parse_remote_access_for_resources!' do
+      @parser.should_receive(:parse_remote_access_for_resources!)
+      @parser.send(:parse_remote_access!)
+    end
+  end
+
+  describe '#parse_remote_access_for_resources!' do
+    before do
+      @hash = {
+        'resource groups' => [{ 'name' => 'foo' }],
+        'resources' => [{ 'group' => 'foo', 'name' => 'bar' }],
+        'settings' => { 'remoteLoginInfo' => { 'bar' => {
+          'login' => 'username',
+          'password' => 'password',
+          'enable' => true
+        }}}
+      }
+      @parser = XTeamSchedule::Parser.new(@hash)
+      @parser.send(:parse_resource_groups!)
+      @parser.send(:parse_resources!)
+    end
+
+    def resource
+      @parser.schedule.resources.find_by_name('bar')
+    end
+
+    it 'sets the remote_login attribute correctly' do
+      @parser.send(:parse_remote_access_for_resources!)
+      resource.remote_login.should == 'username'
+    end
+
+    it 'sets the remote_password attribute correctly' do
+      @parser.send(:parse_remote_access_for_resources!)
+      resource.remote_password.should == 'password'
+    end
+
+    it 'sets the remote_login_enabled attribute correctly' do
+      @parser.send(:parse_remote_access_for_resources!)
+      resource.remote_login_enabled.should be_true
+    end
   end
 
   describe '#parse_schedule!' do
