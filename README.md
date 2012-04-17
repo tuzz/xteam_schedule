@@ -389,21 +389,21 @@ raise 'There are duplicated logins' if usernames.count > usernames.uniq.count
 
 ## Under Development
 
-This gem is far from complete. The following is a list of features that are under development:
+This gem is far from complete. The following is a list of features that are under development, somewhat in priority order:
 
-* Resource images
-* Sort by
-* Absences
-* To assign
-* Advanced colour controls
-* Schedule splicing between dates
-* Advanced image support
-* Built-in example
-* Documentation
-* Binary operators
-* File system hooks
-* Date/duration helpers
-* Generating reports
+* Filtering and custom placement (dropdown)
+* To assign (the drag 'n' drop box)
+* Absences (holidays, minus the fun)
+* Resource images (spike - need to work out what)
+* Tiny interface things (hiding things, column widths)
+* Schedule splicing before / after / between dates
+* Binary operators (addition / subtraction of two schedules)
+* Documentation overhaul (code docs, sectioned GitHub?)
+* File system hooks (unobtrusive file diffs)
+* A built in example (xTeam has one, we can too)
+* Report generation (xTeam's suck, make something better)
+* Improved colour controls (0-255, 0-1, hex, group inheritance)
+* Date helpers (either end date, or number of days)
 
 ## Contribution
 
