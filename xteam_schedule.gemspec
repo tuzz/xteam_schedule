@@ -1,13 +1,12 @@
 Gem::Specification.new do |s|
   s.name        = 'xteam_schedule'
-  s.version     = '0.2.0'
-  s.date        = '2012-04-15'
+  s.version     = '0.2.1'
   s.summary     = 'XTeam Schedule'
   s.description = "Full control over schedules for use with adnX's xTeam software"
-  s.author      = 'Christopher Patuzzo'
-  s.email       = 'chris.patuzzo@gmail.com'
+  s.author      = 'Chris Patuzzo'
+  s.email       = 'chris@patuzzo.co.uk'
   s.files       =  ['README.md'] + Dir['lib/**/*.*']
-  s.homepage    = 'https://github.com/cpatuzzo/xteam_schedule'
+  s.homepage    = 'https://github.com/tuzz/xteam_schedule'
 
   s.add_dependency 'plist'
   s.add_dependency 'activerecord', '>= 2.2.2'

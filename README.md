@@ -13,7 +13,7 @@ You can find a blog post explaining some of the thinking behind its implementati
 * **Read and write schedules** and interact with in-memory models through the ActiveRecord interface
 * **Customise everything**; resources, assignments, groups, colours, holidays, remote access..
 * **Intuitive naming** of models, that correspond to what you see on screen
-* **Full test coverage**, giving confidence to highly dynamic businesses everywhere [![Build Status](https://secure.travis-ci.org/cpatuzzo/xteam_schedule.png?branch=master)](http://travis-ci.org/cpatuzzo/xteam_schedule)
+* **Full test coverage**, giving confidence to highly dynamic businesses everywhere [![Build Status](https://secure.travis-ci.org/tuzz/xteam_schedule.png?branch=master)](http://travis-ci.org/tuzz/xteam_schedule)
 
 ### Disclaimer
 
