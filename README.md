@@ -6,7 +6,7 @@ It is capable of reading and writing schedules, whilst providing access to all o
 
 You can find a blog post explaining some of the thinking behind its implementation [here](https://www.unboxedconsulting.com/blog/gemnastics-with-activerecord).
 
-<img src="http://www.adnx.com/i/uploads/xTeam1.jpg" width="820" alt="xTeam Schedule" />
+<img src="http://www.xteamapp.com/en/images/screenshots/screen_2.jpg" width="820" alt="xTeam Schedule" />
 
 ### Features:
 
