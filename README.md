@@ -404,9 +404,3 @@ This gem is far from complete. The following is a list of features that are unde
 * Report generation (xTeam's suck, make something better)
 * Improved colour controls (0-255, 0-1, hex, group inheritance)
 * Date helpers (either end date, or number of days)
-
-## Contribution
-
-Please feel free to contribute, either through pull requests or feature requests here on Github.
-
-For news and latest updates, follow me on Twitter ([@cpatuzzo](https://twitter.com/#!/cpatuzzo)).
